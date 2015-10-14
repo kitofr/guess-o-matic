@@ -27,7 +27,7 @@ view address model =
 
 type Action = AddA | AddP
 
-
+update : Action -> Model -> Model
 update action model =
   case action of
     AddA -> { model | guess <- model.guess ++ "A" }
