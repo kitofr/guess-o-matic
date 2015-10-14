@@ -1,27 +1,34 @@
 import Html exposing (div, button, text)
 import Html.Events exposing (onClick)
-import StartApp.Simple as StartApp
+import StartApp.Simple exposing (start)
 
 
 main =
-  StartApp.start { model = model, view = view, update = update }
+  start { model = init "APA" ""
+        , view = view
+        , update = update }
 
 
-model = 0
+type alias Model = { answer : String, guess : String}
 
+init : String -> String -> Model
+init answer guess =
+  { answer = answer
+  , guess = guess
+  }
 
 view address model =
   div []
-    [ button [ onClick address Decrement ] [ text "-" ]
-    , div [] [ text (toString model) ]
-    , button [ onClick address Increment ] [ text "+" ]
+    [ button [ onClick address AddA ] [ text "A" ]
+    , button [ onClick address AddP ] [ text "P" ]
+    , div [] [ text (toString model.guess) ]
     ]
 
 
-type Action = Increment | Decrement
+type Action = AddA | AddP
 
 
 update action model =
   case action of
-    Increment -> model + 1
-    Decrement -> model - 1
+    AddA -> { model | guess <- model.guess ++ "A" }
+    AddP -> { model | guess <- model.guess ++ "P" }
