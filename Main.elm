@@ -17,18 +17,25 @@ init answer guess =
   , guess = guess
   }
 
+checkAnswer : Model -> String
+checkAnswer model =
+  if model.guess == model.answer then
+     "Rätt!"
+  else
+    ""
+
 view address model =
   div []
-    [ button [ onClick address AddA ] [ text "A" ]
-    , button [ onClick address AddP ] [ text "P" ]
-    , div [] [ text (toString model.guess) ]
-    ]
+    [ div [] [ text (toString model.guess) ]
+    , (addButtons model.answer)
+    , button [ onClick address (AddChar "A") ] [ text "A" ]
+    , button [ onClick address (AddChar "P") ] [ text "P" ]
+    , div [] [ text (checkAnswer model)]]
 
 
-type Action = AddA | AddP
+type Action = AddChar String
 
 update : Action -> Model -> Model
 update action model =
   case action of
-    AddA -> { model | guess <- model.guess ++ "A" }
-    AddP -> { model | guess <- model.guess ++ "P" }
+    AddChar ch -> { model | guess <- model.guess ++ ch }
