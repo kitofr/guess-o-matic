@@ -1,6 +1,9 @@
 import Html exposing (div, button, text)
 import Html.Events exposing (onClick)
 import StartApp.Simple exposing (start)
+import String exposing (..)
+import Set exposing (..)
+import List exposing (..)
 
 
 main =
@@ -24,12 +27,25 @@ checkAnswer model =
   else
     ""
 
+uniqueChars string =
+  List.foldr (\c a-> Set.insert c a) Set.empty 
+  (String.toUpper string
+    |> String.toList 
+    |> List.sort)
+  |> Set.toList
+
+addButton address c =
+    button [ onClick address (AddChar c) ] [ text c]
+
+addButtons address answer =
+  List.map (\c -> addButton address (String.fromChar c)) (uniqueChars answer)
+
+  
+
 view address model =
   div []
     [ div [] [ text (toString model.guess) ]
-    , (addButtons model.answer)
-    , button [ onClick address (AddChar "A") ] [ text "A" ]
-    , button [ onClick address (AddChar "P") ] [ text "P" ]
+    , div [] (addButtons address model.answer)
     , div [] [ text (checkAnswer model)]]
 
 
