@@ -1,5 +1,5 @@
 import Html exposing (..)
-import Html.Attributes exposing (src)
+import Html.Attributes exposing (src, width, height)
 import Html.Events exposing (onClick)
 import StartApp.Simple exposing (start)
 import String exposing (..)
@@ -81,7 +81,9 @@ addButtons address answer =
 
 view address model =
   div []
-    [ div [] [ img [ src (.image (nth model.currentIndex alternatives defaultAlternative))] [] ]
+    [ div [] [ img [ src (.image (nth model.currentIndex alternatives defaultAlternative))
+                     , width 100
+                     , height 100] [] ]
     , div [] [ text (toString model.guess) ]
     , div [] [ text (toString model.answer) ]
     , div [] (addButtons address model.answer)
