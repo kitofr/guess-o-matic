@@ -9,6 +9,16 @@ import Random exposing (..)
 import Maybe exposing (..)
 import Debug exposing (..)
 
+
+{--
+TODO 
+  - Styling
+  - Random chars in guess
+  - Change word on success
+    - show "button on correct"
+  - More words
+--}
+
 main =
   start { model = init 
         , view = view
