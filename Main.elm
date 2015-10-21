@@ -30,6 +30,7 @@ main =
 alternatives = 
   [ { word = "APA", image = "http://www.skolbilder.com/Malarbild-apa-dm17524.jpg" }
   , { word = "MUS", image = "http://www.malarbok.nu/images/collection/169/large.jpg" }
+  , { word = "KO", image = "http://ian.umces.edu/imagelibrary/albums/userpics/12789/normal_ian-symbol-bos-primigenius-cow-1.png" }
   ]
 
 defaultAlternative =
@@ -126,7 +127,7 @@ view address model =
                      , A.style [("border","2px solid black")] ] [] ] ]
     , row_ [ text (toString model.guess) ]
     , row_ (addButtons address model.answer)
-    , row_ [ button [ A.class "btn btn-warning", onClick address Reset ] 
+    , row_ [ button [ A.class "btn btn-warning col-md-2", onClick address Reset ] 
               [ span [A.class "glyphicon glyphicon-backward"] [ ] ]]
     , row_ [ div [A.class "col-md-4" ]
                (checkAnswer address model)]
@@ -141,5 +142,5 @@ update : Action -> Model -> Model
 update action model =
   case action of
     AddChar ch -> { model | guess <- model.guess ++ ch }
-    Reset -> init
+    Reset -> { model | guess <- "" }
     NewWord -> chooseNewWord model
