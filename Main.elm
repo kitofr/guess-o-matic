@@ -1,6 +1,7 @@
 import Html exposing (..)
-import Html.Attributes exposing (src, width, height)
+import Html.Attributes as A
 import Html.Events exposing (onClick)
+import Html.Shorthand exposing (..)
 import StartApp.Simple exposing (start)
 import String exposing (..)
 import Set exposing (..)
@@ -17,6 +18,8 @@ TODO
   - Change word on success
     - show "button on correct"
   - More words
+  - Extract view to separate file
+  - Deploy to heroku
 --}
 
 main =
@@ -83,22 +86,47 @@ uniqueChars string =
     |> List.sort)
   |> Set.toList
 
+row_ : List Html -> Html
+row_ = div [ A.class "row" ]
+
+container_ : List Html -> Html
+container_ = div [ A.class "container" ]
+
+btnPrimary_ : String -> Signal.Address a -> a -> Html
+btnPrimary_  label addr x =
+  button
+  [ A.class "btn btn-primary"
+  , onClick addr x
+  ]
+  [ text label ]
+
+stylesheet : String -> Html
+stylesheet href =
+  node "link"
+  [ A.rel "stylesheet"
+  , A.href href
+  ] []
+
 addButton address c =
-    button [ onClick address (AddChar c) ] [ text c]
+    btnPrimary_ c address (AddChar c) 
 
 addButtons address answer =
   List.map (\c -> addButton address (String.fromChar c)) (uniqueChars answer)
 
 view address model =
-  div []
-    [ div [] [ img [ src (.image (nth model.currentIndex alternatives defaultAlternative))
-                     , width 200
-                     , height 200] [] ]
-    , div [] [ text (toString model.guess) ]
-    , div [] (addButtons address model.answer)
-    , div [] [ button [ onClick address Reset ] [ text "Reset"]]
-    , div [] [ button [ onClick address NewWord ] [ text "Generate new word"]]
-    , div [] [ text (checkAnswer model)]]
+  container_
+  [ stylesheet "https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css"
+    , row_ [div [A.class "col-md-4"] [ img [ A.src (.image (nth model.currentIndex alternatives defaultAlternative))
+                     , A.width 200
+                     , A.height 200
+                     , A.style [("border","2px solid black")] ] [] ] ]
+    , row_ [ text (toString model.guess) ]
+    , row_ (addButtons address model.answer)
+    , row_ [ button [ onClick address Reset ] [ text "Reset"]]
+    , row_ [ button [ onClick address NewWord ] [ text "Generate new word"]]
+    , row_ [ div [A.class "col-md-2" ]
+              [ text (checkAnswer model)]]
+    ]
 
 type Action = 
   AddChar String
