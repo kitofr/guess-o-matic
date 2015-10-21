@@ -14,17 +14,20 @@ row_ = div [ A.class "row" ]
 container_ : List Html -> Html
 container_ = div [ A.class "container" ]
 
-btnPrimary_ : String -> Signal.Address a -> a -> Html
-btnPrimary_  label addr x =
-  button [ A.class "btn btn-primary" , onClick addr x ]
-  [ text label ]
-
 stylesheet : String -> Html
 stylesheet href =
   node "link"
   [ A.rel "stylesheet"
   , A.href href
   ] []
+
+buttonMargin = 
+  A.style [("margin-right", "5px")]
+
+btnPrimary_ : String -> Signal.Address a -> a -> Html
+btnPrimary_  label addr x =
+  button [ A.class "btn btn-primary", buttonMargin, onClick addr x ]
+  [ text label ]
 
 addButton address c =
   btnPrimary_ c address (AddChar c) 
@@ -39,12 +42,14 @@ picture model =
   , A.height 200
   , A.style [("border","2px solid black")] ] [] ] ]
 
+controlButton adr action icon =
+  button [A.class "btn btn-warning", buttonMargin, onClick adr action ] 
+    [ span [A.class ("glyphicon " ++ icon)] [ ] ]
+
 textControls address model =
   row_ [ div [A.class "col-md-4" ]
-      [ button [ A.class "btn btn-warning", onClick address Reset ] 
-          [ span [A.class "glyphicon glyphicon-refresh"] [ ] ]
-      , button [ A.class "btn btn-warning", onClick address Backspace ] 
-              [ span [A.class "glyphicon glyphicon-erase"] [ ] ]]]
+      [ controlButton address Reset "glyphicon-refresh"
+      , controlButton address Backspace "glyphicon-erase"]]
 
 guess model =
   row_ [ h1 [A.class "col-md-4"] [text (toString model.guess) ]]
@@ -58,7 +63,7 @@ success address model =
 checkAnswer : Signal.Address Action -> Model -> List Html
 checkAnswer address model  =
   if model.guess == model.answer then
-     [ h1 [] [text "Rätt svar!"]
+     [ h2 [A.style [( "color", "#49A")]] [text "Rätt svar!"]
      , button [A.class "btn btn-success", onClick address NewWord]
        [ span [A.class "glyphicon glyphicon-random"] []]
        ]
