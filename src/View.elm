@@ -36,11 +36,11 @@ addButtons address answer =
   List.map (\c -> addButton address (String.fromChar c)) (uniqueChars answer)
 
 picture model =
-  row_ [div [A.class "col-md-4", A.style [ ( "margin-bottom","10px" ) ]] 
+  row_ [div [A.class "col-md-4", A.style [ ( "margin-bottom","10px"), ("margin-top", "25px") ]] 
   [ img [ A.src (.image (nth model.currentIndex alternatives defaultAlternative))
-  , A.width 200
-  , A.height 200
-  , A.style [("border","2px solid black")] ] [] ] ]
+  , A.width 250
+  , A.height 250
+  , A.style [("border","2px solid #999"), ("border-radius", "25px"), ("padding", "10px")] ] [] ] ]
 
 controlButton adr action icon =
   button [A.class "btn btn-warning", buttonMargin, onClick adr action ] 
