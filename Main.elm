@@ -1,4 +1,5 @@
-import Html exposing (div, button, text)
+import Html exposing (..)
+import Html.Attributes exposing (src)
 import Html.Events exposing (onClick)
 import StartApp.Simple exposing (start)
 import String exposing (..)
@@ -18,6 +19,8 @@ alternatives =
   , { word = "MUS", image = "http://www.malarbok.nu/images/collection/169/large.jpg" }
   ]
 
+defaultAlternative =
+  { word = "NOT FOUND", image = "http://www.404notfound.fr/assets/images/pages/img/androiddev101.jpg" }
 
 type alias Model = { 
   answer : String, 
@@ -78,7 +81,8 @@ addButtons address answer =
 
 view address model =
   div []
-    [ div [] [ text (toString model.guess) ]
+    [ div [] [ img [ src (.image (nth model.currentIndex alternatives defaultAlternative))] [] ]
+    , div [] [ text (toString model.guess) ]
     , div [] [ text (toString model.answer) ]
     , div [] (addButtons address model.answer)
     , div [] [ button [ onClick address Reset ] [ text "Reset"]]
