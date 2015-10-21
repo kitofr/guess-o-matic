@@ -33,18 +33,18 @@ addButtons address answer =
   List.map (\c -> addButton address (String.fromChar c)) (uniqueChars answer)
 
 picture model =
-  row_ [div [A.class "col-md-4"] 
+  row_ [div [A.class "col-md-4", A.style [ ( "margin-bottom","10px" ) ]] 
   [ img [ A.src (.image (nth model.currentIndex alternatives defaultAlternative))
   , A.width 200
   , A.height 200
   , A.style [("border","2px solid black")] ] [] ] ]
 
 textControls address model =
-  row_ [ div [A.class "col-md-4"]
+  row_ [ div [A.class "col-md-4" ]
       [ button [ A.class "btn btn-warning", onClick address Reset ] 
-              [ span [A.class "glyphicon glyphicon-backward"] [ ] ]
+          [ span [A.class "glyphicon glyphicon-refresh"] [ ] ]
       , button [ A.class "btn btn-warning", onClick address Backspace ] 
-              [ span [A.class "glyphicon glyphicon-step-backward"] [ ] ]]]
+              [ span [A.class "glyphicon glyphicon-erase"] [ ] ]]]
 
 guess model =
   row_ [ h1 [A.class "col-md-4"] [text (toString model.guess) ]]

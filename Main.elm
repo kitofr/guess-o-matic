@@ -10,15 +10,10 @@ import Types exposing (Action(..), Model)
 import Seq exposing (..)
 import Data exposing (..)
 
-
 {--
 TODO 
   - Styling
   - Random chars in guess
-  - Change word on success
-    - show "button on correct"
-  - More words
-  - Extract view to separate file
   - Deploy to heroku
   - Sounds
   - Indicate how many letters
