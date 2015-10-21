@@ -72,13 +72,6 @@ init =
   , seed = Random.initialSeed 12345
   }
 
-checkAnswer : Model -> String
-checkAnswer model =
-  if model.guess == model.answer then
-     "Rätt!"
-  else
-    ""
-
 uniqueChars string =
   List.foldr (\c a-> Set.insert c a) Set.empty 
   (String.toUpper string
@@ -113,19 +106,29 @@ addButton address c =
 addButtons address answer =
   List.map (\c -> addButton address (String.fromChar c)) (uniqueChars answer)
 
+checkAnswer : Signal.Address Action -> Model -> List Html
+checkAnswer address model  =
+  if model.guess == model.answer then
+     [ h1 [] [text "Rätt svar!"]
+     , button [A.class "btn btn-success", onClick address NewWord]
+       [ text ">>" ]
+       ]
+  else
+   [div [] []]
+
 view address model =
   container_
   [ stylesheet "https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css"
-    , row_ [div [A.class "col-md-4"] [ img [ A.src (.image (nth model.currentIndex alternatives defaultAlternative))
+    , row_ [div [A.class "col-md-4"] 
+            [ img [ A.src (.image (nth model.currentIndex alternatives defaultAlternative))
                      , A.width 200
                      , A.height 200
                      , A.style [("border","2px solid black")] ] [] ] ]
     , row_ [ text (toString model.guess) ]
     , row_ (addButtons address model.answer)
-    , row_ [ button [ onClick address Reset ] [ text "Reset"]]
-    , row_ [ button [ onClick address NewWord ] [ text "Generate new word"]]
-    , row_ [ div [A.class "col-md-2" ]
-              [ text (checkAnswer model)]]
+    , row_ [ button [ A.class "btn btn-warning", onClick address Reset ] [ text "Reset"]]
+    , row_ [ div [A.class "col-md-4" ]
+               (checkAnswer address model)]
     ]
 
 type Action = 
