@@ -20,6 +20,9 @@ TODO
   - More words
   - Extract view to separate file
   - Deploy to heroku
+  - Sounds
+  - Indicate how many letters
+  - Don't repeat words (to often at least)
 --}
 
 main =
@@ -31,6 +34,8 @@ alternatives =
   [ { word = "APA", image = "http://www.skolbilder.com/Malarbild-apa-dm17524.jpg" }
   , { word = "MUS", image = "http://www.malarbok.nu/images/collection/169/large.jpg" }
   , { word = "KO", image = "http://ian.umces.edu/imagelibrary/albums/userpics/12789/normal_ian-symbol-bos-primigenius-cow-1.png" }
+  , { word = "HUS", image = "http://www.featurepics.com/FI/Thumb300/20110927/Cartoon-House-2009748.jpg" }
+  , { word = "RÅTTA", image = "http://hdwallpaperslovely.com/wp-content/gallery/rat-cartoon-images/rats.jpg" }
   ]
 
 defaultAlternative =
@@ -125,10 +130,12 @@ view address model =
                      , A.width 200
                      , A.height 200
                      , A.style [("border","2px solid black")] ] [] ] ]
-    , row_ [ text (toString model.guess) ]
-    , row_ (addButtons address model.answer)
-    , row_ [ button [ A.class "btn btn-warning col-md-2", onClick address Reset ] 
+    , row_ [ button [ A.class "btn btn-warning", onClick address Reset ] 
               [ span [A.class "glyphicon glyphicon-backward"] [ ] ]]
+    , row_ [ button [ A.class "btn btn-warning", onClick address Backspace ] 
+              [ span [A.class "glyphicon glyphicon-step-backward"] [ ] ]]
+    , row_ [ h1 [] [text (toString model.guess) ]]
+    , row_ (addButtons address model.answer)
     , row_ [ div [A.class "col-md-4" ]
                (checkAnswer address model)]
     ]
@@ -136,6 +143,7 @@ view address model =
 type Action = 
   AddChar String
   | Reset
+  | Backspace
   | NewWord
 
 update : Action -> Model -> Model
@@ -143,4 +151,5 @@ update action model =
   case action of
     AddChar ch -> { model | guess <- model.guess ++ ch }
     Reset -> { model | guess <- "" }
+    Backspace -> { model | guess <- String.dropRight 1 model.guess }
     NewWord -> chooseNewWord model
