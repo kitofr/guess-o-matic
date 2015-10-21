@@ -65,7 +65,7 @@ checkAnswer address model  =
   if model.guess == model.answer then
      [ h2 [A.style [( "color", "#49A")]] [text "Rätt svar!"]
      , button [A.class "btn btn-success", onClick address NewWord]
-       [ span [A.class "glyphicon glyphicon-random"] []]
+       [ span [A.class "glyphicon glyphicon-thumbs-up"] []]
        ]
   else
    [div [] []]
