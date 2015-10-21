@@ -4,20 +4,55 @@ import StartApp.Simple exposing (start)
 import String exposing (..)
 import Set exposing (..)
 import List exposing (..)
-
+import Random exposing (..)
+import Maybe exposing (..)
+import Debug exposing (..)
 
 main =
-  start { model = init "APA" ""
+  start { model = init 
         , view = view
         , update = update }
 
+alternatives = 
+  [ { word = "APA", image = "http://www.skolbilder.com/Malarbild-apa-dm17524.jpg" }
+  , { word = "MUS", image = "http://www.malarbok.nu/images/collection/169/large.jpg" }
+  ]
 
-type alias Model = { answer : String, guess : String}
 
-init : String -> String -> Model
-init answer guess =
-  { answer = answer
-  , guess = guess
+type alias Model = { 
+  answer : String, 
+  guess : String,
+  currentIndex : Int,
+  seed : Seed 
+}
+
+chooseNewWord : Model -> Model
+chooseNewWord model =
+  let (wordIndex, seed') =
+    Random.generate (Random.int 0 (List.length alternatives)) model.seed
+  in
+    if model.currentIndex == wordIndex
+       then 
+        chooseNewWord { model | seed <- seed' }
+        else
+          let newWord = Debug.watch "new word" (.word (nth wordIndex alternatives { word = "NOT FOUND", image = ""}))
+          in
+          { model | 
+            currentIndex <- 1
+            , answer <- newWord 
+            , seed <- seed'
+          }
+        
+
+nth n lst def =
+  List.drop n lst |> List.head |> Maybe.withDefault def
+  
+init : Model
+init =
+  { answer = (.word (nth 0 alternatives { word = "APA", image = "http://www.skolbilder.com/Malarbild-apa-dm17524.jpg" } ))
+  , currentIndex = 0
+  , guess = "" 
+  , seed = Random.initialSeed 12345
   }
 
 checkAnswer : Model -> String
@@ -45,13 +80,21 @@ addButtons address answer =
 view address model =
   div []
     [ div [] [ text (toString model.guess) ]
+    , div [] [ text (toString model.answer) ]
     , div [] (addButtons address model.answer)
+    , div [] [ button [ onClick address Reset ] [ text "Reset"]]
+    , div [] [ button [ onClick address NewWord ] [ text "Generate new word"]]
     , div [] [ text (checkAnswer model)]]
 
 
-type Action = AddChar String
+type Action = 
+  AddChar String
+  | Reset
+  | NewWord
 
 update : Action -> Model -> Model
 update action model =
   case action of
     AddChar ch -> { model | guess <- model.guess ++ ch }
+    Reset -> init
+    NewWord -> chooseNewWord model
