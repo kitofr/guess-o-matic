@@ -111,7 +111,7 @@ checkAnswer address model  =
   if model.guess == model.answer then
      [ h1 [] [text "Rätt svar!"]
      , button [A.class "btn btn-success", onClick address NewWord]
-       [ text ">>" ]
+       [ span [A.class "glyphicon glyphicon-random"] []]
        ]
   else
    [div [] []]
@@ -126,7 +126,8 @@ view address model =
                      , A.style [("border","2px solid black")] ] [] ] ]
     , row_ [ text (toString model.guess) ]
     , row_ (addButtons address model.answer)
-    , row_ [ button [ A.class "btn btn-warning", onClick address Reset ] [ text "Reset"]]
+    , row_ [ button [ A.class "btn btn-warning", onClick address Reset ] 
+              [ span [A.class "glyphicon glyphicon-backward"] [ ] ]]
     , row_ [ div [A.class "col-md-4" ]
                (checkAnswer address model)]
     ]
