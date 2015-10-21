@@ -95,10 +95,7 @@ container_ = div [ A.class "container" ]
 
 btnPrimary_ : String -> Signal.Address a -> a -> Html
 btnPrimary_  label addr x =
-  button
-  [ A.class "btn btn-primary"
-  , onClick addr x
-  ]
+  button [ A.class "btn btn-primary" , onClick addr x ]
   [ text label ]
 
 stylesheet : String -> Html
@@ -109,10 +106,33 @@ stylesheet href =
   ] []
 
 addButton address c =
-    btnPrimary_ c address (AddChar c) 
+  btnPrimary_ c address (AddChar c) 
 
 addButtons address answer =
   List.map (\c -> addButton address (String.fromChar c)) (uniqueChars answer)
+
+picture model =
+  row_ [div [A.class "col-md-4"] 
+  [ img [ A.src (.image (nth model.currentIndex alternatives defaultAlternative))
+  , A.width 200
+  , A.height 200
+  , A.style [("border","2px solid black")] ] [] ] ]
+
+textControls address model =
+  row_ [ div [A.class "col-md-4"]
+      [ button [ A.class "btn btn-warning", onClick address Reset ] 
+              [ span [A.class "glyphicon glyphicon-backward"] [ ] ]
+      , button [ A.class "btn btn-warning", onClick address Backspace ] 
+              [ span [A.class "glyphicon glyphicon-step-backward"] [ ] ]]]
+
+guess model =
+  row_ [ h1 [A.class "col-md-4"] [text (toString model.guess) ]]
+
+letterButtons address model =
+  row_ [ div [A.class "col-md-4"] (addButtons address model.answer)]
+
+success address model =
+  row_ [ div [A.class "col-md-4" ] (checkAnswer address model)]
 
 checkAnswer : Signal.Address Action -> Model -> List Html
 checkAnswer address model  =
@@ -124,30 +144,14 @@ checkAnswer address model  =
   else
    [div [] []]
 
-
-picture model =
-  row_ [div [A.class "col-md-4"] 
-  [ img [ A.src (.image (nth model.currentIndex alternatives defaultAlternative))
-  , A.width 200
-  , A.height 200
-  , A.style [("border","2px solid black")] ] [] ] ]
-
-textControls address model =
-    [ div [A.class "col-md-4"]
-      [ button [ A.class "btn btn-warning", onClick address Reset ] 
-              [ span [A.class "glyphicon glyphicon-backward"] [ ] ]
-      , button [ A.class "btn btn-warning", onClick address Backspace ] 
-              [ span [A.class "glyphicon glyphicon-step-backward"] [ ] ]]]
-
 view address model =
   container_
   [ stylesheet "https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css"
     , picture model
-    , row_ (textControls address model)
-    , row_ [ h1 [] [text (toString model.guess) ]]
-    , row_ (addButtons address model.answer)
-    , row_ [ div [A.class "col-md-4" ]
-               (checkAnswer address model)]
+    , textControls address model
+    , guess model
+    , letterButtons address model
+    , success address model 
     ]
 
 type Action = 
