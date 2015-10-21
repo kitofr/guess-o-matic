@@ -92,10 +92,9 @@ addButtons address answer =
 view address model =
   div []
     [ div [] [ img [ src (.image (nth model.currentIndex alternatives defaultAlternative))
-                     , width 100
-                     , height 100] [] ]
+                     , width 200
+                     , height 200] [] ]
     , div [] [ text (toString model.guess) ]
-    , div [] [ text (toString model.answer) ]
     , div [] (addButtons address model.answer)
     , div [] [ button [ onClick address Reset ] [ text "Reset"]]
     , div [] [ button [ onClick address NewWord ] [ text "Generate new word"]]
