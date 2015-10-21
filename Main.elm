@@ -23,6 +23,7 @@ TODO
   - Sounds
   - Indicate how many letters
   - Don't repeat words (to often at least)
+  - Count correct words
 --}
 
 main =
@@ -35,6 +36,7 @@ alternatives =
   , { word = "MUS", image = "http://www.malarbok.nu/images/collection/169/large.jpg" }
   , { word = "KO", image = "http://ian.umces.edu/imagelibrary/albums/userpics/12789/normal_ian-symbol-bos-primigenius-cow-1.png" }
   , { word = "HUS", image = "http://www.featurepics.com/FI/Thumb300/20110927/Cartoon-House-2009748.jpg" }
+  , { word = "BUSS", image = "http://cdn.topvectors.com/img/605/600x0/4:3/cartoon-school-bus-vector-illustrator_1330497143_large.jpg" }
   , { word = "RÅTTA", image = "http://hdwallpaperslovely.com/wp-content/gallery/rat-cartoon-images/rats.jpg" }
   ]
 
@@ -122,18 +124,26 @@ checkAnswer address model  =
   else
    [div [] []]
 
+
+picture model =
+  row_ [div [A.class "col-md-4"] 
+  [ img [ A.src (.image (nth model.currentIndex alternatives defaultAlternative))
+  , A.width 200
+  , A.height 200
+  , A.style [("border","2px solid black")] ] [] ] ]
+
+textControls address model =
+    [ div [A.class "col-md-4"]
+      [ button [ A.class "btn btn-warning", onClick address Reset ] 
+              [ span [A.class "glyphicon glyphicon-backward"] [ ] ]
+      , button [ A.class "btn btn-warning", onClick address Backspace ] 
+              [ span [A.class "glyphicon glyphicon-step-backward"] [ ] ]]]
+
 view address model =
   container_
   [ stylesheet "https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css"
-    , row_ [div [A.class "col-md-4"] 
-            [ img [ A.src (.image (nth model.currentIndex alternatives defaultAlternative))
-                     , A.width 200
-                     , A.height 200
-                     , A.style [("border","2px solid black")] ] [] ] ]
-    , row_ [ button [ A.class "btn btn-warning", onClick address Reset ] 
-              [ span [A.class "glyphicon glyphicon-backward"] [ ] ]]
-    , row_ [ button [ A.class "btn btn-warning", onClick address Backspace ] 
-              [ span [A.class "glyphicon glyphicon-step-backward"] [ ] ]]
+    , picture model
+    , row_ (textControls address model)
     , row_ [ h1 [] [text (toString model.guess) ]]
     , row_ (addButtons address model.answer)
     , row_ [ div [A.class "col-md-4" ]
