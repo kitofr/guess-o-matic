@@ -29,7 +29,7 @@ type alias Model = {
 chooseNewWord : Model -> Model
 chooseNewWord model =
   let (wordIndex, seed') =
-    Random.generate (Random.int 0 (List.length alternatives)) model.seed
+    Random.generate (Random.int 0 ((List.length alternatives) - 1)) model.seed
   in
     if model.currentIndex == wordIndex
        then 
@@ -38,7 +38,8 @@ chooseNewWord model =
           let newWord = Debug.watch "new word" (.word (nth wordIndex alternatives { word = "NOT FOUND", image = ""}))
           in
           { model | 
-            currentIndex <- 1
+            currentIndex <- Debug.watch "currentIndex" wordIndex
+            , guess <- ""
             , answer <- newWord 
             , seed <- seed'
           }
@@ -75,8 +76,6 @@ addButton address c =
 addButtons address answer =
   List.map (\c -> addButton address (String.fromChar c)) (uniqueChars answer)
 
-  
-
 view address model =
   div []
     [ div [] [ text (toString model.guess) ]
@@ -85,7 +84,6 @@ view address model =
     , div [] [ button [ onClick address Reset ] [ text "Reset"]]
     , div [] [ button [ onClick address NewWord ] [ text "Generate new word"]]
     , div [] [ text (checkAnswer model)]]
-
 
 type Action = 
   AddChar String
