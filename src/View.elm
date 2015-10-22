@@ -7,6 +7,7 @@ import String exposing (..)
 import Types exposing (Action(..), Model)
 import Seq exposing (..)
 import Data exposing (..)
+import Debug exposing (..)
 
 row_ : List Html -> Html
 row_ = div [ A.class "row" ]
@@ -41,6 +42,10 @@ currentImage model =
 currentAnswer model =
   (.word (nth 0 model.wordList defaultAlternative))
 
+hasMoreWords : Model -> Bool
+hasMoreWords model =
+   Debug.watch "wordlist" ((List.length model.wordList) > 1)
+
 picture model =
   row_ [div [A.class "col-md-4", A.style [ ( "margin-bottom","10px"), ("margin-top", "25px") ]] 
   [ img [ A.src (currentImage model)
@@ -68,13 +73,16 @@ success address model =
 
 checkAnswer : Signal.Address Action -> Model -> List Html
 checkAnswer address model  =
-  if model.guess == (currentAnswer model) then
+  if model.guess == (currentAnswer model) && (hasMoreWords model) then
      [ h2 [A.style [( "color", "#49A")]] [text "Rätt svar!"]
      , button [A.class "btn btn-success", onClick address NewWord]
        [ span [A.class "glyphicon glyphicon-thumbs-up"] []]
        ]
   else
-   [div [] []]
+    if model.guess == (currentAnswer model) then
+     [ h2 [A.style [( "color", "#4A9")]] [text "GAME OVER!"]]
+    else
+     [div [] []]
 
 view address model =
   container_

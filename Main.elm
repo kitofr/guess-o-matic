@@ -17,35 +17,13 @@ TODO
   - Deploy to heroku
   - Sounds
   - Indicate how many letters
-  - Don't repeat words (to often at least)
-  - Count correct words
+  - Show unique chars used
 --}
 
 main =
   start { model = init 
         , view = view
         , update = update }
-
-
-{--
-chooseNewWord : Model -> Model
-chooseNewWord model =
-  let (wordIndex, seed') =
-    Random.generate (Random.int 0 ((List.length alternatives) - 1)) model.seed
-  in
-    if model.currentIndex == wordIndex
-       then 
-        chooseNewWord { model | seed <- seed' }
-        else
-          let newWord = Debug.watch "new word" (.word (nth wordIndex alternatives { word = "NOT FOUND", image = ""}))
-          in
-          { model | 
-            currentIndex <- Debug.watch "currentIndex" wordIndex
-            , guess <- ""
-            , answer <- newWord 
-            , seed <- seed'
-          }
---}
 
 nextWord : Model -> Model
 nextWord model =
