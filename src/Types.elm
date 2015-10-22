@@ -1,5 +1,6 @@
 module Types where
-import Random exposing (..)
+import Random exposing (Seed)
+import Set exposing (..)
 
 type Action = 
   AddChar String
@@ -8,9 +9,9 @@ type Action =
   | NewWord
 
 type alias Model = { 
-  answer : String, 
   guess : String,
-  currentIndex : Int,
-  seed : Seed 
+  seed : Seed,
+  wordList :  List ( { word : String, image : String }),
+  collectedChars : Set (Char)
 }
 

@@ -35,9 +35,15 @@ addButton address c =
 addButtons address answer =
   List.map (\c -> addButton address (String.fromChar c)) (uniqueChars answer)
 
+currentImage model = 
+  (.image (nth 0 model.wordList defaultAlternative))
+
+currentAnswer model =
+  (.word (nth 0 model.wordList defaultAlternative))
+
 picture model =
   row_ [div [A.class "col-md-4", A.style [ ( "margin-bottom","10px"), ("margin-top", "25px") ]] 
-  [ img [ A.src (.image (nth model.currentIndex alternatives defaultAlternative))
+  [ img [ A.src (currentImage model)
   , A.width 250
   , A.height 250
   , A.style [("border","2px solid #999"), ("border-radius", "25px"), ("padding", "10px")] ] [] ] ]
@@ -55,14 +61,14 @@ guess model =
   row_ [ h1 [A.class "col-md-4"] [text (toString model.guess) ]]
 
 letterButtons address model =
-  row_ [ div [A.class "col-md-4"] (addButtons address model.answer)]
+  row_ [ div [A.class "col-md-4"] (addButtons address (currentAnswer model))]
 
 success address model =
   row_ [ div [A.class "col-md-4" ] (checkAnswer address model)]
 
 checkAnswer : Signal.Address Action -> Model -> List Html
 checkAnswer address model  =
-  if model.guess == model.answer then
+  if model.guess == (currentAnswer model) then
      [ h2 [A.style [( "color", "#49A")]] [text "Rätt svar!"]
      , button [A.class "btn btn-success", onClick address NewWord]
        [ span [A.class "glyphicon glyphicon-thumbs-up"] []]

@@ -27,6 +27,7 @@ main =
         , update = update }
 
 
+{--
 chooseNewWord : Model -> Model
 chooseNewWord model =
   let (wordIndex, seed') =
@@ -44,13 +45,32 @@ chooseNewWord model =
             , answer <- newWord 
             , seed <- seed'
           }
+--}
+
+nextWord : Model -> Model
+nextWord model =
+  let (wordIndex, seed') = Random.generate (Random.int 0 ((List.length alternatives) - 1)) model.seed
+      rest = Maybe.withDefault [] (List.tail model.wordList)
+      _ = Debug.watch "wordList" (List.map (\c -> c.word) rest)
+  in
+  { model | 
+      guess <- ""
+      , seed <- seed'
+      , wordList <- rest 
+      --, collectedChars <- Debug.watch "collected" addChars model.collectedChars model.answer
+    }
+
+generateWords seed = 
+  alternatives
         
 init : Model
 init =
-  { answer = (.word (nth 0 alternatives { word = "APA", image = "http://www.skolbilder.com/Malarbild-apa-dm17524.jpg" } ))
-  , currentIndex = 0
-  , guess = "" 
-  , seed = Random.initialSeed 12345
+  let seed = Random.initialSeed 12345
+  in
+  { guess = "" 
+  , seed = seed
+  , wordList = generateWords seed
+  , collectedChars = Set.empty
   }
 
 update : Action -> Model -> Model
@@ -59,4 +79,4 @@ update action model =
     AddChar ch -> { model | guess <- model.guess ++ ch }
     Reset -> { model | guess <- "" }
     Backspace -> { model | guess <- String.dropRight 1 model.guess }
-    NewWord -> chooseNewWord model
+    NewWord -> nextWord model

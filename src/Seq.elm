@@ -14,3 +14,6 @@ uniqueChars string =
     |> List.sort)
   |> Set.toList
 
+addChars word set =
+  List.foldr (\c a-> Set.insert c a) set 
+
