@@ -51,7 +51,10 @@ picture model =
   [ img [ A.src (currentImage model)
   , A.width 250
   , A.height 250
-  , A.style [("border","2px solid #999"), ("border-radius", "25px"), ("padding", "10px")] ] [] ] ]
+  , A.style [("border","7px solid #49A"), 
+             ("border-radius", "25px"), 
+             ("padding", "10px"),
+             ("background", "#8AC")] ] [] ] ]
 
 controlButton adr action icon =
   button [A.class "btn btn-warning", buttonMargin, onClick adr action ] 
