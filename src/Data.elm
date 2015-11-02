@@ -32,7 +32,7 @@ alternatives =
   , { word = "RÅTTA", image = "http://hdwallpaperslovely.com/wp-content/gallery/rat-cartoon-images/rats.jpg" }
   , { word = "SPINDEL", image = "http://4vector.com/i/free-vector-black-widow-spider_101432_Black_Widow_Spider.png" }
   , { word = "ELEFANT", image = "http://4vector.com/i/free-vector-cartoon-elephant-clip-art_106801_Cartoon_Elephant_clip_art_medium.png" }
-  , { word = "CIRCUS", image = "http://4vector.com/i/free-vector-circus-tent-clip-art_110158_Circus_Tent_clip_art_medium.png" }
+  , { word = "CIRKUS", image = "http://4vector.com/i/free-vector-circus-tent-clip-art_110158_Circus_Tent_clip_art_medium.png" }
   , { word = "JORDGUBBE", image = "http://4vector.com/i/free-vector-outline-strawberry-clip-art_112728_Outline_Strawberry_clip_art_medium.png" }
   ]
 
