@@ -44,7 +44,7 @@ currentAnswer model =
 
 hasMoreWords : Model -> Bool
 hasMoreWords model =
-   Debug.watch "wordlist" ((List.length model.wordList) > 1)
+   Debug.watch "hasMoreWords" ((List.length model.wordList) > 1)
 
 picture model =
   row_ [div [A.class "col-md-4", A.style [ ( "margin-bottom","10px"), ("margin-top", "25px") ]] 
