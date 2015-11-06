@@ -65,8 +65,23 @@ textControls address model =
       [ controlButton address Reset "glyphicon-refresh"
       , controlButton address Backspace "glyphicon-erase"]]
 
+disabledButton ch =
+  let t = String.fromChar ch
+  in
+     button [ A.class "btn btn-disabled", buttonMargin ] [ text t ]
+
+paddUpTo lst n =
+  if List.length lst < n then
+     paddUpTo (List.append lst ['_']) n
+  else
+    lst
+
 guess model =
-  row_ [ h1 [A.class "col-md-4"] [text (toString model.guess) ]]
+  let answer = Debug.watch "answer" (String.toList (currentAnswer model)) 
+      paddedGuess = Debug.watch "guess" (paddUpTo (String.toList model.guess) (List.length answer))
+  in
+  row_ [ div [A.class "col-md-4"] 
+           (List.map disabledButton paddedGuess) ]
 
 letterButtons address model =
   row_ [ div [A.class "col-md-4"] (addButtons address (currentAnswer model))]
