@@ -10,7 +10,7 @@ import Data exposing (..)
 import Debug exposing (..)
 
 row_ : List Html -> Html
-row_ = div [ A.class "row" ]
+row_ = div [ A.class "row", rowDistance ]
 
 container_ : List Html -> Html
 container_ = div [ A.class "container" ]
@@ -24,6 +24,9 @@ stylesheet href =
 
 buttonMargin = 
   A.style [("margin-right", "5px")]
+
+rowDistance = 
+  A.style [ ( "margin-bottom","10px"), ("margin-top", "25px") ]
 
 btnPrimary_ : String -> Signal.Address a -> a -> Html
 btnPrimary_  label addr x =
@@ -47,7 +50,7 @@ hasMoreWords model =
    Debug.watch "hasMoreWords" ((List.length model.wordList) > 1)
 
 picture model =
-  row_ [div [A.class "col-md-4", A.style [ ( "margin-bottom","10px"), ("margin-top", "25px") ]] 
+  row_ [div [A.class "col-md-4"] 
   [ img [ A.src (currentImage model)
   , A.width 250
   , A.height 250
