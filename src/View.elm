@@ -4,6 +4,7 @@ import Html.Attributes as A
 import Html.Events exposing (onClick)
 import Html.Shorthand exposing (..)
 import String exposing (..)
+import Set exposing (..)
 import Types exposing (Action(..), Model)
 import Seq exposing (..)
 import Data exposing (..)
@@ -92,18 +93,26 @@ letterButtons address model =
 success address model =
   row_ [ div [A.class "col-md-4" ] (checkAnswer address model)]
 
+collectChars : Model -> Model
+collectChars model =
+  let collected = Debug.watch "collected" (addChars (currentAnswer model) model.collectedChars )
+  in
+     { model | collectedChars <- collected }
+
 checkAnswer : Signal.Address Action -> Model -> List Html
-checkAnswer address model  =
-  if model.guess == (currentAnswer model) && (hasMoreWords model) then
+checkAnswer address model =
+  let letters = Debug.watch "collect as list" (String.join "," (List.map String.fromChar (Set.toList model.collectedChars)))
+  in
+  if model.guess == (currentAnswer model) then
+    if (hasMoreWords model) then
      [ h2 [A.style [( "color", "#49A")]] [text "Rätt svar!"]
      , button [A.class "btn btn-success", onClick address NewWord]
-       [ span [A.class "glyphicon glyphicon-thumbs-up"] []]
-       ]
+       [ span [A.class "glyphicon glyphicon-thumbs-up"] []]]
+     else
+      [ h2 [A.style [( "color", "#4A9")]] 
+        [text letters]]
   else
-    if model.guess == (currentAnswer model) then
-     [ h2 [A.style [( "color", "#4A9")]] [text "GAME OVER!"]]
-    else
-     [div [] []]
+   [div [] []]
 
 view address model =
   container_

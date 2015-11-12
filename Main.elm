@@ -16,8 +16,9 @@ TODO
   - Random chars in guess
   - Deploy to heroku
   - Sounds
-  - Indicate how many letters
-  - Show unique chars used
+  - Indicate how many letters (use _?)
+  - indicate overextending
+  - Show unique chars colleted
 --}
 
 main =
@@ -29,13 +30,14 @@ nextWord : Model -> Model
 nextWord model =
   let (wordIndex, seed') = Random.generate (Random.int 0 ((List.length alternatives) - 1)) model.seed
       rest = Maybe.withDefault [] (List.tail model.wordList)
-      _ = Debug.watch "wordList" (List.map (\c -> c.word) rest)
+      collected = Debug.watch "collected" (addChars (View.currentAnswer model) model.collectedChars )
+      --_ = Debug.watch "wordList" (List.map (\c -> c.word) rest)
   in
   { model | 
       guess <- ""
       , seed <- seed'
       , wordList <- rest 
-      --, collectedChars <- Debug.watch "collected" addChars model.collectedChars model.answer
+      , collectedChars <- collected
     }
 
 generateWords seed = 
