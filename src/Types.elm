@@ -55,4 +55,4 @@ addGuess guess state =
           case lst of 
             [] -> FinishedGame collected'
             h::t -> Guessing ("", h) t collected'
-       | otherwise -> FinishedGame collected'
+       | otherwise -> Guessing guess lst (collected state)
