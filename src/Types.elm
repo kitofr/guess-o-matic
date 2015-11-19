@@ -53,6 +53,18 @@ correct (guess, question) = guess == (word question)
 word : Question -> String
 word question = question.word
 
+guess : GameState -> Guess
+guess state =
+  case state of
+    (FinishedGame _) -> ("", { word = "", image = "" })
+    (Guessing g _ _) -> g
+
+createGuess : String -> GameState -> Guess
+createGuess g state =
+  let (_, q) = guess state
+  in
+      (g, q)
+   
 addGuess : Guess -> GameState -> GameState
 addGuess guess state = 
   let lst = wordList state
