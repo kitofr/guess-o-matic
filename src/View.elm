@@ -5,7 +5,7 @@ import Html.Events exposing (onClick)
 import Html.Shorthand exposing (..)
 import String exposing (..)
 import Set exposing (..)
-import Types exposing (Action(..), Model)
+import Types exposing (..)
 import Seq exposing (..)
 import Data exposing (..)
 import Debug exposing (..)
@@ -40,35 +40,44 @@ addButton address c =
 addButtons address answer =
   List.map (\c -> addButton address (String.fromChar c)) (uniqueChars answer)
 
-currentImage model = 
-  (.image (nth 0 model.wordList defaultAlternative))
+image : Guess -> String
+image (_,question) = 
+  question.image
 
-currentAnswer model =
-  (.word (nth 0 model.wordList defaultAlternative))
+currentAnswer : Model -> String
+currentAnswer {guess, seed, state} =
+  let (_,question) = guess
+  in
+      word question
 
 hasMoreWords : Model -> Bool
-hasMoreWords model =
-   Debug.watch "hasMoreWords" ((List.length model.wordList) > 1)
+hasMoreWords {guess, seed, state} =
+  let lst = wordList state
+  in
+      case lst of
+        [] -> False
+        otherwise -> True
 
-picture model =
+picture : Model -> Html
+picture {guess, seed, state} =
   row_ [div [A.class "col-md-4"] 
-  [ img [ A.src (currentImage model)
+  [ img [ A.src (image guess)
   , A.width 250
   , A.height 250
   , A.style [("border","7px solid #49A"), 
              ("border-radius", "25px"), 
              ("padding", "10px"),
              ("background", "#8AC")] ] [] ] ]
-
+ 
 controlButton adr action icon =
   button [A.class "btn btn-warning", buttonMargin, onClick adr action ] 
     [ span [A.class ("glyphicon " ++ icon)] [ ] ]
-
+ 
 textControls address model =
   row_ [ div [A.class "col-md-4" ]
       [ controlButton address Reset "glyphicon-refresh"
       , controlButton address Backspace "glyphicon-erase"]]
-
+ 
 disabledButton ch =
   let t = String.fromChar ch
   in
@@ -80,46 +89,53 @@ paddUpTo lst n =
   else
     lst
 
-guess model =
-  let answer = Debug.watch "answer" (String.toList (currentAnswer model)) 
-      paddedGuess = Debug.watch "guess" (paddUpTo (String.toList model.guess) (List.length answer))
+answer : Guess -> String
+answer (_, question) = (word question)
+
+showGuess : Model -> Html
+showGuess {guess, seed, state} =
+  let answer' = Debug.watch "answer" (String.toList (answer guess)) 
+      paddTo = (List.length answer')
+      paddedGuess = Debug.watch "guess" (paddUpTo (String.toList (fst guess)) paddTo )
   in
   row_ [ div [A.class "col-md-4"] 
            (List.map disabledButton paddedGuess) ]
 
+letterButtons : Signal.Address Action -> Model -> Html
 letterButtons address model =
   row_ [ div [A.class "col-md-4"] (addButtons address (currentAnswer model))]
 
+success : Signal.Address Action -> Model -> Html
 success address model =
   row_ [ div [A.class "col-md-4" ] (checkAnswer address model)]
 
-collectChars : Model -> Model
-collectChars model =
-  let collected = Debug.watch "collected" (addChars (currentAnswer model) model.collectedChars )
-  in
-     { model | collectedChars <- collected }
+collectedCharsAsCommaSeparatedString : Set Char -> String
+collectedCharsAsCommaSeparatedString collected = 
+  (String.join "," (List.map String.fromChar (Set.toList collected)))
 
 checkAnswer : Signal.Address Action -> Model -> List Html
-checkAnswer address model =
-  let letters = Debug.watch "collect as list" (String.join "," (List.map String.fromChar (Set.toList model.collectedChars)))
-  in
-  if model.guess == (currentAnswer model) then
-    if (hasMoreWords model) then
-     [ h2 [A.style [( "color", "#49A")]] [text "Rätt svar!"]
-     , button [A.class "btn btn-success", onClick address NewWord]
-       [ span [A.class "glyphicon glyphicon-thumbs-up"] []]]
-     else
-      [ h2 [A.style [( "color", "#4A9")]] 
-        [text letters]]
-  else
-   [div [] []]
+checkAnswer address {guess, seed, state} =
+  let state' = addGuess guess state
+  in 
+      case state' of
+        (FinishedGame collected) ->  
+          [ h2 [A.style [( "color", "#4A9")]] 
+          [text (collectedCharsAsCommaSeparatedString collected)]]
+        (Guessing guess wordlist collected) ->
+          if correct guess then
+           [ h2 [A.style [( "color", "#49A")]] [text "Rätt svar!"]
+           , button [A.class "btn btn-success", onClick address NewWord]
+             [ span [A.class "glyphicon glyphicon-thumbs-up"] []]]
+          else
+            [div [] []]
 
+view : Signal.Address Action -> Model -> Html
 view address model =
   container_
   [ stylesheet "https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css"
     , picture model
     , textControls address model
-    , guess model
+    , showGuess model
     , letterButtons address model
     , success address model 
     ]
