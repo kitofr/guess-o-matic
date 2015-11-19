@@ -37,11 +37,15 @@ nextWord model state' =
 init : Model
 init =
   let seed = Random.initialSeed 12345
+      state = Types.initialState
   in
-  { guess = ("", { word = "APA", image = ""})
-  , seed = seed
-  , state = Types.initialState
-  }
+      case state of
+        (Types.FinishedGame c) ->  
+          { guess = ("", { word = "DET BÖRJAR MED INGET?", image = ""})
+          , seed = seed
+          , state = state
+          }
+        (Types.Guessing g l c) -> { guess = g, seed = seed, state = state }
 
 addChar : String -> Model -> Model
 addChar ch {guess, seed, state} =
@@ -59,6 +63,8 @@ backspace {guess, seed, state} =
 
 update : Action -> Model -> Model
 update action model =
+  let _ = Debug.watch "action" action
+  in
   case action of
     AddChar ch -> 
       addChar ch model

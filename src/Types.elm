@@ -1,5 +1,6 @@
 module Types where
 
+import Data exposing (..)
 import String exposing (..)
 import Random exposing (Seed)
 import Set exposing (..)
@@ -37,10 +38,11 @@ collected state =
     (FinishedGame collected) -> collected
     (Guessing _ _ collected) -> collected
 
-initialState = (
-    Guessing ("", { word = "foo", image = "foo-image" }) 
-    [{ word = "foo", image = "" }, { word = "bar", image = "" }] 
-    Set.empty)
+initialState = 
+  case alternatives of
+    h::t -> (Guessing ("", h) t Set.empty)
+    _ -> FinishedGame Set.empty
+    
 
 updateCollected : Set Char -> Guess -> Set Char
 updateCollected set (guess, _) = List.foldr (\c a-> Set.insert c a) set (String.toList guess)
