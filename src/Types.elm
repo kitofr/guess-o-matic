@@ -5,12 +5,6 @@ import Random exposing (Seed)
 import Set exposing (..)
 import List exposing (..)
 
-type Action = 
-  AddChar String
-  | Reset
-  | Backspace
-  | NewWord
-
 type alias CollectedChars = Set Char
 type alias Question = { word: String, image: String }
 type alias Guess = (String, Question)
@@ -18,6 +12,12 @@ type alias WordList = List Question
 type GameState =
   FinishedGame CollectedChars 
   | Guessing Guess WordList CollectedChars
+
+type Action = 
+  AddChar String
+  | Reset
+  | Backspace
+  | NewWord GameState
 
 type alias Model = { 
   guess : Guess,
@@ -38,7 +38,7 @@ collected state =
     (Guessing _ _ collected) -> collected
 
 initialState = (
-    Guessing ("foo", { word = "foo", image = "foo-image" }) 
+    Guessing ("", { word = "foo", image = "foo-image" }) 
     [{ word = "foo", image = "" }, { word = "bar", image = "" }] 
     Set.empty)
 

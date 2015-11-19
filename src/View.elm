@@ -124,7 +124,7 @@ checkAnswer address {guess, seed, state} =
         (Guessing guess wordlist collected) ->
           if correct guess then
            [ h2 [A.style [( "color", "#49A")]] [text "Rätt svar!"]
-           , button [A.class "btn btn-success", onClick address NewWord]
+           , button [A.class "btn btn-success", onClick address (NewWord state')]
              [ span [A.class "glyphicon glyphicon-thumbs-up"] []]]
           else
             [div [] []]

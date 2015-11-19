@@ -26,37 +26,49 @@ main =
         , view = view
         , update = update }
 
-nextWord : Model -> Model
-nextWord model =
-  let (wordIndex, seed') = Random.generate (Random.int 0 ((List.length alternatives) - 1)) model.seed
-      rest = Maybe.withDefault [] (List.tail model.wordList)
-      collected = Debug.watch "collected" (addChars (View.currentAnswer model) model.collectedChars )
-      --_ = Debug.watch "wordList" (List.map (\c -> c.word) rest)
+nextWord : Model -> Types.GameState -> Model
+nextWord model state' =
+  let (_, seed') = Random.generate (Random.int 0 ((List.length alternatives) - 1)) model.seed
   in
-  { model | 
-      guess <- ""
-      , seed <- seed'
-      , wordList <- rest 
-      , collectedChars <- collected
-    }
-
-generateWords seed = 
-  alternatives
+      case state' of
+        (Types.FinishedGame collected) -> { guess = model.guess , seed = seed', state = state' }
+        (Types.Guessing g l collected) -> { guess = g, seed = seed', state = state' }
         
 init : Model
 init =
   let seed = Random.initialSeed 12345
   in
-  { guess = "" 
+  { guess = ("", { word = "APA", image = ""})
   , seed = seed
-  , wordList = generateWords seed
-  , collectedChars = Set.empty
+  , state = Types.initialState
   }
+
+addChar : String -> Model -> Model
+addChar ch {guess, seed, state} =
+  let (g, q) = guess
+      g' = (String.append g ch, q)
+  in
+      { guess = g', seed = seed, state = (Types.addGuess g' state) }
+
+backspace : Model -> Model
+backspace {guess, seed, state} =
+  let (g, q) = guess
+      g' = String.dropRight 1 g
+  in
+      { guess = (g', q), seed = seed, state = (Types.addGuess (g',q) state) }
 
 update : Action -> Model -> Model
 update action model =
   case action of
-    AddChar ch -> { model | guess <- model.guess ++ ch }
-    Reset -> { model | guess <- "" }
-    Backspace -> { model | guess <- String.dropRight 1 model.guess }
-    NewWord -> nextWord model
+    AddChar ch -> 
+      addChar ch model
+
+    Reset -> 
+      let (_,q) = model.guess
+      in
+      { model | guess <- ("", q) }
+
+    Backspace -> 
+      backspace model
+      
+    NewWord state -> nextWord model state
