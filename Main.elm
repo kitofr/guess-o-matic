@@ -29,6 +29,7 @@ main =
 nextWord : Model -> Types.GameState -> Model
 nextWord model state' =
   let (_, seed') = Random.generate (Random.int 0 ((List.length alternatives) - 1)) model.seed
+      _ = Debug.watch "nextWord.state: " state'
   in
       case state' of
         (Types.FinishedGame collected) -> { guess = model.guess , seed = seed', state = state' }

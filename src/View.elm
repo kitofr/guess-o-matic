@@ -115,19 +115,17 @@ collectedCharsAsCommaSeparatedString collected =
 
 checkAnswer : Signal.Address Action -> Model -> List Html
 checkAnswer address {guess, seed, state} =
-  let state' = Debug.watch "checkAnswer: " (addGuess guess state)
-  in 
-      case state' of
-        (FinishedGame collected) ->  
-          [ h2 [A.style [( "color", "#4A9")]] 
-          [text (String.append "Där va alla ord slut! Du har hittat: " (collectedCharsAsCommaSeparatedString collected))]]
-        (Guessing g wordlist collected) ->
-          if correct guess then
-           [ h2 [A.style [( "color", "#49A")]] [text "Rätt svar!"]
-           , button [A.class "btn btn-success", onClick address (NewWord state')]
-             [ span [A.class "glyphicon glyphicon-thumbs-up"] []]]
-          else
-            [div [] []]
+  case state of
+    (FinishedGame collected) ->  
+      [ h2 [A.style [( "color", "#4A9")]] 
+      [text (String.append "Där va alla ord slut! Du har hittat: " (collectedCharsAsCommaSeparatedString collected))]]
+    (Guessing g wordlist collected) ->
+      if correct guess then
+        [ h2 [A.style [( "color", "#49A")]] [text "Rätt svar!"]
+        , button [A.class "btn btn-success", onClick address (NewWord state)]
+        [ span [A.class "glyphicon glyphicon-thumbs-up"] []]]
+      else
+        [div [] []]
 
 view : Signal.Address Action -> Model -> Html
 view address model =
@@ -139,4 +137,3 @@ view address model =
     , letterButtons address model
     , success address model 
     ]
-
