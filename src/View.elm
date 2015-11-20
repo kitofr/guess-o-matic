@@ -14,7 +14,7 @@ row_ : List Html -> Html
 row_ = div [ A.class "row", rowDistance ]
 
 container_ : List Html -> Html
-container_ = div [ A.class "container" ]
+container_ = div [ A.class "container-fluid" ]
 
 stylesheet : String -> Html
 stylesheet href =
@@ -23,15 +23,20 @@ stylesheet href =
   , A.href href
   ] []
 
-buttonMargin = 
-  A.style [("margin-right", "5px")]
+buttonStyle = A.style [
+  ("margin-right", "10px")
+  ,("width", "80px")
+  ,("font-size", "20px") 
+  ,("padding", "10px")]
 
 rowDistance = 
   A.style [ ( "margin-bottom","10px"), ("margin-top", "25px") ]
 
 btnPrimary_ : String -> Signal.Address a -> a -> Html
 btnPrimary_  label addr x =
-  button [ A.class "btn btn-primary", buttonMargin, onClick addr x ]
+  button [ A.class "btn btn-primary"
+          , buttonStyle
+          , onClick addr x ]
   [ text label ]
 
 addButton address c =
@@ -60,10 +65,10 @@ hasMoreWords {guess, seed, state} =
 
 picture : Model -> Html
 picture {guess, seed, state} =
-  row_ [div [A.class "col-md-4"] 
+  row_ [div [A.class "col-md-6"] 
   [ img [ A.src (image guess)
-  , A.width 250
-  , A.height 250
+  , A.width 500
+  , A.height 500
   , A.style [("border","1px solid #AAA"), 
              ("border-radius", "25px"), 
              ("padding", "10px"),
@@ -73,8 +78,9 @@ picture {guess, seed, state} =
              ] ] [] ] ]
  
 controlButton adr action icon =
-  button [A.class "btn btn-warning", buttonMargin, onClick adr action ] 
-    [ span [A.class ("glyphicon " ++ icon)] [ ] ]
+  button [A.class "btn btn-warning", buttonStyle, onClick adr action ] 
+    [ span [A.class ("glyphicon " ++ icon)
+           ,buttonStyle] [ ] ]
  
 textControls address model =
   row_ [ div [A.class "col-md-4" ]
@@ -84,7 +90,7 @@ textControls address model =
 disabledButton ch =
   let t = String.fromChar ch
   in
-     button [ A.class "btn btn-disabled", buttonMargin ] [ text t ]
+     button [ A.class "btn btn-disabled", buttonStyle  ] [ text t ]
 
 paddUpTo lst n =
   if List.length lst < n then
@@ -125,7 +131,7 @@ checkAnswer address {guess, seed, state} =
     (Guessing g wordlist collected) ->
       if correct guess then
         [ h2 [A.style [( "color", "#49A")]] [text "Rätt svar!"]
-        , button [A.class "btn btn-success", onClick address (NewWord state)]
+        , button [A.class "btn btn-success", buttonStyle, onClick address (NewWord state)]
         [ span [A.class "glyphicon glyphicon-thumbs-up"] []]]
       else
         [div [] []]
