@@ -7,6 +7,7 @@ alternatives =
   , { word = "MUS", image = "http://www.malarbok.nu/images/collection/169/large.jpg" }
   , { word = "BIL", image = "http://wallpaperhdbase.com/wp-content/gallery/car-cartoon-images/cartoon-car_104107391.jpg" }
   , { word = "ELD", image = "http://4vector.com/i/free-vector-fire-icon-clip-art_117494_Fire_Icon_clip_art_medium.png" }
+  , { word = "YXA", image = "http://pre05.deviantart.net/70f7/th/pre/i/2011/063/3/7/axe_sketch_by_shanebrake-d3awhqm.jpg" }
   , { word = "DANS", image = "http://4vector.com/i/free-vector-dancer-clip-art_111608_Dancer_clip_art_medium.png" }
   , { word = "BOK", image = "http://4vector.com/i/free-vector-open-book-clip-art_111581_Open_Book_clip_art_medium.png" }
   , { word = "HUS", image = "http://www.featurepics.com/FI/Thumb300/20110927/Cartoon-House-2009748.jpg" }
