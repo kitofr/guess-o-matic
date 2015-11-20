@@ -64,10 +64,13 @@ picture {guess, seed, state} =
   [ img [ A.src (image guess)
   , A.width 250
   , A.height 250
-  , A.style [("border","7px solid #49A"), 
+  , A.style [("border","1px solid #AAA"), 
              ("border-radius", "25px"), 
              ("padding", "10px"),
-             ("background", "#8AC")] ] [] ] ]
+             ("-webkit-box-shadow", "0 10px 6px -6px #777"),
+             ("-moz-box-shadow", "0 10px 6px -6px #777"),
+             ("box-shadow", "0 10px 6px -6px #777")
+             ] ] [] ] ]
  
 controlButton adr action icon =
   button [A.class "btn btn-warning", buttonMargin, onClick adr action ] 
