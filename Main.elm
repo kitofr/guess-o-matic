@@ -63,8 +63,6 @@ backspace {guess, seed, state} =
 
 update : Action -> Model -> Model
 update action model =
-  let _ = Debug.watch "action" action
-  in
   case action of
     AddChar ch -> 
       addChar ch model
