@@ -136,11 +136,18 @@ checkAnswer address {guess, seed, state} =
       else
         [div [] []]
 
+progress : Model -> Html
+progress {guess, seed, state} =
+  let n = wordList state |> List.length 
+  in
+      row_ [h2 [A.class "col-md-12" ] [text ("Du har " ++ (toString n) ++ " ord kvar!")]]
+
 view : Signal.Address Action -> Model -> Html
 view address model =
   container_
   [ stylesheet "https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css"
     , picture model
+    , progress model
     , textControls address model
     , showGuess model
     , letterButtons address model
