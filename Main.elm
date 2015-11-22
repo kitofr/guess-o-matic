@@ -14,11 +14,10 @@ import Data exposing (..)
 TODO 
   - Styling
   - Random chars in guess
-  - Deploy to heroku
   - Sounds
-  - Indicate how many letters (use _?)
   - indicate overextending
-  - Show unique chars colleted
+  - add cheets (3 sec show next letter etc)
+  - show progress
 --}
 
 main =
