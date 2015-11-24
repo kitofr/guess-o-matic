@@ -2,7 +2,6 @@ module View where
 import Html exposing (..)
 import Html.Attributes as A
 import Html.Events exposing (onClick)
-import Html.Shorthand exposing (..)
 import String exposing (..)
 import Set exposing (..)
 import Types exposing (..)
@@ -50,13 +49,13 @@ image (_,question) =
   question.image
 
 currentAnswer : Model -> String
-currentAnswer {guess, seed, state} =
+currentAnswer {guess, state} =
   let (_,question) = guess
   in
       word question
 
 hasMoreWords : Model -> Bool
-hasMoreWords {guess, seed, state} =
+hasMoreWords {guess, state} =
   let lst = wordList state
   in
       case lst of
@@ -64,7 +63,7 @@ hasMoreWords {guess, seed, state} =
         otherwise -> True
 
 picture : Model -> Html
-picture {guess, seed, state} =
+picture {guess, state} =
   row_ [div [A.class "col-md-6"] 
   [ img [ A.src (image guess)
   , A.width 500
@@ -102,7 +101,7 @@ answer : Guess -> String
 answer (_, question) = (word question)
 
 showGuess : Model -> Html
-showGuess {guess, seed, state} =
+showGuess {guess, state} =
   let answer' = Debug.watch "answer" (String.toList (answer guess)) 
       paddTo = (List.length answer')
       paddedGuess = Debug.watch "guess" (paddUpTo (String.toList (fst guess)) paddTo )
@@ -123,21 +122,25 @@ collectedCharsAsCommaSeparatedString collected =
   (String.join "," (List.map String.fromChar (Set.toList collected)))
 
 checkAnswer : Signal.Address Action -> Model -> List Html
-checkAnswer address {guess, seed, state} =
+checkAnswer address {guess, state} =
   case state of
-    (FinishedGame collected) ->  
-      [ h2 [A.style [( "color", "#4A9")]] 
-      [text (String.append "Där va alla ord slut! Du har hittat: " (collectedCharsAsCommaSeparatedString collected))]]
-    (Guessing g wordlist collected) ->
+    (FinishedGame collected score) ->  
+      [section [] 
+          [h2 [A.style [( "color", "#4A9")]] 
+            [text ("Där va alla ord slut! " ++ (collectedCharsAsCommaSeparatedString collected))]]
+          ,h2 [A.style [( "color", "#A49")]] 
+            [text ("Du fick ihop " ++ (toString score) ++ " poäng!")]]
+    (Guessing g wordlist collected score) ->
       if correct guess then
-        [ h2 [A.style [( "color", "#49A")]] [text "Rätt svar!"]
+        [ h2 [A.style [( "color", "#49A")]] [text 
+          ("Rätt svar! Du har nu: " ++ (toString score) ++ " poäng")]
         , button [A.class "btn btn-success", buttonStyle, onClick address (NewWord state)]
         [ span [A.class "glyphicon glyphicon-thumbs-up"] []]]
       else
         [div [] []]
 
 progress : Model -> Html
-progress {guess, seed, state} =
+progress {guess, state} =
   let n = wordList state |> List.length 
   in
       row_ [h2 [A.class "col-md-12" ] [text ("Du har " ++ (toString n) ++ " ord kvar!")]]
