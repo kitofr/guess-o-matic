@@ -11179,10 +11179,12 @@ Elm.View.make = function (_elm) {
       _U.list([$Html$Attributes.$class("btn btn-warning"),buttonStyle,A2($Html$Events.onClick,adr,action)]),
       _U.list([A2($Html.span,_U.list([$Html$Attributes.$class(A2($Basics._op["++"],"glyphicon ",icon)),buttonStyle]),_U.list([]))]));
    });
-   var disabledButton = function (ch) {
+   var disabledButton = F2(function (address,ch) {
       var t = $String.fromChar(ch);
-      return A2($Html.button,_U.list([$Html$Attributes.$class("btn btn-disabled"),buttonStyle]),_U.list([$Html.text(t)]));
-   };
+      return A2($Html.button,
+      _U.list([$Html$Attributes.$class("btn btn-disabled"),buttonStyle,A2($Html$Events.onClick,address,$Types.Backspace)]),
+      _U.list([$Html.text(t)]));
+   });
    var checkAnswer = F2(function (address,_p10) {
       var _p11 = _p10;
       var _p13 = _p11.state;
@@ -11235,14 +11237,14 @@ Elm.View.make = function (_elm) {
       _U.list([$Html$Attributes.$class("col-md-4")]),
       _U.list([A3(controlButton,address,$Types.Reset,"glyphicon-refresh"),A3(controlButton,address,$Types.Backspace,"glyphicon-erase")]))]));
    });
-   var showGuess = function (_p16) {
+   var showGuess = F2(function (address,_p16) {
       var _p17 = _p16;
       var _p18 = _p17.guess;
       var answer$ = A2($Debug.watch,"answer",$String.toList(answer(_p18)));
       var paddTo = $List.length(answer$);
       var paddedGuess = A2($Debug.watch,"guess",A2(paddUpTo,$String.toList($Basics.fst(_p18)),paddTo));
-      return row_(_U.list([A2($Html.div,_U.list([$Html$Attributes.$class("col-md-4")]),A2($List.map,disabledButton,paddedGuess))]));
-   };
+      return row_(_U.list([A2($Html.div,_U.list([$Html$Attributes.$class("col-md-4")]),A2($List.map,disabledButton(address),paddedGuess))]));
+   });
    var letterButtons = F2(function (address,model) {
       return row_(_U.list([A2($Html.div,_U.list([$Html$Attributes.$class("col-md-4")]),A2(addButtons,address,currentAnswer(model)))]));
    });
@@ -11261,7 +11263,7 @@ Elm.View.make = function (_elm) {
                                 ,picture(model)
                                 ,progress(model)
                                 ,A2(textControls,address,model)
-                                ,showGuess(model)
+                                ,A2(showGuess,address,model)
                                 ,A2(letterButtons,address,model)
                                 ,A2(success,address,model)]));
    });

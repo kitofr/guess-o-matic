@@ -16,12 +16,15 @@ import Data exposing (..)
 
 {--
 TODO 
-  - Sounds
   - indicate overextending
   - Styling
   - Random chars in guess
   - add cheets (3 sec show next letter etc)
   - more sounds http://soundbible.com/free-sound-effects-1.html
+  - Stars as points!
+  - Sounds under the letters
+  - Play word initially
+  - click on played letter to remove
 --}
 
 app =

@@ -86,10 +86,10 @@ textControls address model =
       [ controlButton address Reset "glyphicon-refresh"
       , controlButton address Backspace "glyphicon-erase"]]
  
-disabledButton ch =
+disabledButton address ch =
   let t = String.fromChar ch
   in
-     button [ A.class "btn btn-disabled", buttonStyle  ] [ text t ]
+     button [ A.class "btn btn-disabled", buttonStyle, onClick address Backspace  ] [ text t ]
 
 paddUpTo lst n =
   if List.length lst < n then
@@ -100,14 +100,14 @@ paddUpTo lst n =
 answer : Guess -> String
 answer (_, question) = (word question)
 
-showGuess : Model -> Html
-showGuess {guess, state} =
+showGuess : Signal.Address Action -> Model -> Html
+showGuess address {guess, state} =
   let answer' = Debug.watch "answer" (String.toList (answer guess)) 
       paddTo = (List.length answer')
       paddedGuess = Debug.watch "guess" (paddUpTo (String.toList (fst guess)) paddTo )
   in
   row_ [ div [A.class "col-md-4"] 
-           (List.map disabledButton paddedGuess) ]
+           (List.map (disabledButton address) paddedGuess) ]
 
 letterButtons : Signal.Address Action -> Model -> Html
 letterButtons address model =
@@ -152,7 +152,7 @@ view address model =
     , picture model
     , progress model
     , textControls address model
-    , showGuess model
+    , showGuess address model
     , letterButtons address model
     , success address model 
     ]
