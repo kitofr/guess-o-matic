@@ -8,6 +8,7 @@ import List exposing (..)
 import Random exposing (..)
 import Maybe exposing (..)
 import Debug exposing (..)
+import Html exposing (..)
 import View exposing (view)
 import Types exposing (..)
 import Seq exposing (..)
@@ -15,12 +16,11 @@ import Data exposing (..)
 
 {--
 TODO 
-  - Styling
-  - Random chars in guess
   - Sounds
   - indicate overextending
+  - Styling
+  - Random chars in guess
   - add cheets (3 sec show next letter etc)
-  - show progress
 --}
 
 app =
@@ -37,6 +37,9 @@ main =
 port tasks :Signal (Task Never ())
 port tasks =
   app.tasks
+
+port stateChanges : Signal String
+port stateChanges = Signal.map (\m -> fst m.guess) app.model
 
 nextWord : Model -> GameState -> Model
 nextWord model state' =
