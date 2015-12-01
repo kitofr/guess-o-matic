@@ -1,0 +1,22 @@
+Elm.Seq = Elm.Seq || {};
+Elm.Seq.make = function (_elm) {
+   "use strict";
+   _elm.Seq = _elm.Seq || {};
+   if (_elm.Seq.values) return _elm.Seq.values;
+   var _U = Elm.Native.Utils.make(_elm),
+   $Basics = Elm.Basics.make(_elm),
+   $Debug = Elm.Debug.make(_elm),
+   $List = Elm.List.make(_elm),
+   $Maybe = Elm.Maybe.make(_elm),
+   $Result = Elm.Result.make(_elm),
+   $Set = Elm.Set.make(_elm),
+   $Signal = Elm.Signal.make(_elm),
+   $String = Elm.String.make(_elm);
+   var _op = {};
+   var addChars = F2(function (word,set) {    return A3($List.foldr,F2(function (c,a) {    return A2($Set.insert,c,a);}),set,$String.toList(word));});
+   var uniqueChars = function (string) {
+      return $Set.toList(A3($List.foldr,F2(function (c,a) {    return A2($Set.insert,c,a);}),$Set.empty,$List.sort($String.toList($String.toUpper(string)))));
+   };
+   var nth = F3(function (n,lst,def) {    return A2($Maybe.withDefault,def,$List.head(A2($List.drop,n,lst)));});
+   return _elm.Seq.values = {_op: _op,nth: nth,uniqueChars: uniqueChars,addChars: addChars};
+};

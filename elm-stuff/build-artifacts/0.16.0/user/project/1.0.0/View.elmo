@@ -1,0 +1,171 @@
+Elm.View = Elm.View || {};
+Elm.View.make = function (_elm) {
+   "use strict";
+   _elm.View = _elm.View || {};
+   if (_elm.View.values) return _elm.View.values;
+   var _U = Elm.Native.Utils.make(_elm),
+   $Basics = Elm.Basics.make(_elm),
+   $Debug = Elm.Debug.make(_elm),
+   $Html = Elm.Html.make(_elm),
+   $Html$Attributes = Elm.Html.Attributes.make(_elm),
+   $Html$Events = Elm.Html.Events.make(_elm),
+   $List = Elm.List.make(_elm),
+   $Maybe = Elm.Maybe.make(_elm),
+   $Result = Elm.Result.make(_elm),
+   $Seq = Elm.Seq.make(_elm),
+   $Set = Elm.Set.make(_elm),
+   $Signal = Elm.Signal.make(_elm),
+   $String = Elm.String.make(_elm),
+   $Types = Elm.Types.make(_elm);
+   var _op = {};
+   var collectedCharsAsCommaSeparatedString = function (collected) {    return A2($String.join,",",A2($List.map,$String.fromChar,$Set.toList(collected)));};
+   var answer = function (_p0) {    var _p1 = _p0;return $Types.word(_p1._1);};
+   var paddUpTo = F2(function (lst,n) {
+      paddUpTo: while (true) if (_U.cmp($List.length(lst),n) < 0) {
+            var _v1 = A2($List.append,lst,_U.list([_U.chr("_")])),_v2 = n;
+            lst = _v1;
+            n = _v2;
+            continue paddUpTo;
+         } else return lst;
+   });
+   var hasMoreWords = function (_p2) {
+      var _p3 = _p2;
+      var lst = $Types.wordList(_p3.state);
+      var _p4 = lst;
+      if (_p4.ctor === "[]") {
+            return false;
+         } else {
+            return true;
+         }
+   };
+   var currentAnswer = function (_p5) {    var _p6 = _p5;var _p7 = _p6.guess;var question = _p7._1;return $Types.word(question);};
+   var image = function (_p8) {    var _p9 = _p8;return _p9._1.image;};
+   var rowDistance = $Html$Attributes.style(_U.list([{ctor: "_Tuple2",_0: "margin-bottom",_1: "10px"},{ctor: "_Tuple2",_0: "margin-top",_1: "25px"}]));
+   var buttonStyle = $Html$Attributes.style(_U.list([{ctor: "_Tuple2",_0: "margin-right",_1: "10px"}
+                                                    ,{ctor: "_Tuple2",_0: "width",_1: "80px"}
+                                                    ,{ctor: "_Tuple2",_0: "font-size",_1: "20px"}
+                                                    ,{ctor: "_Tuple2",_0: "padding",_1: "10px"}]));
+   var btnPrimary_ = F3(function (label,addr,x) {
+      return A2($Html.button,_U.list([$Html$Attributes.$class("btn btn-primary"),buttonStyle,A2($Html$Events.onClick,addr,x)]),_U.list([$Html.text(label)]));
+   });
+   var addButton = F2(function (address,c) {    return A3(btnPrimary_,c,address,$Types.AddChar(c));});
+   var addButtons = F2(function (address,answer) {
+      return A2($List.map,function (c) {    return A2(addButton,address,$String.fromChar(c));},$Seq.uniqueChars(answer));
+   });
+   var controlButton = F3(function (adr,action,icon) {
+      return A2($Html.button,
+      _U.list([$Html$Attributes.$class("btn btn-warning"),buttonStyle,A2($Html$Events.onClick,adr,action)]),
+      _U.list([A2($Html.span,_U.list([$Html$Attributes.$class(A2($Basics._op["++"],"glyphicon ",icon)),buttonStyle]),_U.list([]))]));
+   });
+   var disabledButton = function (ch) {
+      var t = $String.fromChar(ch);
+      return A2($Html.button,_U.list([$Html$Attributes.$class("btn btn-disabled"),buttonStyle]),_U.list([$Html.text(t)]));
+   };
+   var checkAnswer = F2(function (address,_p10) {
+      var _p11 = _p10;
+      var _p13 = _p11.state;
+      var _p12 = _p13;
+      if (_p12.ctor === "FinishedGame") {
+            return _U.list([A2($Html.section,
+                           _U.list([]),
+                           _U.list([A2($Html.h2,
+                           _U.list([$Html$Attributes.style(_U.list([{ctor: "_Tuple2",_0: "color",_1: "#4A9"}]))]),
+                           _U.list([$Html.text(A2($Basics._op["++"],"Där va alla ord slut! ",collectedCharsAsCommaSeparatedString(_p12._0)))]))]))
+                           ,A2($Html.h2,
+                           _U.list([$Html$Attributes.style(_U.list([{ctor: "_Tuple2",_0: "color",_1: "#A49"}]))]),
+                           _U.list([$Html.text(A2($Basics._op["++"],"Du fick ihop ",A2($Basics._op["++"],$Basics.toString(_p12._1)," poäng!")))]))]);
+         } else {
+            return $Types.correct(_p11.guess) ? _U.list([A2($Html.h2,
+                                                        _U.list([$Html$Attributes.style(_U.list([{ctor: "_Tuple2",_0: "color",_1: "#49A"}]))]),
+                                                        _U.list([$Html.text(A2($Basics._op["++"],
+                                                        "Rätt svar! Du har nu: ",
+                                                        A2($Basics._op["++"],$Basics.toString(_p12._3)," poäng")))]))
+                                                        ,A2($Html.button,
+                                                        _U.list([$Html$Attributes.$class("btn btn-success")
+                                                                ,buttonStyle
+                                                                ,A2($Html$Events.onClick,address,$Types.NewWord(_p13))]),
+                                                        _U.list([A2($Html.span,
+                                                        _U.list([$Html$Attributes.$class("glyphicon glyphicon-thumbs-up")]),
+                                                        _U.list([]))]))]) : _U.list([A2($Html.div,_U.list([]),_U.list([]))]);
+         }
+   });
+   var stylesheet = function (href) {    return A3($Html.node,"link",_U.list([$Html$Attributes.rel("stylesheet"),$Html$Attributes.href(href)]),_U.list([]));};
+   var container_ = $Html.div(_U.list([$Html$Attributes.$class("container-fluid")]));
+   var row_ = $Html.div(_U.list([$Html$Attributes.$class("row"),rowDistance]));
+   var picture = function (_p14) {
+      var _p15 = _p14;
+      return row_(_U.list([A2($Html.div,
+      _U.list([$Html$Attributes.$class("col-md-6")]),
+      _U.list([A2($Html.img,
+      _U.list([$Html$Attributes.src(image(_p15.guess))
+              ,$Html$Attributes.width(300)
+              ,$Html$Attributes.height(300)
+              ,$Html$Attributes.style(_U.list([{ctor: "_Tuple2",_0: "border",_1: "1px solid #AAA"}
+                                              ,{ctor: "_Tuple2",_0: "border-radius",_1: "25px"}
+                                              ,{ctor: "_Tuple2",_0: "padding",_1: "10px"}
+                                              ,{ctor: "_Tuple2",_0: "-webkit-box-shadow",_1: "0 10px 6px -6px #777"}
+                                              ,{ctor: "_Tuple2",_0: "-moz-box-shadow",_1: "0 10px 6px -6px #777"}
+                                              ,{ctor: "_Tuple2",_0: "box-shadow",_1: "0 10px 6px -6px #777"}]))]),
+      _U.list([]))]))]));
+   };
+   var textControls = F2(function (address,model) {
+      return row_(_U.list([A2($Html.div,
+      _U.list([$Html$Attributes.$class("col-md-4")]),
+      _U.list([A3(controlButton,address,$Types.Reset,"glyphicon-refresh"),A3(controlButton,address,$Types.Backspace,"glyphicon-erase")]))]));
+   });
+   var showGuess = function (_p16) {
+      var _p17 = _p16;
+      var _p18 = _p17.guess;
+      var answer$ = A2($Debug.watch,"answer",$String.toList(answer(_p18)));
+      var paddTo = $List.length(answer$);
+      var paddedGuess = A2($Debug.watch,"guess",A2(paddUpTo,$String.toList($Basics.fst(_p18)),paddTo));
+      return row_(_U.list([A2($Html.div,_U.list([$Html$Attributes.$class("col-md-4")]),A2($List.map,disabledButton,paddedGuess))]));
+   };
+   var letterButtons = F2(function (address,model) {
+      return row_(_U.list([A2($Html.div,_U.list([$Html$Attributes.$class("col-md-4")]),A2(addButtons,address,currentAnswer(model)))]));
+   });
+   var success = F2(function (address,model) {
+      return row_(_U.list([A2($Html.div,_U.list([$Html$Attributes.$class("col-md-4")]),A2(checkAnswer,address,model))]));
+   });
+   var progress = function (_p19) {
+      var _p20 = _p19;
+      var n = $List.length($Types.wordList(_p20.state));
+      return row_(_U.list([A2($Html.h2,
+      _U.list([$Html$Attributes.$class("col-md-12")]),
+      _U.list([$Html.text(A2($Basics._op["++"],"Du har ",A2($Basics._op["++"],$Basics.toString(n)," ord kvar!")))]))]));
+   };
+   var view = F2(function (address,model) {
+      return container_(_U.list([stylesheet("https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css")
+                                ,picture(model)
+                                ,progress(model)
+                                ,A2(textControls,address,model)
+                                ,showGuess(model)
+                                ,A2(letterButtons,address,model)
+                                ,A2(success,address,model)]));
+   });
+   return _elm.View.values = {_op: _op
+                             ,row_: row_
+                             ,container_: container_
+                             ,stylesheet: stylesheet
+                             ,buttonStyle: buttonStyle
+                             ,rowDistance: rowDistance
+                             ,btnPrimary_: btnPrimary_
+                             ,addButton: addButton
+                             ,addButtons: addButtons
+                             ,image: image
+                             ,currentAnswer: currentAnswer
+                             ,hasMoreWords: hasMoreWords
+                             ,picture: picture
+                             ,controlButton: controlButton
+                             ,textControls: textControls
+                             ,disabledButton: disabledButton
+                             ,paddUpTo: paddUpTo
+                             ,answer: answer
+                             ,showGuess: showGuess
+                             ,letterButtons: letterButtons
+                             ,success: success
+                             ,collectedCharsAsCommaSeparatedString: collectedCharsAsCommaSeparatedString
+                             ,checkAnswer: checkAnswer
+                             ,progress: progress
+                             ,view: view};
+};
