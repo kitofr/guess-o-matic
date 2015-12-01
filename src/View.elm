@@ -66,8 +66,8 @@ picture : Model -> Html
 picture {guess, state} =
   row_ [div [A.class "col-md-6"] 
   [ img [ A.src (image guess)
-  , A.width 500
-  , A.height 500
+  , A.width 300
+  , A.height 300
   , A.style [("border","1px solid #AAA"), 
              ("border-radius", "25px"), 
              ("padding", "10px"),
