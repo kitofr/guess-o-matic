@@ -38,8 +38,11 @@ port tasks :Signal (Task Never ())
 port tasks =
   app.tasks
 
-port stateChanges : Signal String
-port stateChanges = Signal.map (\m -> fst m.guess) app.model
+port guessChanges : Signal String
+port guessChanges = Signal.map (\m -> fst m.guess) app.model
+
+port correct : Signal Bool
+port correct = Signal.map (\m -> Types.correct m.guess) app.model
 
 nextWord : Model -> GameState -> Model
 nextWord model state' =
