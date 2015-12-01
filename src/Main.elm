@@ -21,6 +21,7 @@ TODO
   - Styling
   - Random chars in guess
   - add cheets (3 sec show next letter etc)
+  - more sounds http://soundbible.com/free-sound-effects-1.html
 --}
 
 app =
