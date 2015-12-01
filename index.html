@@ -30,7 +30,9 @@
     console.log(isCorrect);
     if(!isCorrect)
       return;
-    playSound('tada');
+    window.setTimeout(function(){
+      playSound('tada');
+    }, 500);
   });
 
 </script>
