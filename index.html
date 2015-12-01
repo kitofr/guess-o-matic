@@ -9,11 +9,10 @@
 
 <body>
   <div id="elm-app-lives-here"></div>
-</body>
 
 <script type="text/javascript">
   var elmDiv = document.getElementById('elm-app-lives-here');
-  var elmApp = Elm.embed(Elm.Thumbs, elmDiv);
+  var elmApp = Elm.embed(Elm.Main, elmDiv);
 
   var playSound = function(what){
     var snd = new Audio("./sounds/" + what + ".mp3");
@@ -36,4 +35,5 @@
 
 </script>
 
+</body>
 </html>
