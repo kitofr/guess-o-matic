@@ -19,10 +19,26 @@
     snd.play();
   };
 
+  var fix_swedish = function(ch) {
+    var ret = ch;
+    switch(ch) {
+      case 'å': 
+        ret = "aa";
+        break;
+      case 'ä':
+        ret = "ae";
+        break;
+      case 'ö':
+        ret = "oe";
+        break;
+    }
+    return ret;
+  };
   elmApp.ports.guessChanges.subscribe(function(guess) {
-    console.log(guess);
     var ch = guess.slice(-1).toLowerCase();
-    playSound(ch);
+    console.log(guess);
+    if(ch)
+      playSound(fix_swedish(ch));
   });
 
   elmApp.ports.correct.subscribe(function(isCorrect) {
