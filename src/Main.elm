@@ -1,4 +1,7 @@
-import StartApp.Simple exposing (start)
+import StartApp 
+import Effects exposing (Effects, Never)
+import Task exposing (Task)
+import Html exposing (..)
 import String exposing (..)
 import Set exposing (..)
 import List exposing (..)
@@ -20,10 +23,20 @@ TODO
   - show progress
 --}
 
+app =
+  StartApp.start { init = init 
+                  , view = view
+                  , update = update 
+                  , inputs = []
+                  }
+
+main : Signal Html
 main =
-  start { model = init 
-        , view = view
-        , update = update }
+  app.html
+
+port tasks :Signal (Task Never ())
+port tasks =
+  app.tasks
 
 nextWord : Model -> GameState -> Model
 nextWord model state' =
@@ -31,12 +44,12 @@ nextWord model state' =
     (FinishedGame collected score) -> { guess = model.guess , state = state' }
     (Guessing g l collected score) -> { guess = g, state = state' }
         
-init : Model
+init : (Model, Effects Action)
 init =
   let state' = Types.initialState
       guess' = Types.createGuess "" state'
   in
-    { guess = guess', state = state' }
+    ({ guess = guess', state = state' }, Effects.none)
 
 addChar : String -> Model -> Model
 addChar ch {guess, state} =
@@ -52,18 +65,19 @@ backspace {guess, state} =
   in
       { guess = (g', q), state = (Types.addGuess (g',q) state) }
 
-update : Action -> Model -> Model
+update : Action -> Model -> (Model, Effects Action)
 update action model =
   case action of
     AddChar ch -> 
-      addChar ch model
+      (addChar ch model, Effects.none)
 
     Reset -> 
       let (_,q) = model.guess
       in
-      { model | guess = ("", q) }
+      ({ model | guess = ("", q) }, Effects.none)
 
     Backspace -> 
-      backspace model
+      (backspace model, Effects.none)
       
-    NewWord state -> nextWord model state
+    NewWord state -> 
+      (nextWord model state, Effects.none)
