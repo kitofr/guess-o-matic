@@ -31,18 +31,24 @@ buttonStyle = A.style [
 rowDistance = 
   A.style [ ( "margin-bottom","10px"), ("margin-top", "25px") ]
 
-btnPrimary_ : String -> Signal.Address a -> a -> Html
-btnPrimary_  label addr x =
-  button [ A.class "btn btn-primary"
-          , buttonStyle
-          , onClick addr x ]
-  [ text label ]
+btn addr action classes what =
+  button [ classes, buttonStyle ,onClick addr action ]
+          what
 
-addButton address c =
-  btnPrimary_ c address (AddChar c) 
+primaryBtn label addr action =
+  btn addr action (A.class "btn btn-primary") [text label]
 
-addButtons address answer =
-  List.map (\c -> addButton address (String.fromChar c)) (uniqueChars answer)
+charButton address c action =
+  primaryBtn c address (action c) 
+
+addButtons address answer action =
+  List.map (\c -> charButton address (String.fromChar c) action) (uniqueChars answer)
+
+iconButton addr action =
+  btn addr action (A.class "btn glyphicon glyphicon-volume-up") []
+
+addIconButtons address answer action =
+  List.map (\c -> iconButton address (action (String.fromChar c))) (uniqueChars answer)
 
 image : Guess -> String
 image (_,question) = 
@@ -77,9 +83,9 @@ picture {guess, state} =
              ] ] [] ] ]
  
 controlButton adr action icon =
-  button [A.class "btn btn-warning", buttonStyle, onClick adr action ] 
-    [ span [A.class ("glyphicon " ++ icon)
-           ,buttonStyle] [ ] ]
+  button [A.class ("btn btn-warning glyphicon " ++ icon),
+          buttonStyle, 
+          onClick adr action ] []
  
 textControls address model =
   row_ [ div [A.class "col-md-4" ]
@@ -111,7 +117,11 @@ showGuess address {guess, state} =
 
 letterButtons : Signal.Address Action -> Model -> Html
 letterButtons address model =
-  row_ [ div [A.class "col-md-4"] (addButtons address (currentAnswer model))]
+  row_ [ div [A.class "col-md-4"] (addButtons address (currentAnswer model) AddChar)]
+
+soundButtons : Signal.Address Action -> Model -> Html
+soundButtons address model =
+  row_ [ div [A.class "col-md-4"] (addIconButtons address (currentAnswer model) PlayChar)]
 
 success : Signal.Address Action -> Model -> Html
 success address model =
@@ -145,8 +155,8 @@ progress {guess, state} =
   in
       row_ [h2 [A.class "col-md-12" ] [text ("Du har " ++ (toString n) ++ " ord kvar!")]]
 
-view : Signal.Address Action -> Model -> Html
-view address model =
+view : Signal.Address Action -> Signal.Address Action -> Model -> Html
+view charBoxAddress address model =
   container_
   [ stylesheet "https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css"
     , picture model
@@ -154,5 +164,6 @@ view address model =
     , textControls address model
     , showGuess address model
     , letterButtons address model
+    , soundButtons charBoxAddress model
     , success address model 
     ]

@@ -1,5 +1,7 @@
 -- http://4vector.com/free-vectors/car
 module Data where
+
+
 alternatives = 
   [ { word = "IS", image = "http://4vector.com/i/free-vector-ice-cube-clip-art_113098_Ice_Cube_clip_art_medium.png" }
   , { word = "KO", image = "http://ian.umces.edu/imagelibrary/albums/userpics/12789/normal_ian-symbol-bos-primigenius-cow-1.png" }
@@ -36,6 +38,7 @@ alternatives =
   , { word = "CIRKUS", image = "http://4vector.com/i/free-vector-circus-tent-clip-art_110158_Circus_Tent_clip_art_medium.png" }
   , { word = "JORDGUBBE", image = "http://4vector.com/i/free-vector-outline-strawberry-clip-art_112728_Outline_Strawberry_clip_art_medium.png" }
   ]
+
 
 defaultAlternative =
   { word = "NOT FOUND", image = "http://www.404notfound.fr/assets/images/pages/img/androiddev101.jpg" }

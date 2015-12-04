@@ -34,9 +34,9 @@
     }
     return ret;
   };
-  elmApp.ports.guessChanges.subscribe(function(guess) {
-    var ch = guess.slice(-1).toLowerCase();
-    console.log(guess);
+
+  elmApp.ports.playChar.subscribe(function(ch) {
+    console.log("Playing: " + ch);
     if(ch)
       playSound(fix_swedish(ch));
   });

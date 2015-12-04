@@ -1,8 +1,8 @@
-Elm.Main = Elm.Main || {};
-Elm.Main.make = function (_elm) {
+Elm.Mail = Elm.Mail || {};
+Elm.Mail.make = function (_elm) {
    "use strict";
-   _elm.Main = _elm.Main || {};
-   if (_elm.Main.values) return _elm.Main.values;
+   _elm.Mail = _elm.Mail || {};
+   if (_elm.Mail.values) return _elm.Mail.values;
    var _U = Elm.Native.Utils.make(_elm),
    $Basics = Elm.Basics.make(_elm),
    $Debug = Elm.Debug.make(_elm),
@@ -55,22 +55,20 @@ Elm.Main.make = function (_elm) {
            var q = _p8._1;
            return {ctor: "_Tuple2",_0: _U.update(model,{guess: {ctor: "_Tuple2",_0: "",_1: q}}),_1: $Effects.none};
          case "Backspace": return {ctor: "_Tuple2",_0: backspace(model),_1: $Effects.none};
-         case "NewWord": return {ctor: "_Tuple2",_0: A2(nextWord,model,_p7._0),_1: $Effects.none};
-         default: return {ctor: "_Tuple2",_0: model,_1: $Effects.none};}
+         default: return {ctor: "_Tuple2",_0: A2(nextWord,model,_p7._0),_1: $Effects.none};}
    });
-   var charBox = $Signal.mailbox($Types.PlayChar(""));
-   var playChar = Elm.Native.Port.make(_elm).outboundSignal("playChar",
+   var app = $StartApp.start({init: init,view: $View.view,update: update,inputs: _U.list([])});
+   var main = app.html;
+   var tasks = Elm.Native.Task.make(_elm).performSignal("tasks",app.tasks);
+   var guessChanges = Elm.Native.Port.make(_elm).outboundSignal("guessChanges",
    function (v) {
       return v;
    },
-   A2($Signal.map,function (x) {    var _p9 = x;if (_p9.ctor === "PlayChar") {    return _p9._0;} else {    return "";}},charBox.signal));
-   var app = $StartApp.start({init: init,view: $View.view(charBox.address),update: update,inputs: _U.list([])});
-   var main = app.html;
-   var tasks = Elm.Native.Task.make(_elm).performSignal("tasks",app.tasks);
+   A2($Signal.map,function (m) {    return $Basics.fst(m.guess);},app.model));
    var correct = Elm.Native.Port.make(_elm).outboundSignal("correct",
    function (v) {
       return v;
    },
    A2($Signal.map,function (m) {    return $Types.correct(m.guess);},app.model));
-   return _elm.Main.values = {_op: _op,app: app,main: main,charBox: charBox,nextWord: nextWord,init: init,addChar: addChar,backspace: backspace,update: update};
+   return _elm.Mail.values = {_op: _op,app: app,main: main,nextWord: nextWord,init: init,addChar: addChar,backspace: backspace,update: update};
 };

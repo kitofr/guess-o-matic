@@ -37,6 +37,7 @@ Elm.Types.make = function (_elm) {
    var NewWord = function (a) {    return {ctor: "NewWord",_0: a};};
    var Backspace = {ctor: "Backspace"};
    var Reset = {ctor: "Reset"};
+   var PlayChar = function (a) {    return {ctor: "PlayChar",_0: a};};
    var AddChar = function (a) {    return {ctor: "AddChar",_0: a};};
    var Guessing = F4(function (a,b,c,d) {    return {ctor: "Guessing",_0: a,_1: b,_2: c,_3: d};});
    var FinishedGame = F2(function (a,b) {    return {ctor: "FinishedGame",_0: a,_1: b};});
@@ -68,6 +69,7 @@ Elm.Types.make = function (_elm) {
                               ,FinishedGame: FinishedGame
                               ,Guessing: Guessing
                               ,AddChar: AddChar
+                              ,PlayChar: PlayChar
                               ,Reset: Reset
                               ,Backspace: Backspace
                               ,NewWord: NewWord

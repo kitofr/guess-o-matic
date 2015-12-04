@@ -16,6 +16,7 @@ type GameState =
 
 type Action = 
   AddChar String
+  | PlayChar String
   | Reset
   | Backspace
   | NewWord GameState

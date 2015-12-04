@@ -29,7 +29,7 @@ TODO
 
 app =
   StartApp.start { init = init 
-                  , view = view
+                  , view = (view charBox.address)
                   , update = update 
                   , inputs = []
                   }
@@ -42,8 +42,18 @@ port tasks :Signal (Task Never ())
 port tasks =
   app.tasks
 
-port guessChanges : Signal String
-port guessChanges = Signal.map (\m -> fst m.guess) app.model
+
+charBox : Signal.Mailbox Action
+charBox =
+  Signal.mailbox (PlayChar "")
+
+port playChar : Signal String
+port playChar = 
+  Signal.map 
+    (\x -> case x of
+      (PlayChar ch) -> ch
+      otherwise -> "") 
+  charBox.signal 
 
 port correct : Signal Bool
 port correct = Signal.map (\m -> Types.correct m.guess) app.model
@@ -91,3 +101,6 @@ update action model =
       
     NewWord state -> 
       (nextWord model state, Effects.none)
+
+    PlayChar ch -> (model, Effects.none)
+      

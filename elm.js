@@ -11051,6 +11051,7 @@ Elm.Types.make = function (_elm) {
    var NewWord = function (a) {    return {ctor: "NewWord",_0: a};};
    var Backspace = {ctor: "Backspace"};
    var Reset = {ctor: "Reset"};
+   var PlayChar = function (a) {    return {ctor: "PlayChar",_0: a};};
    var AddChar = function (a) {    return {ctor: "AddChar",_0: a};};
    var Guessing = F4(function (a,b,c,d) {    return {ctor: "Guessing",_0: a,_1: b,_2: c,_3: d};});
    var FinishedGame = F2(function (a,b) {    return {ctor: "FinishedGame",_0: a,_1: b};});
@@ -11082,6 +11083,7 @@ Elm.Types.make = function (_elm) {
                               ,FinishedGame: FinishedGame
                               ,Guessing: Guessing
                               ,AddChar: AddChar
+                              ,PlayChar: PlayChar
                               ,Reset: Reset
                               ,Backspace: Backspace
                               ,NewWord: NewWord
@@ -11167,17 +11169,20 @@ Elm.View.make = function (_elm) {
                                                     ,{ctor: "_Tuple2",_0: "width",_1: "80px"}
                                                     ,{ctor: "_Tuple2",_0: "font-size",_1: "20px"}
                                                     ,{ctor: "_Tuple2",_0: "padding",_1: "10px"}]));
-   var btnPrimary_ = F3(function (label,addr,x) {
-      return A2($Html.button,_U.list([$Html$Attributes.$class("btn btn-primary"),buttonStyle,A2($Html$Events.onClick,addr,x)]),_U.list([$Html.text(label)]));
+   var btn = F4(function (addr,action,classes,what) {    return A2($Html.button,_U.list([classes,buttonStyle,A2($Html$Events.onClick,addr,action)]),what);});
+   var primaryBtn = F3(function (label,addr,action) {    return A4(btn,addr,action,$Html$Attributes.$class("btn btn-primary"),_U.list([$Html.text(label)]));});
+   var charButton = F3(function (address,c,action) {    return A3(primaryBtn,c,address,action(c));});
+   var addButtons = F3(function (address,answer,action) {
+      return A2($List.map,function (c) {    return A3(charButton,address,$String.fromChar(c),action);},$Seq.uniqueChars(answer));
    });
-   var addButton = F2(function (address,c) {    return A3(btnPrimary_,c,address,$Types.AddChar(c));});
-   var addButtons = F2(function (address,answer) {
-      return A2($List.map,function (c) {    return A2(addButton,address,$String.fromChar(c));},$Seq.uniqueChars(answer));
+   var iconButton = F2(function (addr,action) {    return A4(btn,addr,action,$Html$Attributes.$class("btn glyphicon glyphicon-volume-up"),_U.list([]));});
+   var addIconButtons = F3(function (address,answer,action) {
+      return A2($List.map,function (c) {    return A2(iconButton,address,action($String.fromChar(c)));},$Seq.uniqueChars(answer));
    });
    var controlButton = F3(function (adr,action,icon) {
       return A2($Html.button,
-      _U.list([$Html$Attributes.$class("btn btn-warning"),buttonStyle,A2($Html$Events.onClick,adr,action)]),
-      _U.list([A2($Html.span,_U.list([$Html$Attributes.$class(A2($Basics._op["++"],"glyphicon ",icon)),buttonStyle]),_U.list([]))]));
+      _U.list([$Html$Attributes.$class(A2($Basics._op["++"],"btn btn-warning glyphicon ",icon)),buttonStyle,A2($Html$Events.onClick,adr,action)]),
+      _U.list([]));
    });
    var disabledButton = F2(function (address,ch) {
       var t = $String.fromChar(ch);
@@ -11246,7 +11251,10 @@ Elm.View.make = function (_elm) {
       return row_(_U.list([A2($Html.div,_U.list([$Html$Attributes.$class("col-md-4")]),A2($List.map,disabledButton(address),paddedGuess))]));
    });
    var letterButtons = F2(function (address,model) {
-      return row_(_U.list([A2($Html.div,_U.list([$Html$Attributes.$class("col-md-4")]),A2(addButtons,address,currentAnswer(model)))]));
+      return row_(_U.list([A2($Html.div,_U.list([$Html$Attributes.$class("col-md-4")]),A3(addButtons,address,currentAnswer(model),$Types.AddChar))]));
+   });
+   var soundButtons = F2(function (address,model) {
+      return row_(_U.list([A2($Html.div,_U.list([$Html$Attributes.$class("col-md-4")]),A3(addIconButtons,address,currentAnswer(model),$Types.PlayChar))]));
    });
    var success = F2(function (address,model) {
       return row_(_U.list([A2($Html.div,_U.list([$Html$Attributes.$class("col-md-4")]),A2(checkAnswer,address,model))]));
@@ -11258,13 +11266,14 @@ Elm.View.make = function (_elm) {
       _U.list([$Html$Attributes.$class("col-md-12")]),
       _U.list([$Html.text(A2($Basics._op["++"],"Du har ",A2($Basics._op["++"],$Basics.toString(n)," ord kvar!")))]))]));
    };
-   var view = F2(function (address,model) {
+   var view = F3(function (charBoxAddress,address,model) {
       return container_(_U.list([stylesheet("https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css")
                                 ,picture(model)
                                 ,progress(model)
                                 ,A2(textControls,address,model)
                                 ,A2(showGuess,address,model)
                                 ,A2(letterButtons,address,model)
+                                ,A2(soundButtons,charBoxAddress,model)
                                 ,A2(success,address,model)]));
    });
    return _elm.View.values = {_op: _op
@@ -11273,9 +11282,12 @@ Elm.View.make = function (_elm) {
                              ,stylesheet: stylesheet
                              ,buttonStyle: buttonStyle
                              ,rowDistance: rowDistance
-                             ,btnPrimary_: btnPrimary_
-                             ,addButton: addButton
+                             ,btn: btn
+                             ,primaryBtn: primaryBtn
+                             ,charButton: charButton
                              ,addButtons: addButtons
+                             ,iconButton: iconButton
+                             ,addIconButtons: addIconButtons
                              ,image: image
                              ,currentAnswer: currentAnswer
                              ,hasMoreWords: hasMoreWords
@@ -11287,6 +11299,7 @@ Elm.View.make = function (_elm) {
                              ,answer: answer
                              ,showGuess: showGuess
                              ,letterButtons: letterButtons
+                             ,soundButtons: soundButtons
                              ,success: success
                              ,collectedCharsAsCommaSeparatedString: collectedCharsAsCommaSeparatedString
                              ,checkAnswer: checkAnswer
@@ -11350,20 +11363,22 @@ Elm.Main.make = function (_elm) {
            var q = _p8._1;
            return {ctor: "_Tuple2",_0: _U.update(model,{guess: {ctor: "_Tuple2",_0: "",_1: q}}),_1: $Effects.none};
          case "Backspace": return {ctor: "_Tuple2",_0: backspace(model),_1: $Effects.none};
-         default: return {ctor: "_Tuple2",_0: A2(nextWord,model,_p7._0),_1: $Effects.none};}
+         case "NewWord": return {ctor: "_Tuple2",_0: A2(nextWord,model,_p7._0),_1: $Effects.none};
+         default: return {ctor: "_Tuple2",_0: model,_1: $Effects.none};}
    });
-   var app = $StartApp.start({init: init,view: $View.view,update: update,inputs: _U.list([])});
-   var main = app.html;
-   var tasks = Elm.Native.Task.make(_elm).performSignal("tasks",app.tasks);
-   var guessChanges = Elm.Native.Port.make(_elm).outboundSignal("guessChanges",
+   var charBox = $Signal.mailbox($Types.PlayChar(""));
+   var playChar = Elm.Native.Port.make(_elm).outboundSignal("playChar",
    function (v) {
       return v;
    },
-   A2($Signal.map,function (m) {    return $Basics.fst(m.guess);},app.model));
+   A2($Signal.map,function (x) {    var _p9 = x;if (_p9.ctor === "PlayChar") {    return _p9._0;} else {    return "";}},charBox.signal));
+   var app = $StartApp.start({init: init,view: $View.view(charBox.address),update: update,inputs: _U.list([])});
+   var main = app.html;
+   var tasks = Elm.Native.Task.make(_elm).performSignal("tasks",app.tasks);
    var correct = Elm.Native.Port.make(_elm).outboundSignal("correct",
    function (v) {
       return v;
    },
    A2($Signal.map,function (m) {    return $Types.correct(m.guess);},app.model));
-   return _elm.Main.values = {_op: _op,app: app,main: main,nextWord: nextWord,init: init,addChar: addChar,backspace: backspace,update: update};
+   return _elm.Main.values = {_op: _op,app: app,main: main,charBox: charBox,nextWord: nextWord,init: init,addChar: addChar,backspace: backspace,update: update};
 };
