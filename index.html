@@ -38,7 +38,7 @@
   elmApp.ports.playChar.subscribe(function(ch) {
     console.log("Playing: " + ch);
     if(ch)
-      playSound(fix_swedish(ch));
+      playSound(fix_swedish(ch.toLowerCase()));
   });
 
   elmApp.ports.correct.subscribe(function(isCorrect) {
