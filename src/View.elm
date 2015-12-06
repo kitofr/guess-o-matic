@@ -8,6 +8,8 @@ import Types exposing (..)
 import Seq exposing (..)
 import Data exposing (..)
 import Debug exposing (..)
+import Svg 
+import Svg.Attributes as SvgA
 
 row_ : List Html -> Html
 row_ = div [ A.class "row", rowDistance ]
@@ -151,9 +153,17 @@ checkAnswer address {guess, state} =
 
 progress : Model -> Html
 progress {guess, state} =
-  let n = wordList state |> List.length 
+  let n = wordList state |> List.length |> Basics.toFloat
+      tot = alternatives |> List.length |> Basics.toFloat
+      total = 300.0
+      complete = ((tot-n) / tot) * total 
+      width = (toString total)
   in
-      row_ [h2 [A.class "col-md-12" ] [text ("Du har " ++ (toString n) ++ " ord kvar!")]]
+      Svg.svg
+        [ SvgA.width width, SvgA.height "20", SvgA.viewBox ("0 0 " ++ width ++ " 20") ]
+        [ Svg.rect [ SvgA.fill "#AAA", SvgA.x "0", SvgA.y "0", SvgA.width width, SvgA.height "20", SvgA.rx "5", SvgA.ry "5" ] [], 
+          Svg.rect [ SvgA.fill "#8C8", SvgA.x "0", SvgA.y "0", SvgA.width (toString complete), SvgA.height "20", SvgA.rx "5", SvgA.ry "5" ] [] 
+        ]
 
 view : Signal.Address Action -> Signal.Address Action -> Model -> Html
 view charBoxAddress address model =
