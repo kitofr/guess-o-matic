@@ -41,7 +41,12 @@ primaryBtn label addr action =
   btn addr action (A.class "btn btn-primary") [text label]
 
 charButton address c action =
-  primaryBtn c address (action c) 
+  primaryBtn (bigAndSmall c) address (action c) 
+
+bigAndSmall : String -> String
+bigAndSmall s =
+    s ++ " " ++ (toLower s)
+
 
 addButtons address answer action =
   List.map (\c -> charButton address (String.fromChar c) action) (uniqueChars answer)

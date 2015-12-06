@@ -73,6 +73,7 @@ Elm.View.make = function (_elm) {
    };
    var currentAnswer = function (_p7) {    var _p8 = _p7;var _p9 = _p8.guess;var question = _p9._1;return $Types.word(question);};
    var image = function (_p10) {    var _p11 = _p10;return _p11._1.image;};
+   var bigAndSmall = function (s) {    return A2($Basics._op["++"],s,A2($Basics._op["++"]," ",$String.toLower(s)));};
    var rowDistance = $Html$Attributes.style(_U.list([{ctor: "_Tuple2",_0: "margin-bottom",_1: "10px"},{ctor: "_Tuple2",_0: "margin-top",_1: "25px"}]));
    var buttonStyle = $Html$Attributes.style(_U.list([{ctor: "_Tuple2",_0: "margin-right",_1: "10px"}
                                                     ,{ctor: "_Tuple2",_0: "width",_1: "80px"}
@@ -80,7 +81,7 @@ Elm.View.make = function (_elm) {
                                                     ,{ctor: "_Tuple2",_0: "padding",_1: "10px"}]));
    var btn = F4(function (addr,action,classes,what) {    return A2($Html.button,_U.list([classes,buttonStyle,A2($Html$Events.onClick,addr,action)]),what);});
    var primaryBtn = F3(function (label,addr,action) {    return A4(btn,addr,action,$Html$Attributes.$class("btn btn-primary"),_U.list([$Html.text(label)]));});
-   var charButton = F3(function (address,c,action) {    return A3(primaryBtn,c,address,action(c));});
+   var charButton = F3(function (address,c,action) {    return A3(primaryBtn,bigAndSmall(c),address,action(c));});
    var addButtons = F3(function (address,answer,action) {
       return A2($List.map,function (c) {    return A3(charButton,address,$String.fromChar(c),action);},$Seq.uniqueChars(answer));
    });
@@ -187,6 +188,7 @@ Elm.View.make = function (_elm) {
                              ,btn: btn
                              ,primaryBtn: primaryBtn
                              ,charButton: charButton
+                             ,bigAndSmall: bigAndSmall
                              ,addButtons: addButtons
                              ,iconButton: iconButton
                              ,addIconButtons: addIconButtons
