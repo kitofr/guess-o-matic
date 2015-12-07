@@ -11,8 +11,8 @@ import Debug exposing (..)
 import Svg 
 import Svg.Attributes as SvgA
 
-row_ : List Html -> Html
-row_ = div [ A.class "row", rowDistance ]
+row : List Html -> Html
+row = div [ A.class "row", rowDistance ]
 
 container_ : List Html -> Html
 container_ = div [ A.class "container-fluid" ]
@@ -77,7 +77,7 @@ hasMoreWords {guess, state} =
 
 picture : Model -> Html
 picture {guess, state} =
-  row_ [div [A.class "col-md-6"] 
+  row [div [A.class "col-md-6"] 
   [ img [ A.src (image guess)
   , A.width 300
   , A.height 300
@@ -95,7 +95,7 @@ controlButton adr action icon =
           onClick adr action ] []
  
 textControls address model =
-  row_ [ div [A.class "col-md-4" ]
+  row [ div [A.class "col-md-4" ]
       [ controlButton address Reset "glyphicon-refresh"
       , controlButton address Backspace "glyphicon-erase"]]
  
@@ -119,20 +119,20 @@ showGuess address {guess, state} =
       paddTo = (List.length answer')
       paddedGuess = Debug.watch "guess" (paddUpTo (String.toList (fst guess)) paddTo )
   in
-  row_ [ div [A.class "col-md-4"] 
+  row [ div [A.class "col-md-4"] 
            (List.map (disabledButton address) paddedGuess) ]
 
 letterButtons : Signal.Address Action -> Model -> Html
 letterButtons address model =
-  row_ [ div [A.class "col-md-4"] (addButtons address (currentAnswer model) AddChar)]
+  row [ div [A.class "col-md-4"] (addButtons address (currentAnswer model) AddChar)]
 
 soundButtons : Signal.Address Action -> Model -> Html
 soundButtons address model =
-  row_ [ div [A.class "col-md-4"] (addIconButtons address (currentAnswer model) PlayChar)]
+  row [ div [A.class "col-md-4"] (addIconButtons address (currentAnswer model) PlayChar)]
 
 success : Signal.Address Action -> Model -> Html
 success address model =
-  row_ [ div [A.class "col-md-4" ] (checkAnswer address model)]
+  row [ div [A.class "col-md-4" ] (checkAnswer address model)]
 
 collectedCharsAsCommaSeparatedString : Set Char -> String
 collectedCharsAsCommaSeparatedString collected = 
@@ -145,13 +145,10 @@ checkAnswer address {guess, state} =
       [section [] 
           [h2 [A.style [( "color", "#4A9")]] 
             [text ("Där va alla ord slut! " ++ (collectedCharsAsCommaSeparatedString collected))]]
-          ,h2 [A.style [( "color", "#A49")]] 
-            [text ("Du fick ihop " ++ (toString score) ++ " poäng!")]]
+          ]
     (Guessing g wordlist collected score) ->
       if correct guess then
-        [ h2 [A.style [( "color", "#49A")]] [text 
-          ("Rätt svar! Du har nu: " ++ (toString score) ++ " poäng")]
-        , button [A.class "btn btn-success", buttonStyle, onClick address (NewWord state)]
+        [ button [A.class "btn btn-success", buttonStyle, onClick address (NewWord state)]
         [ span [A.class "glyphicon glyphicon-thumbs-up"] []]]
       else
         [div [] []]
@@ -170,11 +167,26 @@ progress {guess, state} =
           Svg.rect [ SvgA.fill "#8C8", SvgA.x "0", SvgA.y "0", SvgA.width (toString complete), SvgA.height "20", SvgA.rx "5", SvgA.ry "5" ] [] 
         ]
 
+score : Model -> Html
+score {guess, state} =
+   let score = (currentScore state)
+       fontX = (toString (85 - ((score // 10) * 12)))
+   in 
+    row [
+      div [A.class "col-md-6"] 
+        [
+          Svg.svg
+            [ SvgA.width "100", SvgA.height "100", SvgA.viewBox "0 0 200 200"]
+            [ Svg.polygon [ SvgA.fill "#DD7", 
+                SvgA.points "100,10 40,198 190,78 10,78 160,198" ] []
+              ,Svg.text' [SvgA.fontSize "45", SvgA.x fontX, SvgA.y "130", SvgA.fill "blue"] [Svg.text (toString score)] ]]]
+
 view : Signal.Address Action -> Signal.Address Action -> Model -> Html
 view charBoxAddress address model =
   container_
   [ stylesheet "https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css"
     , picture model
+    , score model
     , progress model
     , textControls address model
     , showGuess address model

@@ -11938,34 +11938,24 @@ Elm.View.make = function (_elm) {
       var _p14 = _p15;
       if (_p14.ctor === "FinishedGame") {
             return _U.list([A2($Html.section,
-                           _U.list([]),
-                           _U.list([A2($Html.h2,
-                           _U.list([$Html$Attributes.style(_U.list([{ctor: "_Tuple2",_0: "color",_1: "#4A9"}]))]),
-                           _U.list([$Html.text(A2($Basics._op["++"],"Där va alla ord slut! ",collectedCharsAsCommaSeparatedString(_p14._0)))]))]))
-                           ,A2($Html.h2,
-                           _U.list([$Html$Attributes.style(_U.list([{ctor: "_Tuple2",_0: "color",_1: "#A49"}]))]),
-                           _U.list([$Html.text(A2($Basics._op["++"],"Du fick ihop ",A2($Basics._op["++"],$Basics.toString(_p14._1)," poäng!")))]))]);
+            _U.list([]),
+            _U.list([A2($Html.h2,
+            _U.list([$Html$Attributes.style(_U.list([{ctor: "_Tuple2",_0: "color",_1: "#4A9"}]))]),
+            _U.list([$Html.text(A2($Basics._op["++"],"Där va alla ord slut! ",collectedCharsAsCommaSeparatedString(_p14._0)))]))]))]);
          } else {
-            return $Types.correct(_p13.guess) ? _U.list([A2($Html.h2,
-                                                        _U.list([$Html$Attributes.style(_U.list([{ctor: "_Tuple2",_0: "color",_1: "#49A"}]))]),
-                                                        _U.list([$Html.text(A2($Basics._op["++"],
-                                                        "Rätt svar! Du har nu: ",
-                                                        A2($Basics._op["++"],$Basics.toString(_p14._3)," poäng")))]))
-                                                        ,A2($Html.button,
-                                                        _U.list([$Html$Attributes.$class("btn btn-success")
-                                                                ,buttonStyle
-                                                                ,A2($Html$Events.onClick,address,$Types.NewWord(_p15))]),
-                                                        _U.list([A2($Html.span,
-                                                        _U.list([$Html$Attributes.$class("glyphicon glyphicon-thumbs-up")]),
-                                                        _U.list([]))]))]) : _U.list([A2($Html.div,_U.list([]),_U.list([]))]);
+            return $Types.correct(_p13.guess) ? _U.list([A2($Html.button,
+            _U.list([$Html$Attributes.$class("btn btn-success"),buttonStyle,A2($Html$Events.onClick,address,$Types.NewWord(_p15))]),
+            _U.list([A2($Html.span,_U.list([$Html$Attributes.$class("glyphicon glyphicon-thumbs-up")]),_U.list([]))]))]) : _U.list([A2($Html.div,
+            _U.list([]),
+            _U.list([]))]);
          }
    });
    var stylesheet = function (href) {    return A3($Html.node,"link",_U.list([$Html$Attributes.rel("stylesheet"),$Html$Attributes.href(href)]),_U.list([]));};
    var container_ = $Html.div(_U.list([$Html$Attributes.$class("container-fluid")]));
-   var row_ = $Html.div(_U.list([$Html$Attributes.$class("row"),rowDistance]));
+   var row = $Html.div(_U.list([$Html$Attributes.$class("row"),rowDistance]));
    var picture = function (_p16) {
       var _p17 = _p16;
-      return row_(_U.list([A2($Html.div,
+      return row(_U.list([A2($Html.div,
       _U.list([$Html$Attributes.$class("col-md-6")]),
       _U.list([A2($Html.img,
       _U.list([$Html$Attributes.src(image(_p17.guess))
@@ -11980,7 +11970,7 @@ Elm.View.make = function (_elm) {
       _U.list([]))]))]));
    };
    var textControls = F2(function (address,model) {
-      return row_(_U.list([A2($Html.div,
+      return row(_U.list([A2($Html.div,
       _U.list([$Html$Attributes.$class("col-md-4")]),
       _U.list([A3(controlButton,address,$Types.Reset,"glyphicon-refresh"),A3(controlButton,address,$Types.Backspace,"glyphicon-erase")]))]));
    });
@@ -11990,20 +11980,34 @@ Elm.View.make = function (_elm) {
       var answer$ = A2($Debug.watch,"answer",$String.toList(answer(_p20)));
       var paddTo = $List.length(answer$);
       var paddedGuess = A2($Debug.watch,"guess",A2(paddUpTo,$String.toList($Basics.fst(_p20)),paddTo));
-      return row_(_U.list([A2($Html.div,_U.list([$Html$Attributes.$class("col-md-4")]),A2($List.map,disabledButton(address),paddedGuess))]));
+      return row(_U.list([A2($Html.div,_U.list([$Html$Attributes.$class("col-md-4")]),A2($List.map,disabledButton(address),paddedGuess))]));
    });
    var letterButtons = F2(function (address,model) {
-      return row_(_U.list([A2($Html.div,_U.list([$Html$Attributes.$class("col-md-4")]),A3(addButtons,address,currentAnswer(model),$Types.AddChar))]));
+      return row(_U.list([A2($Html.div,_U.list([$Html$Attributes.$class("col-md-4")]),A3(addButtons,address,currentAnswer(model),$Types.AddChar))]));
    });
    var soundButtons = F2(function (address,model) {
-      return row_(_U.list([A2($Html.div,_U.list([$Html$Attributes.$class("col-md-4")]),A3(addIconButtons,address,currentAnswer(model),$Types.PlayChar))]));
+      return row(_U.list([A2($Html.div,_U.list([$Html$Attributes.$class("col-md-4")]),A3(addIconButtons,address,currentAnswer(model),$Types.PlayChar))]));
    });
    var success = F2(function (address,model) {
-      return row_(_U.list([A2($Html.div,_U.list([$Html$Attributes.$class("col-md-4")]),A2(checkAnswer,address,model))]));
+      return row(_U.list([A2($Html.div,_U.list([$Html$Attributes.$class("col-md-4")]),A2(checkAnswer,address,model))]));
    });
+   var score = function (_p21) {
+      var _p22 = _p21;
+      var score = $Types.currentScore(_p22.state);
+      var fontX = $Basics.toString(85 - (score / 10 | 0) * 12);
+      return row(_U.list([A2($Html.div,
+      _U.list([$Html$Attributes.$class("col-md-6")]),
+      _U.list([A2($Svg.svg,
+      _U.list([$Svg$Attributes.width("100"),$Svg$Attributes.height("100"),$Svg$Attributes.viewBox("0 0 200 200")]),
+      _U.list([A2($Svg.polygon,_U.list([$Svg$Attributes.fill("#DD7"),$Svg$Attributes.points("100,10 40,198 190,78 10,78 160,198")]),_U.list([]))
+              ,A2($Svg.text$,
+              _U.list([$Svg$Attributes.fontSize("45"),$Svg$Attributes.x(fontX),$Svg$Attributes.y("130"),$Svg$Attributes.fill("blue")]),
+              _U.list([$Svg.text($Basics.toString(score))]))]))]))]));
+   };
    var view = F3(function (charBoxAddress,address,model) {
       return container_(_U.list([stylesheet("https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css")
                                 ,picture(model)
+                                ,score(model)
                                 ,progress(model)
                                 ,A2(textControls,address,model)
                                 ,A2(showGuess,address,model)
@@ -12012,7 +12016,7 @@ Elm.View.make = function (_elm) {
                                 ,A2(success,address,model)]));
    });
    return _elm.View.values = {_op: _op
-                             ,row_: row_
+                             ,row: row
                              ,container_: container_
                              ,stylesheet: stylesheet
                              ,buttonStyle: buttonStyle
@@ -12040,6 +12044,7 @@ Elm.View.make = function (_elm) {
                              ,collectedCharsAsCommaSeparatedString: collectedCharsAsCommaSeparatedString
                              ,checkAnswer: checkAnswer
                              ,progress: progress
+                             ,score: score
                              ,view: view};
 };
 Elm.Main = Elm.Main || {};
