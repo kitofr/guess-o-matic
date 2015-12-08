@@ -42,13 +42,8 @@
   });
 
   elmApp.ports.correct.subscribe(function(isCorrect) {
-
-    console.log(isCorrect);
-    if(!isCorrect)
-      return;
-    window.setTimeout(function(){
+    if(isCorrect)
       playSound('tada');
-    }, 500);
   });
 
 </script>
