@@ -10,6 +10,7 @@ type alias CollectedChars = Set Char
 type alias Question = { word: String, image: String }
 type alias Guess = (String, Question)
 type alias WordList = List Question
+
 type GameState =
   FinishedGame CollectedChars Int
   | Guessing Guess WordList CollectedChars Int
