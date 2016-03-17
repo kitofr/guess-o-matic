@@ -1,4 +1,4 @@
-import StartApp 
+import StartApp
 import Effects exposing (Effects, Never)
 import Task exposing (Task)
 import Html exposing (..)
@@ -15,7 +15,7 @@ import Seq exposing (..)
 import Data exposing (..)
 
 {--
-TODO 
+TODO
   - indicate overextending
   - Styling
   - Random chars in guess
@@ -25,9 +25,9 @@ TODO
 --}
 
 app =
-  StartApp.start { init = init 
+  StartApp.start { init = init
                   , view = (view charBox.address)
-                  , update = update 
+                  , update = update
                   , inputs = []
                   }
 
@@ -45,12 +45,12 @@ charBox =
   Signal.mailbox (PlayChar "")
 
 port playChar : Signal String
-port playChar = 
-  Signal.map 
+port playChar =
+  Signal.map
     (\x -> case x of
       (PlayChar ch) -> ch
-      otherwise -> "") 
-  charBox.signal 
+      otherwise -> "")
+  charBox.signal
 
 port correct : Signal Bool
 port correct = Signal.map (\m -> Types.correct m.guess) app.model
@@ -60,7 +60,7 @@ nextWord model state' =
   case state' of
     (FinishedGame collected score) -> { guess = model.guess , state = state' }
     (Guessing g l collected score) -> { guess = g, state = state' }
-        
+
 init : (Model, Effects Action)
 init =
   let state' = Types.initialState
@@ -85,19 +85,18 @@ backspace {guess, state} =
 update : Action -> Model -> (Model, Effects Action)
 update action model =
   case action of
-    AddChar ch -> 
+    AddChar ch ->
       (addChar ch model, Effects.none)
 
-    Reset -> 
+    Reset ->
       let (_,q) = model.guess
       in
       ({ model | guess = ("", q) }, Effects.none)
 
-    Backspace -> 
+    Backspace ->
       (backspace model, Effects.none)
-      
-    NewWord state -> 
+
+    NewWord state ->
       (nextWord model state, Effects.none)
 
     PlayChar ch -> (model, Effects.none)
-      
