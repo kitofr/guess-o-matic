@@ -183,14 +183,19 @@ score {guess, state} =
 
 view : Signal.Address Action -> Signal.Address Action -> Model -> Html
 view charBoxAddress address model =
-  container_
-  [ stylesheet "https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css"
-    , picture model
-    , score model
-    , progress model
-    , textControls address model
-    , showGuess address model
-    , letterButtons address model
-    , soundButtons charBoxAddress model
-    , success address model
+  main' []
+    [header []
+       [stylesheet "https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css"]
+    , body []
+       [container_
+          [ picture model
+          , score model
+          , progress model
+          , textControls address model
+          , showGuess address model
+          , letterButtons address model
+          , soundButtons charBoxAddress model
+          , success address model
+       ]
+      ]
     ]
