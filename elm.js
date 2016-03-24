@@ -12005,15 +12005,19 @@ Elm.View.make = function (_elm) {
               _U.list([$Svg.text($Basics.toString(score))]))]))]))]));
    };
    var view = F3(function (charBoxAddress,address,model) {
-      return container_(_U.list([stylesheet("https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css")
-                                ,picture(model)
-                                ,score(model)
-                                ,progress(model)
-                                ,A2(textControls,address,model)
-                                ,A2(showGuess,address,model)
-                                ,A2(letterButtons,address,model)
-                                ,A2(soundButtons,charBoxAddress,model)
-                                ,A2(success,address,model)]));
+      return A2($Html.main$,
+      _U.list([]),
+      _U.list([A2($Html.header,_U.list([]),_U.list([stylesheet("https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css")]))
+              ,A2($Html.body,
+              _U.list([]),
+              _U.list([container_(_U.list([picture(model)
+                                          ,score(model)
+                                          ,progress(model)
+                                          ,A2(textControls,address,model)
+                                          ,A2(showGuess,address,model)
+                                          ,A2(letterButtons,address,model)
+                                          ,A2(soundButtons,charBoxAddress,model)
+                                          ,A2(success,address,model)]))]))]));
    });
    return _elm.View.values = {_op: _op
                              ,row: row
