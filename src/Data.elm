@@ -2,7 +2,7 @@
 module Data where
 
 
-alternatives = 
+alternatives =
   [ { word = "IS", image = "http://4vector.com/i/free-vector-ice-cube-clip-art_113098_Ice_Cube_clip_art_medium.png" }
   , { word = "KO", image = "http://ian.umces.edu/imagelibrary/albums/userpics/12789/normal_ian-symbol-bos-primigenius-cow-1.png" }
   , { word = "APA", image = "http://www.skolbilder.com/Malarbild-apa-dm17524.jpg" }

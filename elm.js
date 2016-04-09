@@ -11853,12 +11853,25 @@ Elm.View.make = function (_elm) {
    $Svg$Attributes = Elm.Svg.Attributes.make(_elm),
    $Types = Elm.Types.make(_elm);
    var _op = {};
-   var progress = function (_p0) {
+   var score = function (_p0) {
       var _p1 = _p0;
+      var score = $Types.currentScore(_p1.state);
+      var fontX = $Basics.toString(85 - (score / 10 | 0) * 12);
+      return A2($Html.div,
+      _U.list([$Html$Attributes.$class("col-sm-6")]),
+      _U.list([A2($Svg.svg,
+      _U.list([$Svg$Attributes.width("200"),$Svg$Attributes.height("200"),$Svg$Attributes.viewBox("0 0 200 200")]),
+      _U.list([A2($Svg.polygon,_U.list([$Svg$Attributes.fill("#EE9"),$Svg$Attributes.points("100,10 40,198 190,78 10,78 160,198")]),_U.list([]))
+              ,A2($Svg.text$,
+              _U.list([$Svg$Attributes.fontSize("45"),$Svg$Attributes.x(fontX),$Svg$Attributes.y("130"),$Svg$Attributes.fill("blue")]),
+              _U.list([$Svg.text($Basics.toString(score))]))]))]));
+   };
+   var progress = function (_p2) {
+      var _p3 = _p2;
       var total = 300.0;
       var width = $Basics.toString(total);
       var tot = $Basics.toFloat($List.length($Data.alternatives));
-      var n = $Basics.toFloat($List.length($Types.wordList(_p1.state)));
+      var n = $Basics.toFloat($List.length($Types.wordList(_p3.state)));
       var complete = (tot - n) / tot * total;
       return A2($Svg.svg,
       _U.list([$Svg$Attributes.width(width)
@@ -11884,27 +11897,43 @@ Elm.View.make = function (_elm) {
               _U.list([]))]));
    };
    var collectedCharsAsCommaSeparatedString = function (collected) {    return A2($String.join,",",A2($List.map,$String.fromChar,$Set.toList(collected)));};
-   var answer = function (_p2) {    var _p3 = _p2;return $Types.word(_p3._1);};
+   var answer = function (_p4) {    var _p5 = _p4;return $Types.word(_p5._1);};
    var paddUpTo = F2(function (lst,n) {
       paddUpTo: while (true) if (_U.cmp($List.length(lst),n) < 0) {
-            var _v2 = A2($List.append,lst,_U.list([_U.chr("_")])),_v3 = n;
-            lst = _v2;
-            n = _v3;
+            var _v3 = A2($List.append,lst,_U.list([_U.chr("_")])),_v4 = n;
+            lst = _v3;
+            n = _v4;
             continue paddUpTo;
          } else return lst;
    });
-   var hasMoreWords = function (_p4) {
-      var _p5 = _p4;
-      var lst = $Types.wordList(_p5.state);
-      var _p6 = lst;
-      if (_p6.ctor === "[]") {
+   var hasMoreWords = function (_p6) {
+      var _p7 = _p6;
+      var lst = $Types.wordList(_p7.state);
+      var _p8 = lst;
+      if (_p8.ctor === "[]") {
             return false;
          } else {
             return true;
          }
    };
-   var currentAnswer = function (_p7) {    var _p8 = _p7;var _p9 = _p8.guess;var question = _p9._1;return $Types.word(question);};
-   var image = function (_p10) {    var _p11 = _p10;return _p11._1.image;};
+   var currentAnswer = function (_p9) {    var _p10 = _p9;var _p11 = _p10.guess;var question = _p11._1;return $Types.word(question);};
+   var image = function (_p12) {    var _p13 = _p12;return _p13._1.image;};
+   var picture = function (_p14) {
+      var _p15 = _p14;
+      return A2($Html.div,
+      _U.list([$Html$Attributes.$class("col-sm-6")]),
+      _U.list([A2($Html.img,
+      _U.list([$Html$Attributes.src(image(_p15.guess))
+              ,$Html$Attributes.width(300)
+              ,$Html$Attributes.height(300)
+              ,$Html$Attributes.style(_U.list([{ctor: "_Tuple2",_0: "border",_1: "1px solid #AAA"}
+                                              ,{ctor: "_Tuple2",_0: "border-radius",_1: "25px"}
+                                              ,{ctor: "_Tuple2",_0: "padding",_1: "10px"}
+                                              ,{ctor: "_Tuple2",_0: "-webkit-box-shadow",_1: "0 10px 6px -6px #777"}
+                                              ,{ctor: "_Tuple2",_0: "-moz-box-shadow",_1: "0 10px 6px -6px #777"}
+                                              ,{ctor: "_Tuple2",_0: "box-shadow",_1: "0 10px 6px -6px #777"}]))]),
+      _U.list([]))]));
+   };
    var bigAndSmall = function (s) {    return A2($Basics._op["++"],s,A2($Basics._op["++"]," ",$String.toLower(s)));};
    var rowDistance = $Html$Attributes.style(_U.list([{ctor: "_Tuple2",_0: "margin-bottom",_1: "10px"},{ctor: "_Tuple2",_0: "margin-top",_1: "25px"}]));
    var buttonStyle = $Html$Attributes.style(_U.list([{ctor: "_Tuple2",_0: "margin-right",_1: "10px"}
@@ -11932,19 +11961,19 @@ Elm.View.make = function (_elm) {
       _U.list([$Html$Attributes.$class("btn btn-disabled"),buttonStyle,A2($Html$Events.onClick,address,$Types.Backspace)]),
       _U.list([$Html.text(t)]));
    });
-   var checkAnswer = F2(function (address,_p12) {
-      var _p13 = _p12;
-      var _p15 = _p13.state;
-      var _p14 = _p15;
-      if (_p14.ctor === "FinishedGame") {
+   var checkAnswer = F2(function (address,_p16) {
+      var _p17 = _p16;
+      var _p19 = _p17.state;
+      var _p18 = _p19;
+      if (_p18.ctor === "FinishedGame") {
             return _U.list([A2($Html.section,
             _U.list([]),
             _U.list([A2($Html.h2,
             _U.list([$Html$Attributes.style(_U.list([{ctor: "_Tuple2",_0: "color",_1: "#4A9"}]))]),
-            _U.list([$Html.text(A2($Basics._op["++"],"Där va alla ord slut! ",collectedCharsAsCommaSeparatedString(_p14._0)))]))]))]);
+            _U.list([$Html.text(A2($Basics._op["++"],"Där va alla ord slut! ",collectedCharsAsCommaSeparatedString(_p18._0)))]))]))]);
          } else {
-            return $Types.correct(_p13.guess) ? _U.list([A2($Html.button,
-            _U.list([$Html$Attributes.$class("btn btn-success"),buttonStyle,A2($Html$Events.onClick,address,$Types.NewWord(_p15))]),
+            return $Types.correct(_p17.guess) ? _U.list([A2($Html.button,
+            _U.list([$Html$Attributes.$class("btn btn-success"),buttonStyle,A2($Html$Events.onClick,address,$Types.NewWord(_p19))]),
             _U.list([A2($Html.span,_U.list([$Html$Attributes.$class("glyphicon glyphicon-thumbs-up")]),_U.list([]))]))]) : _U.list([A2($Html.div,
             _U.list([]),
             _U.list([]))]);
@@ -11953,65 +11982,35 @@ Elm.View.make = function (_elm) {
    var stylesheet = function (href) {    return A3($Html.node,"link",_U.list([$Html$Attributes.rel("stylesheet"),$Html$Attributes.href(href)]),_U.list([]));};
    var container_ = $Html.div(_U.list([$Html$Attributes.$class("container-fluid")]));
    var row = $Html.div(_U.list([$Html$Attributes.$class("row"),rowDistance]));
-   var picture = function (_p16) {
-      var _p17 = _p16;
-      return row(_U.list([A2($Html.div,
-      _U.list([$Html$Attributes.$class("col-md-6")]),
-      _U.list([A2($Html.img,
-      _U.list([$Html$Attributes.src(image(_p17.guess))
-              ,$Html$Attributes.width(300)
-              ,$Html$Attributes.height(300)
-              ,$Html$Attributes.style(_U.list([{ctor: "_Tuple2",_0: "border",_1: "1px solid #AAA"}
-                                              ,{ctor: "_Tuple2",_0: "border-radius",_1: "25px"}
-                                              ,{ctor: "_Tuple2",_0: "padding",_1: "10px"}
-                                              ,{ctor: "_Tuple2",_0: "-webkit-box-shadow",_1: "0 10px 6px -6px #777"}
-                                              ,{ctor: "_Tuple2",_0: "-moz-box-shadow",_1: "0 10px 6px -6px #777"}
-                                              ,{ctor: "_Tuple2",_0: "box-shadow",_1: "0 10px 6px -6px #777"}]))]),
-      _U.list([]))]))]));
-   };
    var textControls = F2(function (address,model) {
       return row(_U.list([A2($Html.div,
-      _U.list([$Html$Attributes.$class("col-md-4")]),
+      _U.list([$Html$Attributes.$class("col-sm-4")]),
       _U.list([A3(controlButton,address,$Types.Reset,"glyphicon-refresh"),A3(controlButton,address,$Types.Backspace,"glyphicon-erase")]))]));
    });
-   var showGuess = F2(function (address,_p18) {
-      var _p19 = _p18;
-      var _p20 = _p19.guess;
-      var answer$ = A2($Debug.watch,"answer",$String.toList(answer(_p20)));
+   var showGuess = F2(function (address,_p20) {
+      var _p21 = _p20;
+      var _p22 = _p21.guess;
+      var answer$ = A2($Debug.watch,"answer",$String.toList(answer(_p22)));
       var paddTo = $List.length(answer$);
-      var paddedGuess = A2($Debug.watch,"guess",A2(paddUpTo,$String.toList($Basics.fst(_p20)),paddTo));
-      return row(_U.list([A2($Html.div,_U.list([$Html$Attributes.$class("col-md-4")]),A2($List.map,disabledButton(address),paddedGuess))]));
+      var paddedGuess = A2($Debug.watch,"guess",A2(paddUpTo,$String.toList($Basics.fst(_p22)),paddTo));
+      return row(_U.list([A2($Html.div,_U.list([$Html$Attributes.$class("col-sm-4")]),A2($List.map,disabledButton(address),paddedGuess))]));
    });
    var letterButtons = F2(function (address,model) {
-      return row(_U.list([A2($Html.div,_U.list([$Html$Attributes.$class("col-md-4")]),A3(addButtons,address,currentAnswer(model),$Types.AddChar))]));
+      return row(_U.list([A2($Html.div,_U.list([$Html$Attributes.$class("col-sm-4")]),A3(addButtons,address,currentAnswer(model),$Types.AddChar))]));
    });
    var soundButtons = F2(function (address,model) {
-      return row(_U.list([A2($Html.div,_U.list([$Html$Attributes.$class("col-md-4")]),A3(addIconButtons,address,currentAnswer(model),$Types.PlayChar))]));
+      return row(_U.list([A2($Html.div,_U.list([$Html$Attributes.$class("col-sm-4")]),A3(addIconButtons,address,currentAnswer(model),$Types.PlayChar))]));
    });
    var success = F2(function (address,model) {
-      return row(_U.list([A2($Html.div,_U.list([$Html$Attributes.$class("col-md-4")]),A2(checkAnswer,address,model))]));
+      return row(_U.list([A2($Html.div,_U.list([$Html$Attributes.$class("col-sm-4")]),A2(checkAnswer,address,model))]));
    });
-   var score = function (_p21) {
-      var _p22 = _p21;
-      var score = $Types.currentScore(_p22.state);
-      var fontX = $Basics.toString(85 - (score / 10 | 0) * 12);
-      return row(_U.list([A2($Html.div,
-      _U.list([$Html$Attributes.$class("col-md-6")]),
-      _U.list([A2($Svg.svg,
-      _U.list([$Svg$Attributes.width("100"),$Svg$Attributes.height("100"),$Svg$Attributes.viewBox("0 0 200 200")]),
-      _U.list([A2($Svg.polygon,_U.list([$Svg$Attributes.fill("#DD7"),$Svg$Attributes.points("100,10 40,198 190,78 10,78 160,198")]),_U.list([]))
-              ,A2($Svg.text$,
-              _U.list([$Svg$Attributes.fontSize("45"),$Svg$Attributes.x(fontX),$Svg$Attributes.y("130"),$Svg$Attributes.fill("blue")]),
-              _U.list([$Svg.text($Basics.toString(score))]))]))]))]));
-   };
    var view = F3(function (charBoxAddress,address,model) {
       return A2($Html.main$,
       _U.list([]),
       _U.list([A2($Html.header,_U.list([]),_U.list([stylesheet("https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css")]))
               ,A2($Html.body,
               _U.list([]),
-              _U.list([container_(_U.list([picture(model)
-                                          ,score(model)
+              _U.list([container_(_U.list([row(_U.list([picture(model),score(model)]))
                                           ,progress(model)
                                           ,A2(textControls,address,model)
                                           ,A2(showGuess,address,model)

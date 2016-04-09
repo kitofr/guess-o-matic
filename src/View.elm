@@ -77,7 +77,7 @@ hasMoreWords {guess, state} =
 
 picture : Model -> Html
 picture {guess, state} =
-  row [div [A.class "col-md-6"]
+  div [A.class "col-sm-6"]
   [ img [ A.src (image guess)
   , A.width 300
   , A.height 300
@@ -87,7 +87,7 @@ picture {guess, state} =
              ("-webkit-box-shadow", "0 10px 6px -6px #777"),
              ("-moz-box-shadow", "0 10px 6px -6px #777"),
              ("box-shadow", "0 10px 6px -6px #777")
-             ] ] [] ] ]
+             ] ] [] ]
 
 controlButton adr action icon =
   button [A.class ("btn btn-warning glyphicon " ++ icon),
@@ -95,7 +95,7 @@ controlButton adr action icon =
           onClick adr action ] []
 
 textControls address model =
-  row [ div [A.class "col-md-4" ]
+  row [ div [A.class "col-sm-4" ]
       [ controlButton address Reset "glyphicon-refresh"
       , controlButton address Backspace "glyphicon-erase"]]
 
@@ -119,20 +119,20 @@ showGuess address {guess, state} =
       paddTo = (List.length answer')
       paddedGuess = Debug.watch "guess" (paddUpTo (String.toList (fst guess)) paddTo )
   in
-  row [ div [A.class "col-md-4"]
+  row [ div [A.class "col-sm-4"]
            (List.map (disabledButton address) paddedGuess) ]
 
 letterButtons : Signal.Address Action -> Model -> Html
 letterButtons address model =
-  row [ div [A.class "col-md-4"] (addButtons address (currentAnswer model) AddChar)]
+  row [ div [A.class "col-sm-4"] (addButtons address (currentAnswer model) AddChar)]
 
 soundButtons : Signal.Address Action -> Model -> Html
 soundButtons address model =
-  row [ div [A.class "col-md-4"] (addIconButtons address (currentAnswer model) PlayChar)]
+  row [ div [A.class "col-sm-4"] (addIconButtons address (currentAnswer model) PlayChar)]
 
 success : Signal.Address Action -> Model -> Html
 success address model =
-  row [ div [A.class "col-md-4" ] (checkAnswer address model)]
+  row [ div [A.class "col-sm-4" ] (checkAnswer address model)]
 
 collectedCharsAsCommaSeparatedString : Set Char -> String
 collectedCharsAsCommaSeparatedString collected =
@@ -172,14 +172,12 @@ score {guess, state} =
    let score = (currentScore state)
        fontX = (toString (85 - ((score // 10) * 12)))
    in
-    row [
-      div [A.class "col-md-6"]
-        [
-          Svg.svg
-            [ SvgA.width "100", SvgA.height "100", SvgA.viewBox "0 0 200 200"]
-            [ Svg.polygon [ SvgA.fill "#DD7",
+      div [A.class "col-sm-6"]
+        [Svg.svg
+            [ SvgA.width "200", SvgA.height "200", SvgA.viewBox "0 0 200 200"]
+            [ Svg.polygon [ SvgA.fill "#EE9",
                 SvgA.points "100,10 40,198 190,78 10,78 160,198" ] []
-              ,Svg.text' [SvgA.fontSize "45", SvgA.x fontX, SvgA.y "130", SvgA.fill "blue"] [Svg.text (toString score)] ]]]
+              ,Svg.text' [SvgA.fontSize "45", SvgA.x fontX, SvgA.y "130", SvgA.fill "blue"] [Svg.text (toString score)] ]]
 
 view : Signal.Address Action -> Signal.Address Action -> Model -> Html
 view charBoxAddress address model =
@@ -188,8 +186,9 @@ view charBoxAddress address model =
        [stylesheet "https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css"]
     , body []
        [container_
-          [ picture model
-          , score model
+          [ row
+              [ picture model
+              , score model ]
           , progress model
           , textControls address model
           , showGuess address model
