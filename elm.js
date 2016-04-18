@@ -11678,46 +11678,7 @@ Elm.Data.make = function (_elm) {
    var _op = {};
    var defaultAlternative = {word: "NOT FOUND",image: "http://www.404notfound.fr/assets/images/pages/img/androiddev101.jpg"};
    var alternatives = _U.list([{word: "IS",image: "http://4vector.com/i/free-vector-ice-cube-clip-art_113098_Ice_Cube_clip_art_medium.png"}
-                              ,{word: "KO",image: "http://ian.umces.edu/imagelibrary/albums/userpics/12789/normal_ian-symbol-bos-primigenius-cow-1.png"}
-                              ,{word: "APA",image: "http://www.skolbilder.com/Malarbild-apa-dm17524.jpg"}
-                              ,{word: "MUS",image: "http://www.malarbok.nu/images/collection/169/large.jpg"}
-                              ,{word: "BIL",image: "http://wallpaperhdbase.com/wp-content/gallery/car-cartoon-images/cartoon-car_104107391.jpg"}
-                              ,{word: "ELD",image: "http://4vector.com/i/free-vector-fire-icon-clip-art_117494_Fire_Icon_clip_art_medium.png"}
-                              ,{word: "YXA",image: "http://pre05.deviantart.net/70f7/th/pre/i/2011/063/3/7/axe_sketch_by_shanebrake-d3awhqm.jpg"}
-                              ,{word: "DANS",image: "http://4vector.com/i/free-vector-dancer-clip-art_111608_Dancer_clip_art_medium.png"}
-                              ,{word: "BOK",image: "http://4vector.com/i/free-vector-open-book-clip-art_111581_Open_Book_clip_art_medium.png"}
-                              ,{word: "HUS",image: "http://www.featurepics.com/FI/Thumb300/20110927/Cartoon-House-2009748.jpg"}
-                              ,{word: "ORM",image: "http://4vector.com/data/127/989/thumb/127989_1_s.jpg"}
-                              ,{word: "VAL",image: "http://4vector.com/i/free-vector-small-whale-clip-art_110039_Small_Whale_clip_art_medium.png"}
-                              ,{word: "HUND"
-                               ,image: "http://4vector.com/i/free-vector-cartoon-dog-clip-art_128453_cartoon-dog-clip-art/Cartoon_Dog_clip_art_hight.png"}
-                              ,{word: "LÄSA"
-                               ,image: "http://4vector.com/i/free-vector-person-reading-book-clip-art_110276_Person_Reading_Book_clip_art_medium.png"}
-                              ,{word: "KATT"
-                               ,image: "http://4vector.com/i/free-vector-cartoon-cat-sitting-clip-art_118984_Cartoon_Cat_Sitting_clip_art_medium.png"}
-                              ,{word: "BUSS",image: "http://cdn.topvectors.com/img/605/600x0/4:3/cartoon-school-bus-vector-illustrator_1330497143_large.jpg"}
-                              ,{word: "NÄSA",image: "http://4vector.com/i/free-vector-big-nosed-man_102324_Big_nosed_man.png"}
-                              ,{word: "ÄLVA",image: "http://4vector.com/i/free-vector-flower-fairy-02-vector_020726_2.jpg"}
-                              ,{word: "PUSS",image: "http://www.agogowalls.in/wp-content/uploads/2015/09/funny-cartoon-kisses-first.jpg"}
-                              ,{word: "ÖDLA"
-                               ,image: "http://4vector.com/i/free-vector-az-lizard-clip-art_127966_az-lizard-clip-art/Azlizard_clip_art_medium.png"}
-                              ,{word: "ZEBRA"
-                               ,image: "http://4vector.com/i/free-vector-studiofibonacci-cartoon-zebra-clip-art_118409_Studiofibonacci_Cartoon_Zebra_clip_art_medium.png"}
-                              ,{word: "TROLL",image: "https://s-media-cache-ak0.pinimg.com/236x/f4/7c/95/f47c95d14766c0be11c12425441688b3.jpg"}
-                              ,{word: "REGN",image: "http://4vector.com/i/free-vector-rain-cloud-clip-art_109955_Rain_Cloud_clip_art_medium.png"}
-                              ,{word: "PENGAR",image: "http://4vector.com/i/free-vector-money-bag-clip-art_106168_Money_Bag_clip_art_medium.png"}
-                              ,{word: "ÅSNA",image: "http://4vector.com/data/129/801/thumb/129801_1_s.jpg"}
-                              ,{word: "GLASS"
-                               ,image: "http://4vector.com/i/free-vector-soft-ice-cream-cones-ff-menu-clip-art_120791_soft-ice-cream-cones-ff-menu-clip-art/Soft_Ice_Cream_Cones_Ff_Menu_clip_art_medium.png"}
-                              ,{word: "MAMMA",image: "http://4vector.com/data/125/051/thumb/125051_1_s.jpg"}
-                              ,{word: "FAMILJ",image: "http://4vector.com/data/125/483/thumb/125483_1_s.jpg"}
-                              ,{word: "PRUTT",image: "http://www.cliparthut.com/clip-arts/784/cartoon-people-farting-784194.jpg"}
-                              ,{word: "RÅTTA",image: "http://hdwallpaperslovely.com/wp-content/gallery/rat-cartoon-images/rats.jpg"}
-                              ,{word: "SPINDEL",image: "http://4vector.com/i/free-vector-black-widow-spider_101432_Black_Widow_Spider.png"}
-                              ,{word: "ELEFANT",image: "http://4vector.com/i/free-vector-cartoon-elephant-clip-art_106801_Cartoon_Elephant_clip_art_medium.png"}
-                              ,{word: "CIRKUS",image: "http://4vector.com/i/free-vector-circus-tent-clip-art_110158_Circus_Tent_clip_art_medium.png"}
-                              ,{word: "JORDGUBBE"
-                               ,image: "http://4vector.com/i/free-vector-outline-strawberry-clip-art_112728_Outline_Strawberry_clip_art_medium.png"}]);
+                              ,{word: "KO",image: "http://ian.umces.edu/imagelibrary/albums/userpics/12789/normal_ian-symbol-bos-primigenius-cow-1.png"}]);
    return _elm.Data.values = {_op: _op,alternatives: alternatives,defaultAlternative: defaultAlternative};
 };
 Elm.Types = Elm.Types || {};
@@ -11857,14 +11818,12 @@ Elm.View.make = function (_elm) {
       var _p1 = _p0;
       var score = $Types.currentScore(_p1.state);
       var fontX = $Basics.toString(85 - (score / 10 | 0) * 12);
-      return A2($Html.div,
-      _U.list([$Html$Attributes.$class("col-sm-6")]),
-      _U.list([A2($Svg.svg,
+      return A2($Svg.svg,
       _U.list([$Svg$Attributes.width("200"),$Svg$Attributes.height("200"),$Svg$Attributes.viewBox("0 0 200 200")]),
       _U.list([A2($Svg.polygon,_U.list([$Svg$Attributes.fill("#EE9"),$Svg$Attributes.points("100,10 40,198 190,78 10,78 160,198")]),_U.list([]))
               ,A2($Svg.text$,
               _U.list([$Svg$Attributes.fontSize("45"),$Svg$Attributes.x(fontX),$Svg$Attributes.y("130"),$Svg$Attributes.fill("blue")]),
-              _U.list([$Svg.text($Basics.toString(score))]))]))]));
+              _U.list([$Svg.text($Basics.toString(score))]))]));
    };
    var progress = function (_p2) {
       var _p3 = _p2;
@@ -11896,7 +11855,6 @@ Elm.View.make = function (_elm) {
                       ,$Svg$Attributes.ry("5")]),
               _U.list([]))]));
    };
-   var collectedCharsAsCommaSeparatedString = function (collected) {    return A2($String.join,",",A2($List.map,$String.fromChar,$Set.toList(collected)));};
    var answer = function (_p4) {    var _p5 = _p4;return $Types.word(_p5._1);};
    var paddUpTo = F2(function (lst,n) {
       paddUpTo: while (true) if (_U.cmp($List.length(lst),n) < 0) {
@@ -11937,12 +11895,12 @@ Elm.View.make = function (_elm) {
    var bigAndSmall = function (s) {    return A2($Basics._op["++"],s,A2($Basics._op["++"]," ",$String.toLower(s)));};
    var rowDistance = $Html$Attributes.style(_U.list([{ctor: "_Tuple2",_0: "margin-bottom",_1: "10px"},{ctor: "_Tuple2",_0: "margin-top",_1: "25px"}]));
    var buttonStyle = $Html$Attributes.style(_U.list([{ctor: "_Tuple2",_0: "margin-right",_1: "10px"}
-                                                    ,{ctor: "_Tuple2",_0: "width",_1: "80px"}
+                                                    ,{ctor: "_Tuple2",_0: "width",_1: "100px"}
                                                     ,{ctor: "_Tuple2",_0: "font-size",_1: "20px"}
                                                     ,{ctor: "_Tuple2",_0: "padding",_1: "10px"}]));
    var btn = F4(function (addr,action,classes,what) {    return A2($Html.button,_U.list([classes,buttonStyle,A2($Html$Events.onClick,addr,action)]),what);});
    var primaryBtn = F3(function (label,addr,action) {    return A4(btn,addr,action,$Html$Attributes.$class("btn btn-primary"),_U.list([$Html.text(label)]));});
-   var charButton = F3(function (address,c,action) {    return A3(primaryBtn,bigAndSmall(c),address,action(c));});
+   var charButton = F3(function (address,c,action) {    return A3(primaryBtn,c,address,action(c));});
    var addButtons = F3(function (address,answer,action) {
       return A2($List.map,function (c) {    return A3(charButton,address,$String.fromChar(c),action);},$Seq.uniqueChars(answer));
    });
@@ -11961,19 +11919,26 @@ Elm.View.make = function (_elm) {
       _U.list([$Html$Attributes.$class("btn btn-disabled"),buttonStyle,A2($Html$Events.onClick,address,$Types.Backspace)]),
       _U.list([$Html.text(t)]));
    });
+   var megaButton = $Html$Attributes.style(_U.list([{ctor: "_Tuple2",_0: "width",_1: "130px"},{ctor: "_Tuple2",_0: "font-size",_1: "40px"}]));
+   var smallButtonStyle = $Html$Attributes.style(_U.list([{ctor: "_Tuple2",_0: "font-size",_1: "16px"},{ctor: "_Tuple2",_0: "margin-right",_1: "5px"}]));
+   var collectedChars = function (collected) {
+      return A2($List.map,
+      function (c) {
+         return A2($Html.button,_U.list([$Html$Attributes.$class("btn btn-disabled"),smallButtonStyle]),_U.list([$Html.text(c)]));
+      },
+      A2($List.map,$String.fromChar,$Set.toList(collected)));
+   };
    var checkAnswer = F2(function (address,_p16) {
       var _p17 = _p16;
       var _p19 = _p17.state;
       var _p18 = _p19;
       if (_p18.ctor === "FinishedGame") {
             return _U.list([A2($Html.section,
-            _U.list([]),
-            _U.list([A2($Html.h2,
-            _U.list([$Html$Attributes.style(_U.list([{ctor: "_Tuple2",_0: "color",_1: "#4A9"}]))]),
-            _U.list([$Html.text(A2($Basics._op["++"],"Där va alla ord slut! ",collectedCharsAsCommaSeparatedString(_p18._0)))]))]))]);
+            _U.list([$Html$Attributes.style(_U.list([{ctor: "_Tuple2",_0: "margin-top",_1: "35px"}]))]),
+            collectedChars(_p18._0))]);
          } else {
             return $Types.correct(_p17.guess) ? _U.list([A2($Html.button,
-            _U.list([$Html$Attributes.$class("btn btn-success"),buttonStyle,A2($Html$Events.onClick,address,$Types.NewWord(_p19))]),
+            _U.list([$Html$Attributes.$class("btn btn-success"),megaButton,A2($Html$Events.onClick,address,$Types.NewWord(_p19))]),
             _U.list([A2($Html.span,_U.list([$Html$Attributes.$class("glyphicon glyphicon-thumbs-up")]),_U.list([]))]))]) : _U.list([A2($Html.div,
             _U.list([]),
             _U.list([]))]);
@@ -11993,13 +11958,13 @@ Elm.View.make = function (_elm) {
       var answer$ = A2($Debug.watch,"answer",$String.toList(answer(_p22)));
       var paddTo = $List.length(answer$);
       var paddedGuess = A2($Debug.watch,"guess",A2(paddUpTo,$String.toList($Basics.fst(_p22)),paddTo));
-      return row(_U.list([A2($Html.div,_U.list([$Html$Attributes.$class("col-sm-4")]),A2($List.map,disabledButton(address),paddedGuess))]));
+      return row(_U.list([A2($Html.div,_U.list([$Html$Attributes.$class("col-sm-8")]),A2($List.map,disabledButton(address),paddedGuess))]));
    });
    var letterButtons = F2(function (address,model) {
-      return row(_U.list([A2($Html.div,_U.list([$Html$Attributes.$class("col-sm-4")]),A3(addButtons,address,currentAnswer(model),$Types.AddChar))]));
+      return row(_U.list([A2($Html.div,_U.list([$Html$Attributes.$class("col-sm-8")]),A3(addButtons,address,currentAnswer(model),$Types.AddChar))]));
    });
    var soundButtons = F2(function (address,model) {
-      return row(_U.list([A2($Html.div,_U.list([$Html$Attributes.$class("col-sm-4")]),A3(addIconButtons,address,currentAnswer(model),$Types.PlayChar))]));
+      return row(_U.list([A2($Html.div,_U.list([$Html$Attributes.$class("col-sm-8")]),A3(addIconButtons,address,currentAnswer(model),$Types.PlayChar))]));
    });
    var success = F2(function (address,model) {
       return row(_U.list([A2($Html.div,_U.list([$Html$Attributes.$class("col-sm-4")]),A2(checkAnswer,address,model))]));
@@ -12010,18 +11975,22 @@ Elm.View.make = function (_elm) {
       _U.list([A2($Html.header,_U.list([]),_U.list([stylesheet("https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css")]))
               ,A2($Html.body,
               _U.list([]),
-              _U.list([container_(_U.list([row(_U.list([picture(model),score(model)]))
+              _U.list([container_(_U.list([row(_U.list([picture(model)
+                                                       ,A2($Html.div,
+                                                       _U.list([$Html$Attributes.$class("row")]),
+                                                       _U.list([score(model),A2(success,address,model)]))]))
                                           ,progress(model)
                                           ,A2(textControls,address,model)
                                           ,A2(showGuess,address,model)
                                           ,A2(letterButtons,address,model)
-                                          ,A2(soundButtons,charBoxAddress,model)
-                                          ,A2(success,address,model)]))]))]));
+                                          ,A2(soundButtons,charBoxAddress,model)]))]))]));
    });
    return _elm.View.values = {_op: _op
                              ,row: row
                              ,container_: container_
                              ,stylesheet: stylesheet
+                             ,smallButtonStyle: smallButtonStyle
+                             ,megaButton: megaButton
                              ,buttonStyle: buttonStyle
                              ,rowDistance: rowDistance
                              ,btn: btn
@@ -12044,7 +12013,7 @@ Elm.View.make = function (_elm) {
                              ,letterButtons: letterButtons
                              ,soundButtons: soundButtons
                              ,success: success
-                             ,collectedCharsAsCommaSeparatedString: collectedCharsAsCommaSeparatedString
+                             ,collectedChars: collectedChars
                              ,checkAnswer: checkAnswer
                              ,progress: progress
                              ,score: score

@@ -25,14 +25,12 @@ Elm.View.make = function (_elm) {
       var _p1 = _p0;
       var score = $Types.currentScore(_p1.state);
       var fontX = $Basics.toString(85 - (score / 10 | 0) * 12);
-      return A2($Html.div,
-      _U.list([$Html$Attributes.$class("col-sm-6")]),
-      _U.list([A2($Svg.svg,
+      return A2($Svg.svg,
       _U.list([$Svg$Attributes.width("200"),$Svg$Attributes.height("200"),$Svg$Attributes.viewBox("0 0 200 200")]),
       _U.list([A2($Svg.polygon,_U.list([$Svg$Attributes.fill("#EE9"),$Svg$Attributes.points("100,10 40,198 190,78 10,78 160,198")]),_U.list([]))
               ,A2($Svg.text$,
               _U.list([$Svg$Attributes.fontSize("45"),$Svg$Attributes.x(fontX),$Svg$Attributes.y("130"),$Svg$Attributes.fill("blue")]),
-              _U.list([$Svg.text($Basics.toString(score))]))]))]));
+              _U.list([$Svg.text($Basics.toString(score))]))]));
    };
    var progress = function (_p2) {
       var _p3 = _p2;
@@ -64,7 +62,6 @@ Elm.View.make = function (_elm) {
                       ,$Svg$Attributes.ry("5")]),
               _U.list([]))]));
    };
-   var collectedCharsAsCommaSeparatedString = function (collected) {    return A2($String.join,",",A2($List.map,$String.fromChar,$Set.toList(collected)));};
    var answer = function (_p4) {    var _p5 = _p4;return $Types.word(_p5._1);};
    var paddUpTo = F2(function (lst,n) {
       paddUpTo: while (true) if (_U.cmp($List.length(lst),n) < 0) {
@@ -105,12 +102,12 @@ Elm.View.make = function (_elm) {
    var bigAndSmall = function (s) {    return A2($Basics._op["++"],s,A2($Basics._op["++"]," ",$String.toLower(s)));};
    var rowDistance = $Html$Attributes.style(_U.list([{ctor: "_Tuple2",_0: "margin-bottom",_1: "10px"},{ctor: "_Tuple2",_0: "margin-top",_1: "25px"}]));
    var buttonStyle = $Html$Attributes.style(_U.list([{ctor: "_Tuple2",_0: "margin-right",_1: "10px"}
-                                                    ,{ctor: "_Tuple2",_0: "width",_1: "80px"}
+                                                    ,{ctor: "_Tuple2",_0: "width",_1: "100px"}
                                                     ,{ctor: "_Tuple2",_0: "font-size",_1: "20px"}
                                                     ,{ctor: "_Tuple2",_0: "padding",_1: "10px"}]));
    var btn = F4(function (addr,action,classes,what) {    return A2($Html.button,_U.list([classes,buttonStyle,A2($Html$Events.onClick,addr,action)]),what);});
    var primaryBtn = F3(function (label,addr,action) {    return A4(btn,addr,action,$Html$Attributes.$class("btn btn-primary"),_U.list([$Html.text(label)]));});
-   var charButton = F3(function (address,c,action) {    return A3(primaryBtn,bigAndSmall(c),address,action(c));});
+   var charButton = F3(function (address,c,action) {    return A3(primaryBtn,c,address,action(c));});
    var addButtons = F3(function (address,answer,action) {
       return A2($List.map,function (c) {    return A3(charButton,address,$String.fromChar(c),action);},$Seq.uniqueChars(answer));
    });
@@ -129,19 +126,26 @@ Elm.View.make = function (_elm) {
       _U.list([$Html$Attributes.$class("btn btn-disabled"),buttonStyle,A2($Html$Events.onClick,address,$Types.Backspace)]),
       _U.list([$Html.text(t)]));
    });
+   var megaButton = $Html$Attributes.style(_U.list([{ctor: "_Tuple2",_0: "width",_1: "130px"},{ctor: "_Tuple2",_0: "font-size",_1: "40px"}]));
+   var smallButtonStyle = $Html$Attributes.style(_U.list([{ctor: "_Tuple2",_0: "font-size",_1: "16px"},{ctor: "_Tuple2",_0: "margin-right",_1: "5px"}]));
+   var collectedChars = function (collected) {
+      return A2($List.map,
+      function (c) {
+         return A2($Html.button,_U.list([$Html$Attributes.$class("btn btn-disabled"),smallButtonStyle]),_U.list([$Html.text(c)]));
+      },
+      A2($List.map,$String.fromChar,$Set.toList(collected)));
+   };
    var checkAnswer = F2(function (address,_p16) {
       var _p17 = _p16;
       var _p19 = _p17.state;
       var _p18 = _p19;
       if (_p18.ctor === "FinishedGame") {
             return _U.list([A2($Html.section,
-            _U.list([]),
-            _U.list([A2($Html.h2,
-            _U.list([$Html$Attributes.style(_U.list([{ctor: "_Tuple2",_0: "color",_1: "#4A9"}]))]),
-            _U.list([$Html.text(A2($Basics._op["++"],"Där va alla ord slut! ",collectedCharsAsCommaSeparatedString(_p18._0)))]))]))]);
+            _U.list([$Html$Attributes.style(_U.list([{ctor: "_Tuple2",_0: "margin-top",_1: "35px"}]))]),
+            collectedChars(_p18._0))]);
          } else {
             return $Types.correct(_p17.guess) ? _U.list([A2($Html.button,
-            _U.list([$Html$Attributes.$class("btn btn-success"),buttonStyle,A2($Html$Events.onClick,address,$Types.NewWord(_p19))]),
+            _U.list([$Html$Attributes.$class("btn btn-success"),megaButton,A2($Html$Events.onClick,address,$Types.NewWord(_p19))]),
             _U.list([A2($Html.span,_U.list([$Html$Attributes.$class("glyphicon glyphicon-thumbs-up")]),_U.list([]))]))]) : _U.list([A2($Html.div,
             _U.list([]),
             _U.list([]))]);
@@ -161,13 +165,13 @@ Elm.View.make = function (_elm) {
       var answer$ = A2($Debug.watch,"answer",$String.toList(answer(_p22)));
       var paddTo = $List.length(answer$);
       var paddedGuess = A2($Debug.watch,"guess",A2(paddUpTo,$String.toList($Basics.fst(_p22)),paddTo));
-      return row(_U.list([A2($Html.div,_U.list([$Html$Attributes.$class("col-sm-4")]),A2($List.map,disabledButton(address),paddedGuess))]));
+      return row(_U.list([A2($Html.div,_U.list([$Html$Attributes.$class("col-sm-8")]),A2($List.map,disabledButton(address),paddedGuess))]));
    });
    var letterButtons = F2(function (address,model) {
-      return row(_U.list([A2($Html.div,_U.list([$Html$Attributes.$class("col-sm-4")]),A3(addButtons,address,currentAnswer(model),$Types.AddChar))]));
+      return row(_U.list([A2($Html.div,_U.list([$Html$Attributes.$class("col-sm-8")]),A3(addButtons,address,currentAnswer(model),$Types.AddChar))]));
    });
    var soundButtons = F2(function (address,model) {
-      return row(_U.list([A2($Html.div,_U.list([$Html$Attributes.$class("col-sm-4")]),A3(addIconButtons,address,currentAnswer(model),$Types.PlayChar))]));
+      return row(_U.list([A2($Html.div,_U.list([$Html$Attributes.$class("col-sm-8")]),A3(addIconButtons,address,currentAnswer(model),$Types.PlayChar))]));
    });
    var success = F2(function (address,model) {
       return row(_U.list([A2($Html.div,_U.list([$Html$Attributes.$class("col-sm-4")]),A2(checkAnswer,address,model))]));
@@ -178,18 +182,22 @@ Elm.View.make = function (_elm) {
       _U.list([A2($Html.header,_U.list([]),_U.list([stylesheet("https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css")]))
               ,A2($Html.body,
               _U.list([]),
-              _U.list([container_(_U.list([row(_U.list([picture(model),score(model)]))
+              _U.list([container_(_U.list([row(_U.list([picture(model)
+                                                       ,A2($Html.div,
+                                                       _U.list([$Html$Attributes.$class("row")]),
+                                                       _U.list([score(model),A2(success,address,model)]))]))
                                           ,progress(model)
                                           ,A2(textControls,address,model)
                                           ,A2(showGuess,address,model)
                                           ,A2(letterButtons,address,model)
-                                          ,A2(soundButtons,charBoxAddress,model)
-                                          ,A2(success,address,model)]))]))]));
+                                          ,A2(soundButtons,charBoxAddress,model)]))]))]));
    });
    return _elm.View.values = {_op: _op
                              ,row: row
                              ,container_: container_
                              ,stylesheet: stylesheet
+                             ,smallButtonStyle: smallButtonStyle
+                             ,megaButton: megaButton
                              ,buttonStyle: buttonStyle
                              ,rowDistance: rowDistance
                              ,btn: btn
@@ -212,7 +220,7 @@ Elm.View.make = function (_elm) {
                              ,letterButtons: letterButtons
                              ,soundButtons: soundButtons
                              ,success: success
-                             ,collectedCharsAsCommaSeparatedString: collectedCharsAsCommaSeparatedString
+                             ,collectedChars: collectedChars
                              ,checkAnswer: checkAnswer
                              ,progress: progress
                              ,score: score

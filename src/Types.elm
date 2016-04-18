@@ -15,14 +15,14 @@ type GameState =
   FinishedGame CollectedChars Int
   | Guessing Guess WordList CollectedChars Int
 
-type Action = 
+type Action =
   AddChar String
   | PlayChar String
   | Reset
   | Backspace
   | NewWord GameState
 
-type alias Model = { 
+type alias Model = {
   guess : Guess,
   state : GameState
 }
@@ -40,11 +40,10 @@ collected state =
     (Guessing _ _ collected _) -> collected
 
 initialState : GameState
-initialState = 
+initialState =
   case alternatives of
     h::t -> (Guessing ("", h) t Set.empty 0)
     _ -> FinishedGame Set.empty 0
-    
 
 updateCollected : Set Char -> Guess -> Set Char
 updateCollected set (guess, _) = List.foldr (\c a-> Set.insert c a) set (String.toList guess)
@@ -53,8 +52,8 @@ correct : Guess -> Bool
 correct (guess, question) = guess == (word question)
 
 points : Guess -> Int
-points (guess,{word,image}) = 
-  String.length word 
+points (guess,{word,image}) =
+  String.length word
 
 word : Question -> String
 word question = question.word
@@ -78,15 +77,15 @@ currentScore state =
      (Guessing _ _ _ score) -> score
 
 addGuess : Guess -> GameState -> GameState
-addGuess guess state = 
+addGuess guess state =
   let lst = wordList state
       collected' = updateCollected (collected state) guess
       score = (currentScore state)
-      score' = (points guess) + score 
+      score' = (points guess) + score
   in
     if correct guess then
-          case lst of 
-            [] -> FinishedGame collected' score' 
+          case lst of
+            [] -> FinishedGame collected' score'
             h::t -> Guessing ("", h) t collected' score'
     else
       Guessing guess lst (collected state) score

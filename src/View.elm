@@ -15,7 +15,7 @@ row : List Html -> Html
 row = div [ A.class "row", rowDistance ]
 
 container_ : List Html -> Html
-container_ = div [ A.class "container-fluid" ]
+container_ = div [ A.class "container-fluid"]
 
 stylesheet : String -> Html
 stylesheet href =
@@ -24,9 +24,20 @@ stylesheet href =
   , A.href href
   ] []
 
-buttonStyle = A.style [
+smallButtonStyle =
+  A.style [("font-size", "16px")
+          ,("margin-right", "5px")]
+
+megaButton =
+  A.style [
+     ("width", "130px")
+     ,( "font-size", "40px")
+  ]
+
+buttonStyle =
+  A.style [
   ("margin-right", "10px")
-  ,("width", "80px")
+  ,("width", "100px")
   ,("font-size", "20px")
   ,("padding", "10px")]
 
@@ -41,12 +52,11 @@ primaryBtn label addr action =
   btn addr action (A.class "btn btn-primary") [text label]
 
 charButton address c action =
-  primaryBtn (bigAndSmall c) address (action c)
+  primaryBtn c address (action c)
 
 bigAndSmall : String -> String
 bigAndSmall s =
     s ++ " " ++ (toLower s)
-
 
 addButtons address answer action =
   List.map (\c -> charButton address (String.fromChar c) action) (uniqueChars answer)
@@ -95,7 +105,7 @@ controlButton adr action icon =
           onClick adr action ] []
 
 textControls address model =
-  row [ div [A.class "col-sm-4" ]
+  row [ div [A.class "col-sm-4"]
       [ controlButton address Reset "glyphicon-refresh"
       , controlButton address Backspace "glyphicon-erase"]]
 
@@ -119,36 +129,38 @@ showGuess address {guess, state} =
       paddTo = (List.length answer')
       paddedGuess = Debug.watch "guess" (paddUpTo (String.toList (fst guess)) paddTo )
   in
-  row [ div [A.class "col-sm-4"]
+  row [ div [A.class "col-sm-8"]
            (List.map (disabledButton address) paddedGuess) ]
 
 letterButtons : Signal.Address Action -> Model -> Html
 letterButtons address model =
-  row [ div [A.class "col-sm-4"] (addButtons address (currentAnswer model) AddChar)]
+  row [ div [A.class "col-sm-8"]
+          (addButtons address (currentAnswer model) AddChar)]
 
 soundButtons : Signal.Address Action -> Model -> Html
 soundButtons address model =
-  row [ div [A.class "col-sm-4"] (addIconButtons address (currentAnswer model) PlayChar)]
+  row [ div [A.class "col-sm-8"] (addIconButtons address (currentAnswer model) PlayChar)]
 
 success : Signal.Address Action -> Model -> Html
 success address model =
-  row [ div [A.class "col-sm-4" ] (checkAnswer address model)]
+  row [ div [A.class "col-sm-4" ]
+          (checkAnswer address model)]
 
-collectedCharsAsCommaSeparatedString : Set Char -> String
-collectedCharsAsCommaSeparatedString collected =
-  (String.join "," (List.map String.fromChar (Set.toList collected)))
+collectedChars : Set Char -> List Html
+collectedChars collected =
+  (List.map (\c -> button [A.class "btn btn-disabled", smallButtonStyle]  [text c])
+     (List.map String.fromChar (Set.toList collected)))
 
 checkAnswer : Signal.Address Action -> Model -> List Html
 checkAnswer address {guess, state} =
   case state of
     (FinishedGame collected score) ->
-      [section []
-          [h2 [A.style [( "color", "#4A9")]]
-            [text ("Där va alla ord slut! " ++ (collectedCharsAsCommaSeparatedString collected))]]
-          ]
+      [section [A.style [ ( "margin-top", "35px")]]
+         (collectedChars collected)]
+
     (Guessing g wordlist collected score) ->
       if correct guess then
-        [ button [A.class "btn btn-success", buttonStyle, onClick address (NewWord state)]
+        [ button [A.class "btn btn-success", megaButton, onClick address (NewWord state)]
         [ span [A.class "glyphicon glyphicon-thumbs-up"] []]]
       else
         [div [] []]
@@ -172,12 +184,11 @@ score {guess, state} =
    let score = (currentScore state)
        fontX = (toString (85 - ((score // 10) * 12)))
    in
-      div [A.class "col-sm-6"]
-        [Svg.svg
+        Svg.svg
             [ SvgA.width "200", SvgA.height "200", SvgA.viewBox "0 0 200 200"]
             [ Svg.polygon [ SvgA.fill "#EE9",
                 SvgA.points "100,10 40,198 190,78 10,78 160,198" ] []
-              ,Svg.text' [SvgA.fontSize "45", SvgA.x fontX, SvgA.y "130", SvgA.fill "blue"] [Svg.text (toString score)] ]]
+              ,Svg.text' [SvgA.fontSize "45", SvgA.x fontX, SvgA.y "130", SvgA.fill "blue"] [Svg.text (toString score)] ]
 
 view : Signal.Address Action -> Signal.Address Action -> Model -> Html
 view charBoxAddress address model =
@@ -188,13 +199,14 @@ view charBoxAddress address model =
        [container_
           [ row
               [ picture model
-              , score model ]
-          , progress model
+              , div [A.class "row"]
+                  [score model
+                  , success address model]]
+              , progress model
           , textControls address model
           , showGuess address model
           , letterButtons address model
           , soundButtons charBoxAddress model
-          , success address model
        ]
       ]
     ]
