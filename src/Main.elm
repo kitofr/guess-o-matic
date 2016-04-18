@@ -12,7 +12,7 @@ import Html exposing (..)
 import View exposing (view)
 import Types exposing (..)
 import Seq exposing (..)
-import Data exposing (..)
+import Data exposing (alternatives)
 
 {--
 TODO
