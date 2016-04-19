@@ -186,9 +186,11 @@ score {guess, state} =
    in
         Svg.svg
             [ SvgA.width "200", SvgA.height "200", SvgA.viewBox "0 0 200 200"]
-            [ Svg.polygon [ SvgA.fill "#EE9",
-                SvgA.points "100,10 40,198 190,78 10,78 160,198" ] []
-              ,Svg.text' [SvgA.fontSize "45", SvgA.x fontX, SvgA.y "130", SvgA.fill "blue"] [Svg.text (toString score)] ]
+            [ Svg.polygon [ SvgA.fill "#EE9"
+            , SvgA.points "100,10 40,198 190,78 10,78 160,198" ] []
+            , Svg.text'
+                [SvgA.fontSize "45", SvgA.x fontX, SvgA.y "130", SvgA.fill "blue"]
+                [Svg.text (toString score)] ]
 
 view : Signal.Address Action -> Signal.Address Action -> Model -> Html
 view charBoxAddress address model =
