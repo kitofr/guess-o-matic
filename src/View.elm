@@ -159,6 +159,7 @@ checkAnswer address {guess, state} =
          (collectedChars collected)]
 
     (Guessing g wordlist collected score) ->
+      -- TODO: Extract this to own model/view and add animations
       if correct guess then
         [ button [A.class "btn btn-success", megaButton, onClick address (NewWord state)]
         [ span [A.class "glyphicon glyphicon-thumbs-up"] []]]
