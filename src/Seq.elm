@@ -1,4 +1,4 @@
-module Seq where
+module Seq exposing (..)
 import String exposing (toUpper)
 import Set exposing (insert, empty, toList)
 import List exposing (drop, head, foldr, sort)
@@ -9,13 +9,12 @@ nth n lst def =
 
 
 uniqueChars string =
-  List.foldr (\c a-> Set.insert c a) Set.empty 
+  List.foldr (\c a-> Set.insert c a) Set.empty
   (String.toUpper string
-    |> String.toList 
+    |> String.toList
     |> List.sort)
   |> Set.toList
 
 
 addChars word set =
   List.foldr (\c a-> Set.insert c a) set (String.toList word)
-
