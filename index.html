@@ -14,12 +14,14 @@
   var elmDiv = document.getElementById('elm-app-lives-here');
   var elmApp = Elm.Main.embed(elmDiv);
 
+  console.log("things loaded");
+
   var playSound = function(what){
     var snd = new Audio("./sounds/" + what + ".mp3");
     snd.play();
   };
 
-  var fix_swedish = function(ch) {
+  var fixSwedish = function(ch) {
     var ret = ch;
     switch(ch) {
       case 'å':
@@ -38,7 +40,7 @@
   elmApp.ports.playChar.subscribe(function(ch) {
     console.log("Playing: " + ch);
     if(ch)
-      playSound(fix_swedish(ch.toLowerCase()));
+      playSound(fixSwedish(ch.toLowerCase()));
   });
 
   elmApp.ports.correct.subscribe(function(isCorrect) {
