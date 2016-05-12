@@ -23,21 +23,6 @@ main =
                , subscriptions = \_ -> Sub.none
                }
 
---charBox : Signal.Mailbox Msg
---charBox =
---  Signal.mailbox (PlayChar "")
-
---port playChar : String -> Cmd msg
---port playChar =
---  Signal.map
---    (\x -> case x of
---      (PlayChar ch) -> ch
---      otherwise -> "")
---  charBox.signal
---
---port correct : Bool -> Cmd msg
---port correct = Signal.map (\m -> Types.correct m.guess) app.model
-
 nextWord : Model -> GameState -> Model
 nextWord model state' =
   case state' of
@@ -82,4 +67,6 @@ update msg model =
     NewWord state ->
       (nextWord model state, Cmd.none)
 
-    PlayChar ch -> (model, Cmd.none)
+    PlayChar ch ->
+      playChar ch
+      (model, Cmd.none)
