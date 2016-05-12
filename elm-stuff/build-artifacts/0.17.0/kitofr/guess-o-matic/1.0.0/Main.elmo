@@ -75,12 +75,18 @@ var _kitofr$guess_o_matic$Main$update = F2(
 					_1: _elm_lang$core$Platform_Cmd$none
 				};
 			case 'NewWord':
+				var _p9 = _elm_lang$core$Debug$log('correct!');
+				var _p10 = _kitofr$guess_o_matic$Ports$correct(true);
 				return {
 					ctor: '_Tuple2',
 					_0: A2(_kitofr$guess_o_matic$Main$nextWord, model, _p7._0),
 					_1: _elm_lang$core$Platform_Cmd$none
 				};
 			default:
+				var _p13 = _p7._0;
+				var _p11 = _elm_lang$core$Debug$log(
+					A2(_elm_lang$core$Basics_ops['++'], 'play: ', _p13));
+				var _p12 = _kitofr$guess_o_matic$Ports$playChar(_p13);
 				return {ctor: '_Tuple2', _0: model, _1: _elm_lang$core$Platform_Cmd$none};
 		}
 	});
@@ -90,7 +96,7 @@ var _kitofr$guess_o_matic$Main$main = {
 			init: _kitofr$guess_o_matic$Main$init,
 			view: _kitofr$guess_o_matic$View$view,
 			update: _kitofr$guess_o_matic$Main$update,
-			subscriptions: function (_p9) {
+			subscriptions: function (_p14) {
 				return _elm_lang$core$Platform_Sub$none;
 			}
 		})

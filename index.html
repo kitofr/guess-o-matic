@@ -12,7 +12,7 @@
 
 <script type="text/javascript">
   var elmDiv = document.getElementById('elm-app-lives-here');
-  var elmApp = Elm.embed(Elm.Main, elmDiv);
+  var elmApp = Elm.Main.embed(elmDiv);
 
   var playSound = function(what){
     var snd = new Audio("./sounds/" + what + ".mp3");

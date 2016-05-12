@@ -114,6 +114,7 @@ disabledButton ch =
   in
      button [ A.class "btn btn-disabled", buttonStyle, onClick Backspace  ] [ text t ]
 
+paddUpTo : List Char -> Int -> List Char
 paddUpTo lst n =
   if List.length lst < n then
      paddUpTo (List.append lst ['_']) n
@@ -137,9 +138,9 @@ letterButtons model =
   row [ div [A.class "col-sm-8"]
           (addButtons (currentAnswer model) AddChar)]
 
---soundButtons : Model -> Html Msg
---soundButtons model =
---  row [ div [A.class "col-sm-8"] (addIconButtons (currentAnswer model) PlayChar)]
+soundButtons : Model -> Html Msg
+soundButtons model =
+  row [ div [A.class "col-sm-8"] (addIconButtons (currentAnswer model) PlayChar)]
 
 success : Model -> Html Msg
 success model =
@@ -209,7 +210,7 @@ view model =
           , textControls model
           , showGuess model
           , letterButtons model
-          --, soundButtons model
+          , soundButtons model
        ]
       ]
     ]

@@ -450,6 +450,22 @@ var _kitofr$guess_o_matic$View$letterButtons = function (model) {
 					_kitofr$guess_o_matic$Types$AddChar))
 			]));
 };
+var _kitofr$guess_o_matic$View$soundButtons = function (model) {
+	return _kitofr$guess_o_matic$View$row(
+		_elm_lang$core$Native_List.fromArray(
+			[
+				A2(
+				_elm_lang$html$Html$div,
+				_elm_lang$core$Native_List.fromArray(
+					[
+						_elm_lang$html$Html_Attributes$class('col-sm-8')
+					]),
+				A2(
+					_kitofr$guess_o_matic$View$addIconButtons,
+					_kitofr$guess_o_matic$View$currentAnswer(model),
+					_kitofr$guess_o_matic$Types$PlayChar))
+			]));
+};
 var _kitofr$guess_o_matic$View$success = function (model) {
 	return _kitofr$guess_o_matic$View$row(
 		_elm_lang$core$Native_List.fromArray(
@@ -506,7 +522,8 @@ var _kitofr$guess_o_matic$View$view = function (model) {
 								_kitofr$guess_o_matic$View$progress(model),
 								_kitofr$guess_o_matic$View$textControls(model),
 								_kitofr$guess_o_matic$View$showGuess(model),
-								_kitofr$guess_o_matic$View$letterButtons(model)
+								_kitofr$guess_o_matic$View$letterButtons(model),
+								_kitofr$guess_o_matic$View$soundButtons(model)
 							]))
 					]))
 			]));

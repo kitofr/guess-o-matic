@@ -3,7 +3,7 @@ import Html.App as Html exposing (..)
 import String exposing (..)
 import View exposing (view)
 import Types exposing (..)
-import Ports exposing (playChar, correct)
+import Ports as Port exposing (playChar, correct)
 
 {--
 TODO
@@ -66,8 +66,13 @@ update msg model =
       (backspace model, Cmd.none)
 
     NewWord state ->
+      let _ = Port.correct True
+          _ = Debug.log("correct!")
+      in
       (nextWord model state, Cmd.none)
 
     PlayChar ch ->
-      playChar ch
+      let _ = Port.playChar ch
+          _ = Debug.log("play: " ++ ch)
+      in
       (model, Cmd.none)
