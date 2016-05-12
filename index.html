@@ -22,7 +22,7 @@
   var fix_swedish = function(ch) {
     var ret = ch;
     switch(ch) {
-      case 'å': 
+      case 'å':
         ret = "aa";
         break;
       case 'ä':
@@ -42,6 +42,7 @@
   });
 
   elmApp.ports.correct.subscribe(function(isCorrect) {
+    console.log("Tada!");
     if(isCorrect)
       playSound('tada');
   });
