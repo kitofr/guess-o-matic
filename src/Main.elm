@@ -3,6 +3,7 @@ import Html.App as Html exposing (..)
 import String exposing (..)
 import View exposing (view)
 import Types exposing (..)
+import Ports exposing (playChar, correct)
 
 {--
 TODO
