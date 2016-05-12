@@ -53,6 +53,8 @@ backspace {guess, state} =
 
 update : Msg -> Model -> (Model, Cmd Msg)
 update msg model =
+  let _ = Debug.log("update!")
+  in
   case msg of
     AddChar ch ->
       (addChar ch model, Cmd.none)
@@ -66,13 +68,7 @@ update msg model =
       (backspace model, Cmd.none)
 
     NewWord state ->
-      let _ = Port.correct True
-          _ = Debug.log("correct!")
-      in
-      (nextWord model state, Cmd.none)
+      (nextWord model state, Port.correct True)
 
     PlayChar ch ->
-      let _ = Port.playChar ch
-          _ = Debug.log("play: " ++ ch)
-      in
-      (model, Cmd.none)
+      (model, Port.playChar ch)
