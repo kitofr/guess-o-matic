@@ -1,4 +1,4 @@
-module Types where
+module Types exposing (..)
 
 import Data exposing (..)
 import String exposing (..)
@@ -15,7 +15,7 @@ type GameState =
   FinishedGame CollectedChars Int
   | Guessing Guess WordList CollectedChars Int
 
-type Action =
+type Msg =
   AddChar String
   | PlayChar String
   | Reset

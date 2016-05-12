@@ -1,18 +1,9 @@
-import StartApp
-import Effects exposing (Effects, Never)
-import Task exposing (Task)
-import Html exposing (..)
+import Platform.Cmd as Cmd exposing (Cmd)
+import Html.App as Html exposing (..)
 import String exposing (..)
-import Set exposing (..)
-import List exposing (..)
-import Random exposing (..)
-import Maybe exposing (..)
-import Debug exposing (..)
-import Html exposing (..)
 import View exposing (view)
 import Types exposing (..)
-import Seq exposing (..)
-import Data exposing (alternatives)
+import Ports as Port exposing (playChar, correct)
 
 {--
 TODO
@@ -25,36 +16,13 @@ TODO
   - Play word initially
 --}
 
-app =
-  StartApp.start { init = init
-                  , view = (view charBox.address)
-                  , update = update
-                  , inputs = []
-                  }
-
-main : Signal Html
+main : Program Never
 main =
-  app.html
-
-port tasks :Signal (Task Never ())
-port tasks =
-  app.tasks
-
-
-charBox : Signal.Mailbox Action
-charBox =
-  Signal.mailbox (PlayChar "")
-
-port playChar : Signal String
-port playChar =
-  Signal.map
-    (\x -> case x of
-      (PlayChar ch) -> ch
-      otherwise -> "")
-  charBox.signal
-
-port correct : Signal Bool
-port correct = Signal.map (\m -> Types.correct m.guess) app.model
+  Html.program { init = init
+               , view = view
+               , update = update
+               , subscriptions = \_ -> Sub.none
+               }
 
 nextWord : Model -> GameState -> Model
 nextWord model state' =
@@ -62,12 +30,12 @@ nextWord model state' =
     (FinishedGame collected score) -> { guess = model.guess , state = state' }
     (Guessing g l collected score) -> { guess = g, state = state' }
 
-init : (Model, Effects Action)
+init : (Model, Cmd Msg)
 init =
   let state' = Types.initialState
       guess' = Types.createGuess "" state'
   in
-    ({ guess = guess', state = state' }, Effects.none)
+    ({ guess = guess', state = state' }, Cmd.none)
 
 addChar : String -> Model -> Model
 addChar ch {guess, state} =
@@ -83,21 +51,24 @@ backspace {guess, state} =
   in
       { guess = (g', q), state = (Types.addGuess (g',q) state) }
 
-update : Action -> Model -> (Model, Effects Action)
-update action model =
-  case action of
+update : Msg -> Model -> (Model, Cmd Msg)
+update msg model =
+  let _ = Debug.log("update!")
+  in
+  case msg of
     AddChar ch ->
-      (addChar ch model, Effects.none)
+      (addChar ch model, Cmd.none)
 
     Reset ->
       let (_,q) = model.guess
       in
-      ({ model | guess = ("", q) }, Effects.none)
+      ({ model | guess = ("", q) }, Cmd.none)
 
     Backspace ->
-      (backspace model, Effects.none)
+      (backspace model, Cmd.none)
 
     NewWord state ->
-      (nextWord model state, Effects.none)
+      (nextWord model state, Port.correct True)
 
-    PlayChar ch -> (model, Effects.none)
+    PlayChar ch ->
+      (model, Port.playChar ch)

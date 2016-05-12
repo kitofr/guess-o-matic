@@ -1,0 +1,10 @@
+var _kitofr$guess_o_matic$Ports$playChar = _elm_lang$core$Native_Platform.outgoingPort(
+	'playChar',
+	function (v) {
+		return v;
+	});
+var _kitofr$guess_o_matic$Ports$correct = _elm_lang$core$Native_Platform.outgoingPort(
+	'correct',
+	function (v) {
+		return v;
+	});

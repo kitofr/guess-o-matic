@@ -12,17 +12,19 @@
 
 <script type="text/javascript">
   var elmDiv = document.getElementById('elm-app-lives-here');
-  var elmApp = Elm.embed(Elm.Main, elmDiv);
+  var elmApp = Elm.Main.embed(elmDiv);
+
+  console.log("things loaded");
 
   var playSound = function(what){
     var snd = new Audio("./sounds/" + what + ".mp3");
     snd.play();
   };
 
-  var fix_swedish = function(ch) {
+  var fixSwedish = function(ch) {
     var ret = ch;
     switch(ch) {
-      case 'å': 
+      case 'å':
         ret = "aa";
         break;
       case 'ä':
@@ -38,10 +40,11 @@
   elmApp.ports.playChar.subscribe(function(ch) {
     console.log("Playing: " + ch);
     if(ch)
-      playSound(fix_swedish(ch.toLowerCase()));
+      playSound(fixSwedish(ch.toLowerCase()));
   });
 
   elmApp.ports.correct.subscribe(function(isCorrect) {
+    console.log("Tada!");
     if(isCorrect)
       playSound('tada');
   });

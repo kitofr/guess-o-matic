@@ -1,4 +1,5 @@
-module View where
+module View exposing (view)
+
 import Html exposing (..)
 import Html.Attributes as A
 import Html.Events exposing (onClick)
@@ -7,17 +8,16 @@ import Set exposing (..)
 import Types exposing (..)
 import Seq exposing (..)
 import Data exposing (..)
-import Debug exposing (..)
 import Svg
 import Svg.Attributes as SvgA
 
-row : List Html -> Html
+row : List (Html Msg) -> Html Msg
 row = div [ A.class "row", rowDistance ]
 
-container_ : List Html -> Html
+container_ : List (Html Msg) -> Html Msg
 container_ = div [ A.class "container-fluid"]
 
-stylesheet : String -> Html
+stylesheet : String -> Html Msg
 stylesheet href =
   node "link"
   [ A.rel "stylesheet"
@@ -44,28 +44,28 @@ buttonStyle =
 rowDistance =
   A.style [ ( "margin-bottom","10px"), ("margin-top", "25px") ]
 
-btn addr action classes what =
-  button [ classes, buttonStyle ,onClick addr action ]
+btn action classes what =
+  button [ classes, buttonStyle ,onClick action ]
           what
 
-primaryBtn label addr action =
-  btn addr action (A.class "btn btn-primary") [text label]
+primaryBtn label action =
+  btn action (A.class "btn btn-primary") [text label]
 
-charButton address c action =
-  primaryBtn c address (action c)
+charButton c action =
+  primaryBtn c (action c)
 
 bigAndSmall : String -> String
 bigAndSmall s =
     s ++ " " ++ (toLower s)
 
-addButtons address answer action =
-  List.map (\c -> charButton address (String.fromChar c) action) (uniqueChars answer)
+addButtons answer msg =
+  List.map (\c -> charButton (String.fromChar c) msg) (uniqueChars answer)
 
-iconButton addr action =
-  btn addr action (A.class "btn glyphicon glyphicon-volume-up") []
+iconButton action =
+  btn action (A.class "btn glyphicon glyphicon-volume-up") []
 
-addIconButtons address answer action =
-  List.map (\c -> iconButton address (action (String.fromChar c))) (uniqueChars answer)
+addIconButtons answer action =
+  List.map (\c -> iconButton (action (String.fromChar c))) (uniqueChars answer)
 
 image : Guess -> String
 image (_,question) =
@@ -85,7 +85,7 @@ hasMoreWords {guess, state} =
         [] -> False
         otherwise -> True
 
-picture : Model -> Html
+picture : Model -> Html Msg
 picture {guess, state} =
   div [A.class "col-sm-6"]
   [ img [ A.src (image guess)
@@ -99,21 +99,22 @@ picture {guess, state} =
              ("box-shadow", "0 10px 6px -6px #777")
              ] ] [] ]
 
-controlButton adr action icon =
+controlButton action icon =
   button [A.class ("btn btn-warning glyphicon " ++ icon),
           buttonStyle,
-          onClick adr action ] []
+          onClick action ] []
 
-textControls address model =
+textControls model =
   row [ div [A.class "col-sm-4"]
-      [ controlButton address Reset "glyphicon-refresh"
-      , controlButton address Backspace "glyphicon-erase"]]
+      [ controlButton Reset "glyphicon-refresh"
+      , controlButton Backspace "glyphicon-erase"]]
 
-disabledButton address ch =
+disabledButton ch =
   let t = String.fromChar ch
   in
-     button [ A.class "btn btn-disabled", buttonStyle, onClick address Backspace  ] [ text t ]
+     button [ A.class "btn btn-disabled", buttonStyle, onClick Backspace  ] [ text t ]
 
+paddUpTo : List Char -> Int -> List Char
 paddUpTo lst n =
   if List.length lst < n then
      paddUpTo (List.append lst ['_']) n
@@ -123,36 +124,36 @@ paddUpTo lst n =
 answer : Guess -> String
 answer (_, question) = (word question)
 
-showGuess : Signal.Address Action -> Model -> Html
-showGuess address {guess, state} =
-  let answer' = Debug.watch "answer" (String.toList (answer guess))
+showGuess : Model -> Html Msg
+showGuess {guess, state} =
+  let answer' = String.toList (answer guess)
       paddTo = (List.length answer')
-      paddedGuess = Debug.watch "guess" (paddUpTo (String.toList (fst guess)) paddTo )
+      paddedGuess = paddUpTo (String.toList (fst guess)) paddTo
   in
   row [ div [A.class "col-sm-8"]
-           (List.map (disabledButton address) paddedGuess) ]
+           (List.map disabledButton paddedGuess) ]
 
-letterButtons : Signal.Address Action -> Model -> Html
-letterButtons address model =
+letterButtons : Model -> Html Msg
+letterButtons model =
   row [ div [A.class "col-sm-8"]
-          (addButtons address (currentAnswer model) AddChar)]
+          (addButtons (currentAnswer model) AddChar)]
 
-soundButtons : Signal.Address Action -> Model -> Html
-soundButtons address model =
-  row [ div [A.class "col-sm-8"] (addIconButtons address (currentAnswer model) PlayChar)]
+soundButtons : Model -> Html Msg
+soundButtons model =
+  row [ div [A.class "col-sm-8"] (addIconButtons (currentAnswer model) PlayChar)]
 
-success : Signal.Address Action -> Model -> Html
-success address model =
+success : Model -> Html Msg
+success model =
   row [ div [A.class "col-sm-4" ]
-          (checkAnswer address model)]
+          (checkAnswer model)]
 
-collectedChars : Set Char -> List Html
+collectedChars : Set Char -> List (Html Msg)
 collectedChars collected =
   (List.map (\c -> button [A.class "btn btn-disabled", smallButtonStyle]  [text c])
      (List.map String.fromChar (Set.toList collected)))
 
-checkAnswer : Signal.Address Action -> Model -> List Html
-checkAnswer address {guess, state} =
+checkAnswer : Model -> List (Html Msg)
+checkAnswer {guess, state} =
   case state of
     (FinishedGame collected score) ->
       [section [A.style [ ( "margin-top", "35px")]]
@@ -161,12 +162,12 @@ checkAnswer address {guess, state} =
     (Guessing g wordlist collected score) ->
       -- TODO: Extract this to own model/view and add animations
       if correct guess then
-        [ button [A.class "btn btn-success", megaButton, onClick address (NewWord state)]
+        [ button [A.class "btn btn-success", megaButton, onClick (NewWord state)]
         [ span [A.class "glyphicon glyphicon-thumbs-up"] []]]
       else
         [div [] []]
 
-progress : Model -> Html
+progress : Model -> Html Msg
 progress {guess, state} =
   let n = wordList state |> List.length |> Basics.toFloat
       tot = alternatives |> List.length |> Basics.toFloat
@@ -180,7 +181,7 @@ progress {guess, state} =
           Svg.rect [ SvgA.fill "#8C8", SvgA.x "0", SvgA.y "0", SvgA.width (toString complete), SvgA.height "20", SvgA.rx "5", SvgA.ry "5" ] []
         ]
 
-score : Model -> Html
+score : Model -> Html Msg
 score {guess, state} =
    let score = (currentScore state)
        fontX = (toString (85 - ((score // 10) * 12)))
@@ -193,8 +194,8 @@ score {guess, state} =
                 [SvgA.fontSize "45", SvgA.x fontX, SvgA.y "130", SvgA.fill "blue"]
                 [Svg.text (toString score)] ]
 
-view : Signal.Address Action -> Signal.Address Action -> Model -> Html
-view charBoxAddress address model =
+view : Model -> Html Msg
+view model =
   main' []
     [header []
        [stylesheet "https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css"]
@@ -204,12 +205,12 @@ view charBoxAddress address model =
               [ picture model
               , div [A.class "row"]
                   [score model
-                  , success address model]]
+                  , success model]]
               , progress model
-          , textControls address model
-          , showGuess address model
-          , letterButtons address model
-          , soundButtons charBoxAddress model
+          , textControls model
+          , showGuess model
+          , letterButtons model
+          , soundButtons model
        ]
       ]
     ]
