@@ -37,64 +37,37 @@ var _kitofr$guess_o_matic$View$score = function (_p0) {
 					]))
 			]));
 };
-var _kitofr$guess_o_matic$View$progress = function (_p2) {
+var _kitofr$guess_o_matic$View$quit = A2(
+	_elm_lang$html$Html$span,
+	_elm_lang$core$Native_List.fromArray(
+		[
+			_elm_lang$html$Html_Attributes$style(
+			_elm_lang$core$Native_List.fromArray(
+				[
+					{ctor: '_Tuple2', _0: 'float', _1: 'left'},
+					{ctor: '_Tuple2', _0: 'margin-left', _1: '20px'}
+				]))
+		]),
+	_elm_lang$core$Native_List.fromArray(
+		[
+			A2(
+			_elm_lang$html$Html$button,
+			_elm_lang$core$Native_List.fromArray(
+				[
+					_elm_lang$html$Html_Attributes$style(
+					_elm_lang$core$Native_List.fromArray(
+						[
+							{ctor: '_Tuple2', _0: 'display', _1: 'inline'}
+						]))
+				]),
+			_elm_lang$core$Native_List.fromArray(
+				[
+					_elm_lang$html$Html$text('Quit')
+				]))
+		]));
+var _kitofr$guess_o_matic$View$answer = function (_p2) {
 	var _p3 = _p2;
-	var total = 300.0;
-	var width = _elm_lang$core$Basics$toString(total);
-	var tot = _elm_lang$core$Basics$toFloat(
-		_elm_lang$core$List$length(_kitofr$guess_o_matic$Data$alternatives));
-	var n = _elm_lang$core$Basics$toFloat(
-		_elm_lang$core$List$length(
-			_kitofr$guess_o_matic$Types$wordList(_p3.state)));
-	var complete = ((tot - n) / tot) * total;
-	return A2(
-		_elm_lang$svg$Svg$svg,
-		_elm_lang$core$Native_List.fromArray(
-			[
-				_elm_lang$svg$Svg_Attributes$width(width),
-				_elm_lang$svg$Svg_Attributes$height('20'),
-				_elm_lang$svg$Svg_Attributes$viewBox(
-				A2(
-					_elm_lang$core$Basics_ops['++'],
-					'0 0 ',
-					A2(_elm_lang$core$Basics_ops['++'], width, ' 20')))
-			]),
-		_elm_lang$core$Native_List.fromArray(
-			[
-				A2(
-				_elm_lang$svg$Svg$rect,
-				_elm_lang$core$Native_List.fromArray(
-					[
-						_elm_lang$svg$Svg_Attributes$fill('#AAA'),
-						_elm_lang$svg$Svg_Attributes$x('0'),
-						_elm_lang$svg$Svg_Attributes$y('0'),
-						_elm_lang$svg$Svg_Attributes$width(width),
-						_elm_lang$svg$Svg_Attributes$height('20'),
-						_elm_lang$svg$Svg_Attributes$rx('5'),
-						_elm_lang$svg$Svg_Attributes$ry('5')
-					]),
-				_elm_lang$core$Native_List.fromArray(
-					[])),
-				A2(
-				_elm_lang$svg$Svg$rect,
-				_elm_lang$core$Native_List.fromArray(
-					[
-						_elm_lang$svg$Svg_Attributes$fill('#8C8'),
-						_elm_lang$svg$Svg_Attributes$x('0'),
-						_elm_lang$svg$Svg_Attributes$y('0'),
-						_elm_lang$svg$Svg_Attributes$width(
-						_elm_lang$core$Basics$toString(complete)),
-						_elm_lang$svg$Svg_Attributes$height('20'),
-						_elm_lang$svg$Svg_Attributes$rx('5'),
-						_elm_lang$svg$Svg_Attributes$ry('5')
-					]),
-				_elm_lang$core$Native_List.fromArray(
-					[]))
-			]));
-};
-var _kitofr$guess_o_matic$View$answer = function (_p4) {
-	var _p5 = _p4;
-	return _kitofr$guess_o_matic$Types$word(_p5._1);
+	return _kitofr$guess_o_matic$Types$word(_p3._1);
 };
 var _kitofr$guess_o_matic$View$paddUpTo = F2(
 	function (lst, n) {
@@ -103,44 +76,44 @@ var _kitofr$guess_o_matic$View$paddUpTo = F2(
 			if (_elm_lang$core$Native_Utils.cmp(
 				_elm_lang$core$List$length(lst),
 				n) < 0) {
-				var _v3 = A2(
+				var _v2 = A2(
 					_elm_lang$core$List$append,
 					lst,
 					_elm_lang$core$Native_List.fromArray(
 						[
 							_elm_lang$core$Native_Utils.chr('_')
 						])),
-					_v4 = n;
-				lst = _v3;
-				n = _v4;
+					_v3 = n;
+				lst = _v2;
+				n = _v3;
 				continue paddUpTo;
 			} else {
 				return lst;
 			}
 		}
 	});
-var _kitofr$guess_o_matic$View$hasMoreWords = function (_p6) {
-	var _p7 = _p6;
-	var lst = _kitofr$guess_o_matic$Types$wordList(_p7.state);
-	var _p8 = lst;
-	if (_p8.ctor === '[]') {
+var _kitofr$guess_o_matic$View$hasMoreWords = function (_p4) {
+	var _p5 = _p4;
+	var lst = _kitofr$guess_o_matic$Types$wordList(_p5.state);
+	var _p6 = lst;
+	if (_p6.ctor === '[]') {
 		return false;
 	} else {
 		return true;
 	}
 };
-var _kitofr$guess_o_matic$View$currentAnswer = function (_p9) {
-	var _p10 = _p9;
-	var _p11 = _p10.guess;
-	var question = _p11._1;
+var _kitofr$guess_o_matic$View$currentAnswer = function (_p7) {
+	var _p8 = _p7;
+	var _p9 = _p8.guess;
+	var question = _p9._1;
 	return _kitofr$guess_o_matic$Types$word(question);
 };
-var _kitofr$guess_o_matic$View$image = function (_p12) {
-	var _p13 = _p12;
-	return _p13._1.image;
+var _kitofr$guess_o_matic$View$image = function (_p10) {
+	var _p11 = _p10;
+	return _p11._1.image;
 };
-var _kitofr$guess_o_matic$View$picture = function (_p14) {
-	var _p15 = _p14;
+var _kitofr$guess_o_matic$View$picture = function (_p12) {
+	var _p13 = _p12;
 	return A2(
 		_elm_lang$html$Html$div,
 		_elm_lang$core$Native_List.fromArray(
@@ -154,7 +127,7 @@ var _kitofr$guess_o_matic$View$picture = function (_p14) {
 				_elm_lang$core$Native_List.fromArray(
 					[
 						_elm_lang$html$Html_Attributes$src(
-						_kitofr$guess_o_matic$View$image(_p15.guess)),
+						_kitofr$guess_o_matic$View$image(_p13.guess)),
 						_elm_lang$html$Html_Attributes$width(300),
 						_elm_lang$html$Html_Attributes$height(300),
 						_elm_lang$html$Html_Attributes$style(
@@ -181,12 +154,6 @@ var _kitofr$guess_o_matic$View$bigAndSmall = function (s) {
 			' ',
 			_elm_lang$core$String$toLower(s)));
 };
-var _kitofr$guess_o_matic$View$rowDistance = _elm_lang$html$Html_Attributes$style(
-	_elm_lang$core$Native_List.fromArray(
-		[
-			{ctor: '_Tuple2', _0: 'margin-bottom', _1: '10px'},
-			{ctor: '_Tuple2', _0: 'margin-top', _1: '25px'}
-		]));
 var _kitofr$guess_o_matic$View$buttonStyle = _elm_lang$html$Html_Attributes$style(
 	_elm_lang$core$Native_List.fromArray(
 		[
@@ -291,6 +258,15 @@ var _kitofr$guess_o_matic$View$megaButton = _elm_lang$html$Html_Attributes$style
 			{ctor: '_Tuple2', _0: 'width', _1: '130px'},
 			{ctor: '_Tuple2', _0: 'font-size', _1: '40px'}
 		]));
+var _kitofr$guess_o_matic$View$pushToBottom = _elm_lang$core$Native_List.fromArray(
+	[
+		_elm_lang$html$Html_Attributes$style(
+		_elm_lang$core$Native_List.fromArray(
+			[
+				{ctor: '_Tuple2', _0: 'margin-top', _1: '100px'},
+				{ctor: '_Tuple2', _0: 'margin-bottom', _1: '100px'}
+			]))
+	]);
 var _kitofr$guess_o_matic$View$smallButtonStyle = _elm_lang$html$Html_Attributes$style(
 	_elm_lang$core$Native_List.fromArray(
 		[
@@ -318,11 +294,11 @@ var _kitofr$guess_o_matic$View$collectedChars = function (collected) {
 			_elm_lang$core$String$fromChar,
 			_elm_lang$core$Set$toList(collected)));
 };
-var _kitofr$guess_o_matic$View$checkAnswer = function (_p16) {
-	var _p17 = _p16;
-	var _p19 = _p17.state;
-	var _p18 = _p19;
-	if (_p18.ctor === 'FinishedGame') {
+var _kitofr$guess_o_matic$View$checkAnswer = function (_p14) {
+	var _p15 = _p14;
+	var _p17 = _p15.state;
+	var _p16 = _p17;
+	if (_p16.ctor === 'FinishedGame') {
 		return _elm_lang$core$Native_List.fromArray(
 			[
 				A2(
@@ -335,10 +311,10 @@ var _kitofr$guess_o_matic$View$checkAnswer = function (_p16) {
 								{ctor: '_Tuple2', _0: 'margin-top', _1: '35px'}
 							]))
 					]),
-				_kitofr$guess_o_matic$View$collectedChars(_p18._0))
+				_kitofr$guess_o_matic$View$collectedChars(_p16._0))
 			]);
 	} else {
-		return _kitofr$guess_o_matic$Types$correct(_p17.guess) ? _elm_lang$core$Native_List.fromArray(
+		return _kitofr$guess_o_matic$Types$correct(_p15.guess) ? _elm_lang$core$Native_List.fromArray(
 			[
 				A2(
 				_elm_lang$html$Html$button,
@@ -347,7 +323,7 @@ var _kitofr$guess_o_matic$View$checkAnswer = function (_p16) {
 						_elm_lang$html$Html_Attributes$class('btn btn-success'),
 						_kitofr$guess_o_matic$View$megaButton,
 						_elm_lang$html$Html_Events$onClick(
-						_kitofr$guess_o_matic$Types$NewWord(_p19))
+						_kitofr$guess_o_matic$Types$NewWord(_p17))
 					]),
 				_elm_lang$core$Native_List.fromArray(
 					[
@@ -383,10 +359,145 @@ var _kitofr$guess_o_matic$View$stylesheet = function (href) {
 		_elm_lang$core$Native_List.fromArray(
 			[]));
 };
+var _kitofr$guess_o_matic$View$center = function (width) {
+	return _elm_lang$core$Native_List.fromArray(
+		[
+			{
+			ctor: '_Tuple2',
+			_0: 'width',
+			_1: A2(
+				_elm_lang$core$Basics_ops['++'],
+				_elm_lang$core$Basics$toString(width),
+				'%')
+		},
+			{ctor: '_Tuple2', _0: 'display', _1: 'block'},
+			{ctor: '_Tuple2', _0: 'margin', _1: 'auto'}
+		]);
+};
+var _kitofr$guess_o_matic$View$checkButton = function () {
+	var style = A2(
+		_elm_lang$core$List$append,
+		_kitofr$guess_o_matic$View$center(90),
+		_elm_lang$core$Native_List.fromArray(
+			[
+				{ctor: '_Tuple2', _0: 'font-size', _1: '35px'}
+			]));
+	return _elm_lang$core$Native_List.fromArray(
+		[
+			_elm_lang$html$Html_Attributes$style(style),
+			_elm_lang$html$Html_Attributes$class('btn btn-success')
+		]);
+}();
+var _kitofr$guess_o_matic$View$centerInline = function (width) {
+	return _elm_lang$html$Html_Attributes$style(
+		_elm_lang$core$Native_List.fromArray(
+			[
+				{
+				ctor: '_Tuple2',
+				_0: 'width',
+				_1: A2(
+					_elm_lang$core$Basics_ops['++'],
+					_elm_lang$core$Basics$toString(width),
+					'%')
+			},
+				{ctor: '_Tuple2', _0: 'display', _1: 'inline-block'},
+				{ctor: '_Tuple2', _0: 'margin', _1: 'auto'}
+			]));
+};
+var _kitofr$guess_o_matic$View$progress = function (_p18) {
+	var _p19 = _p18;
+	var total = 500.0;
+	var width = _elm_lang$core$Basics$toString(total);
+	var tot = _elm_lang$core$Basics$toFloat(
+		_elm_lang$core$List$length(_kitofr$guess_o_matic$Data$alternatives));
+	var n = _elm_lang$core$Basics$toFloat(
+		_elm_lang$core$List$length(
+			_kitofr$guess_o_matic$Types$wordList(_p19.state)));
+	var complete = ((tot - n) / tot) * total;
+	return A2(
+		_elm_lang$html$Html$div,
+		_elm_lang$core$Native_List.fromArray(
+			[
+				_kitofr$guess_o_matic$View$centerInline(90)
+			]),
+		_elm_lang$core$Native_List.fromArray(
+			[
+				A2(
+				_elm_lang$svg$Svg$svg,
+				_elm_lang$core$Native_List.fromArray(
+					[
+						_elm_lang$svg$Svg_Attributes$width('100%'),
+						_elm_lang$svg$Svg_Attributes$height('20'),
+						_elm_lang$svg$Svg_Attributes$viewBox(
+						A2(
+							_elm_lang$core$Basics_ops['++'],
+							'0 0 ',
+							A2(_elm_lang$core$Basics_ops['++'], width, ' 20')))
+					]),
+				_elm_lang$core$Native_List.fromArray(
+					[
+						A2(
+						_elm_lang$svg$Svg$rect,
+						_elm_lang$core$Native_List.fromArray(
+							[
+								_elm_lang$svg$Svg_Attributes$fill('#AAA'),
+								_elm_lang$svg$Svg_Attributes$x('0'),
+								_elm_lang$svg$Svg_Attributes$y('0'),
+								_elm_lang$svg$Svg_Attributes$width(width),
+								_elm_lang$svg$Svg_Attributes$height('20'),
+								_elm_lang$svg$Svg_Attributes$rx('5'),
+								_elm_lang$svg$Svg_Attributes$ry('5')
+							]),
+						_elm_lang$core$Native_List.fromArray(
+							[])),
+						A2(
+						_elm_lang$svg$Svg$rect,
+						_elm_lang$core$Native_List.fromArray(
+							[
+								_elm_lang$svg$Svg_Attributes$fill('#8C8'),
+								_elm_lang$svg$Svg_Attributes$x('0'),
+								_elm_lang$svg$Svg_Attributes$y('0'),
+								_elm_lang$svg$Svg_Attributes$width(
+								_elm_lang$core$Basics$toString(complete)),
+								_elm_lang$svg$Svg_Attributes$height('20'),
+								_elm_lang$svg$Svg_Attributes$rx('5'),
+								_elm_lang$svg$Svg_Attributes$ry('5')
+							]),
+						_elm_lang$core$Native_List.fromArray(
+							[]))
+					]))
+			]));
+};
 var _kitofr$guess_o_matic$View$container_ = _elm_lang$html$Html$div(
 	_elm_lang$core$Native_List.fromArray(
 		[
-			_elm_lang$html$Html_Attributes$class('container-fluid')
+			_elm_lang$html$Html_Attributes$class('container-fluid'),
+			_elm_lang$html$Html_Attributes$style(
+			_elm_lang$core$Native_List.fromArray(
+				[
+					{ctor: '_Tuple2', _0: 'background-color', _1: '#EEE'},
+					{ctor: '_Tuple2', _0: 'width', _1: '100%'}
+				]))
+		]));
+var _kitofr$guess_o_matic$View$questionArea = _elm_lang$html$Html$div(
+	_elm_lang$core$Native_List.fromArray(
+		[
+			_elm_lang$html$Html_Attributes$style(
+			_elm_lang$core$Native_List.fromArray(
+				[
+					{ctor: '_Tuple2', _0: 'width', _1: '90%'},
+					{ctor: '_Tuple2', _0: 'display', _1: 'block'},
+					{ctor: '_Tuple2', _0: 'border-radius', _1: '10px'},
+					{ctor: '_Tuple2', _0: 'background', _1: 'white'},
+					{ctor: '_Tuple2', _0: 'padding', _1: '10px'},
+					{ctor: '_Tuple2', _0: 'margin', _1: 'auto'}
+				]))
+		]));
+var _kitofr$guess_o_matic$View$rowDistance = _elm_lang$html$Html_Attributes$style(
+	_elm_lang$core$Native_List.fromArray(
+		[
+			{ctor: '_Tuple2', _0: 'margin-bottom', _1: '10px'},
+			{ctor: '_Tuple2', _0: 'margin-top', _1: '25px'}
 		]));
 var _kitofr$guess_o_matic$View$row = _elm_lang$html$Html$div(
 	_elm_lang$core$Native_List.fromArray(
@@ -506,24 +617,44 @@ var _kitofr$guess_o_matic$View$view = function (model) {
 								_kitofr$guess_o_matic$View$row(
 								_elm_lang$core$Native_List.fromArray(
 									[
-										_kitofr$guess_o_matic$View$picture(model),
-										A2(
-										_elm_lang$html$Html$div,
+										_kitofr$guess_o_matic$View$quit,
+										_kitofr$guess_o_matic$View$progress(model)
+									])),
+								_kitofr$guess_o_matic$View$row(
+								_elm_lang$core$Native_List.fromArray(
+									[
+										_kitofr$guess_o_matic$View$questionArea(
 										_elm_lang$core$Native_List.fromArray(
 											[
-												_elm_lang$html$Html_Attributes$class('row')
-											]),
-										_elm_lang$core$Native_List.fromArray(
-											[
-												_kitofr$guess_o_matic$View$score(model),
-												_kitofr$guess_o_matic$View$success(model)
+												_kitofr$guess_o_matic$View$picture(model),
+												A2(
+												_elm_lang$html$Html$div,
+												_elm_lang$core$Native_List.fromArray(
+													[
+														_elm_lang$html$Html_Attributes$class('row')
+													]),
+												_elm_lang$core$Native_List.fromArray(
+													[
+														_kitofr$guess_o_matic$View$success(model)
+													])),
+												_kitofr$guess_o_matic$View$showGuess(model),
+												_kitofr$guess_o_matic$View$letterButtons(model),
+												_kitofr$guess_o_matic$View$soundButtons(model)
 											]))
 									])),
-								_kitofr$guess_o_matic$View$progress(model),
-								_kitofr$guess_o_matic$View$textControls(model),
-								_kitofr$guess_o_matic$View$showGuess(model),
-								_kitofr$guess_o_matic$View$letterButtons(model),
-								_kitofr$guess_o_matic$View$soundButtons(model)
+								A2(
+								_elm_lang$html$Html$div,
+								_kitofr$guess_o_matic$View$pushToBottom,
+								_elm_lang$core$Native_List.fromArray(
+									[
+										A2(
+										_elm_lang$html$Html$button,
+										_kitofr$guess_o_matic$View$checkButton,
+										_elm_lang$core$Native_List.fromArray(
+											[
+												_elm_lang$html$Html$text('Check')
+											]))
+									]))
 							]))
 					]))
 			]));
