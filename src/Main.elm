@@ -1,9 +1,12 @@
+module Main exposing (..)
+
 import Platform.Cmd as Cmd exposing (Cmd)
 import Html.App as Html exposing (..)
 import String exposing (..)
 import View exposing (view)
 import Types exposing (..)
 import Ports as Port exposing (playChar, correct)
+
 
 {--
 TODO
@@ -16,59 +19,85 @@ TODO
   - Play word initially
 --}
 
+
 main : Program Never
 main =
-  Html.program { init = init
-               , view = view
-               , update = update
-               , subscriptions = \_ -> Sub.none
-               }
+    Html.program
+        { init = init
+        , view = view
+        , update = update
+        , subscriptions = \_ -> Sub.none
+        }
+
 
 nextWord : Model -> GameState -> Model
-nextWord model state' =
-  case state' of
-    (FinishedGame collected score) -> { guess = model.guess , state = state' }
-    (Guessing g l collected score) -> { guess = g, state = state' }
+nextWord model state_ =
+    case state_ of
+        FinishedGame collected score ->
+            { guess = model.guess, state = state_ }
 
-init : (Model, Cmd Msg)
+        Guessing g l collected score ->
+            { guess = g, state = state_ }
+
+
+init : ( Model, Cmd Msg )
 init =
-  let state' = Types.initialState
-      guess' = Types.createGuess "" state'
-  in
-    ({ guess = guess', state = state' }, Cmd.none)
+    let
+        state_ =
+            Types.initialState
+
+        guess_ =
+            Types.createGuess "" state_
+    in
+        ( { guess = guess_, state = state_ }, Cmd.none )
+
 
 addChar : String -> Model -> Model
-addChar ch {guess, state} =
-  let (g, q) = guess
-      g' = (String.append g ch, q)
-  in
-      { guess = g', state = (Types.addGuess g' state) }
+addChar ch { guess, state } =
+    let
+        ( g, q ) =
+            guess
+
+        g_ =
+            ( String.append g ch, q )
+    in
+        { guess = g_, state = (Types.addGuess g_ state) }
+
 
 backspace : Model -> Model
-backspace {guess, state} =
-  let (g, q) = guess
-      g' = String.dropRight 1 g
-  in
-      { guess = (g', q), state = (Types.addGuess (g',q) state) }
+backspace { guess, state } =
+    let
+        ( g, q ) =
+            guess
 
-update : Msg -> Model -> (Model, Cmd Msg)
+        g_ =
+            String.dropRight 1 g
+    in
+        { guess = ( g_, q ), state = (Types.addGuess ( g_, q ) state) }
+
+
+update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
-  let _ = Debug.log("update!")
-  in
-  case msg of
-    AddChar ch ->
-      (addChar ch model, Cmd.none)
+    let
+        _ =
+            Debug.log ("update!")
+    in
+        case msg of
+            AddChar ch ->
+                ( addChar ch model, Cmd.none )
 
-    Reset ->
-      let (_,q) = model.guess
-      in
-      ({ model | guess = ("", q) }, Cmd.none)
+            Reset ->
+                let
+                    ( _, q ) =
+                        model.guess
+                in
+                    ( { model | guess = ( "", q ) }, Cmd.none )
 
-    Backspace ->
-      (backspace model, Cmd.none)
+            Backspace ->
+                ( backspace model, Cmd.none )
 
-    NewWord state ->
-      (nextWord model state, Port.correct True)
+            NewWord state ->
+                ( nextWord model state, Port.correct True )
 
-    PlayChar ch ->
-      (model, Port.playChar ch)
+            PlayChar ch ->
+                ( model, Port.playChar ch )
