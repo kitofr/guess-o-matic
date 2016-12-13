@@ -16,8 +16,9 @@
 
   console.log("things loaded");
 
-  var playSound = function(what){
-    var snd = new Audio("./sounds/" + what + ".mp3");
+  var playSound = function(what, ext){
+    ext = ext ? ext : ".mp3";
+    var snd = new Audio("./sounds/" + what + ext);
     snd.play();
   };
 
@@ -44,9 +45,8 @@
   });
 
   elmApp.ports.correct.subscribe(function(isCorrect) {
-    console.log("Tada!");
     if(isCorrect)
-      playSound('tada');
+      playSound('stapler', '.wav');
   });
 
 </script>
