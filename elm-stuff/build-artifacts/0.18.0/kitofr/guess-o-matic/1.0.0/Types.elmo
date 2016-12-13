@@ -124,6 +124,8 @@ var _kitofr$guess_o_matic$Types$addGuess = F2(
 				score);
 		}
 	});
+var _kitofr$guess_o_matic$Types$CheckWord = {ctor: 'CheckWord'};
+var _kitofr$guess_o_matic$Types$Quit = {ctor: 'Quit'};
 var _kitofr$guess_o_matic$Types$NewWord = function (a) {
 	return {ctor: 'NewWord', _0: a};
 };

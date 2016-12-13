@@ -100,3 +100,16 @@ update msg model =
 
             PlayChar ch ->
                 ( model, Port.playChar ch )
+
+            Quit ->
+                ( model, Cmd.none )
+
+            CheckWord ->
+                let
+                    isCorrect =
+                        Types.correct model.guess
+                in
+                    if isCorrect then
+                        ( nextWord model model.state, Port.correct True )
+                    else
+                        ( model, Cmd.none )

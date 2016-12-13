@@ -9784,6 +9784,8 @@ var _kitofr$guess_o_matic$Types$addGuess = F2(
 				score);
 		}
 	});
+var _kitofr$guess_o_matic$Types$CheckWord = {ctor: 'CheckWord'};
+var _kitofr$guess_o_matic$Types$Quit = {ctor: 'Quit'};
 var _kitofr$guess_o_matic$Types$NewWord = function (a) {
 	return {ctor: 'NewWord', _0: a};
 };
@@ -9915,13 +9917,21 @@ var _kitofr$guess_o_matic$View$quit = A2(
 			_elm_lang$html$Html$button,
 			{
 				ctor: '::',
-				_0: _elm_lang$html$Html_Attributes$style(
-					{
+				_0: _elm_lang$html$Html_Attributes$class('btn btn-warning'),
+				_1: {
+					ctor: '::',
+					_0: _elm_lang$html$Html_Attributes$style(
+						{
+							ctor: '::',
+							_0: {ctor: '_Tuple2', _0: 'display', _1: 'inline'},
+							_1: {ctor: '[]'}
+						}),
+					_1: {
 						ctor: '::',
-						_0: {ctor: '_Tuple2', _0: 'display', _1: 'inline'},
+						_0: _elm_lang$html$Html_Events$onClick(_kitofr$guess_o_matic$Types$Quit),
 						_1: {ctor: '[]'}
-					}),
-				_1: {ctor: '[]'}
+					}
+				}
 			},
 			{
 				ctor: '::',
@@ -9982,11 +9992,7 @@ var _kitofr$guess_o_matic$View$picture = function (_p12) {
 	var _p13 = _p12;
 	return A2(
 		_elm_lang$html$Html$div,
-		{
-			ctor: '::',
-			_0: _elm_lang$html$Html_Attributes$class('col-sm-6'),
-			_1: {ctor: '[]'}
-		},
+		{ctor: '[]'},
 		{
 			ctor: '::',
 			_0: A2(
@@ -10352,7 +10358,11 @@ var _kitofr$guess_o_matic$View$checkButton = function () {
 		_1: {
 			ctor: '::',
 			_0: _elm_lang$html$Html_Attributes$class('btn btn-success'),
-			_1: {ctor: '[]'}
+			_1: {
+				ctor: '::',
+				_0: _elm_lang$html$Html_Events$onClick(_kitofr$guess_o_matic$Types$CheckWord),
+				_1: {ctor: '[]'}
+			}
 		}
 	};
 }();
@@ -10495,7 +10505,7 @@ var _kitofr$guess_o_matic$View$progress = function (_p18) {
 var _kitofr$guess_o_matic$View$container_ = _elm_lang$html$Html$div(
 	{
 		ctor: '::',
-		_0: _elm_lang$html$Html_Attributes$class('container-fluid'),
+		_0: _elm_lang$html$Html_Attributes$class('container text-center'),
 		_1: {
 			ctor: '::',
 			_0: _elm_lang$html$Html_Attributes$style(
@@ -10568,11 +10578,7 @@ var _kitofr$guess_o_matic$View$textControls = function (model) {
 			ctor: '::',
 			_0: A2(
 				_elm_lang$html$Html$div,
-				{
-					ctor: '::',
-					_0: _elm_lang$html$Html_Attributes$class('col-sm-4'),
-					_1: {ctor: '[]'}
-				},
+				{ctor: '[]'},
 				{
 					ctor: '::',
 					_0: A2(_kitofr$guess_o_matic$View$controlButton, _kitofr$guess_o_matic$Types$Reset, 'glyphicon-refresh'),
@@ -10601,11 +10607,7 @@ var _kitofr$guess_o_matic$View$showGuess = function (_p20) {
 			ctor: '::',
 			_0: A2(
 				_elm_lang$html$Html$div,
-				{
-					ctor: '::',
-					_0: _elm_lang$html$Html_Attributes$class('col-sm-8'),
-					_1: {ctor: '[]'}
-				},
+				{ctor: '[]'},
 				A2(_elm_lang$core$List$map, _kitofr$guess_o_matic$View$disabledButton, paddedGuess)),
 			_1: {ctor: '[]'}
 		});
@@ -10616,11 +10618,7 @@ var _kitofr$guess_o_matic$View$letterButtons = function (model) {
 			ctor: '::',
 			_0: A2(
 				_elm_lang$html$Html$div,
-				{
-					ctor: '::',
-					_0: _elm_lang$html$Html_Attributes$class('col-sm-8'),
-					_1: {ctor: '[]'}
-				},
+				{ctor: '[]'},
 				A2(
 					_kitofr$guess_o_matic$View$addButtons,
 					_kitofr$guess_o_matic$View$currentAnswer(model),
@@ -10634,11 +10632,7 @@ var _kitofr$guess_o_matic$View$soundButtons = function (model) {
 			ctor: '::',
 			_0: A2(
 				_elm_lang$html$Html$div,
-				{
-					ctor: '::',
-					_0: _elm_lang$html$Html_Attributes$class('col-sm-8'),
-					_1: {ctor: '[]'}
-				},
+				{ctor: '[]'},
 				A2(
 					_kitofr$guess_o_matic$View$addIconButtons,
 					_kitofr$guess_o_matic$View$currentAnswer(model),
@@ -10652,11 +10646,7 @@ var _kitofr$guess_o_matic$View$success = function (model) {
 			ctor: '::',
 			_0: A2(
 				_elm_lang$html$Html$div,
-				{
-					ctor: '::',
-					_0: _elm_lang$html$Html_Attributes$class('col-sm-4'),
-					_1: {ctor: '[]'}
-				},
+				{ctor: '[]'},
 				_kitofr$guess_o_matic$View$checkAnswer(model)),
 			_1: {ctor: '[]'}
 		});
@@ -10713,11 +10703,7 @@ var _kitofr$guess_o_matic$View$view = function (model) {
 																_0: _elm_lang$html$Html_Attributes$class('row'),
 																_1: {ctor: '[]'}
 															},
-															{
-																ctor: '::',
-																_0: _kitofr$guess_o_matic$View$success(model),
-																_1: {ctor: '[]'}
-															}),
+															{ctor: '[]'}),
 														_1: {
 															ctor: '::',
 															_0: _kitofr$guess_o_matic$View$showGuess(model),
@@ -10747,7 +10733,7 @@ var _kitofr$guess_o_matic$View$view = function (model) {
 													_kitofr$guess_o_matic$View$checkButton,
 													{
 														ctor: '::',
-														_0: _elm_lang$html$Html$text('Check'),
+														_0: _elm_lang$html$Html$text('Kontrollera'),
 														_1: {ctor: '[]'}
 													}),
 												_1: {ctor: '[]'}
@@ -10857,12 +10843,21 @@ var _kitofr$guess_o_matic$Main$update = F2(
 					_0: A2(_kitofr$guess_o_matic$Main$nextWord, model, _p8._0),
 					_1: _kitofr$guess_o_matic$Ports$correct(true)
 				};
-			default:
+			case 'PlayChar':
 				return {
 					ctor: '_Tuple2',
 					_0: model,
 					_1: _kitofr$guess_o_matic$Ports$playChar(_p8._0)
 				};
+			case 'Quit':
+				return {ctor: '_Tuple2', _0: model, _1: _elm_lang$core$Platform_Cmd$none};
+			default:
+				var isCorrect = _kitofr$guess_o_matic$Types$correct(model.guess);
+				return isCorrect ? {
+					ctor: '_Tuple2',
+					_0: A2(_kitofr$guess_o_matic$Main$nextWord, model, model.state),
+					_1: _kitofr$guess_o_matic$Ports$correct(true)
+				} : {ctor: '_Tuple2', _0: model, _1: _elm_lang$core$Platform_Cmd$none};
 		}
 	});
 var _kitofr$guess_o_matic$Main$main = _elm_lang$html$Html$program(

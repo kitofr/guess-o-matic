@@ -38,7 +38,7 @@ questionArea =
 container_ : List (Html Msg) -> Html Msg
 container_ =
     div
-        [ A.class "container-fluid"
+        [ A.class "container text-center"
         , A.style
             [ ( "background-color", "#EEE" )
             , ( "width", "100%" )
@@ -92,6 +92,7 @@ checkButton =
     in
         [ A.style style
         , A.class "btn btn-success"
+        , onClick CheckWord
         ]
 
 
@@ -171,7 +172,7 @@ hasMoreWords { guess, state } =
 
 picture : Model -> Html Msg
 picture { guess, state } =
-    div [ A.class "col-sm-6" ]
+    div []
         [ img
             [ A.src (image guess)
             , A.width 300
@@ -200,7 +201,7 @@ controlButton action icon =
 
 textControls model =
     row
-        [ div [ A.class "col-sm-4" ]
+        [ div []
             [ controlButton Reset "glyphicon-refresh"
             , controlButton Backspace "glyphicon-erase"
             ]
@@ -241,7 +242,7 @@ showGuess { guess, state } =
             paddUpTo (String.toList (Tuple.first guess)) paddTo
     in
         row
-            [ div [ A.class "col-sm-8" ]
+            [ div []
                 (List.map disabledButton paddedGuess)
             ]
 
@@ -249,20 +250,20 @@ showGuess { guess, state } =
 letterButtons : Model -> Html Msg
 letterButtons model =
     row
-        [ div [ A.class "col-sm-8" ]
+        [ div []
             (addButtons (currentAnswer model) AddChar)
         ]
 
 
 soundButtons : Model -> Html Msg
 soundButtons model =
-    row [ div [ A.class "col-sm-8" ] (addIconButtons (currentAnswer model) PlayChar) ]
+    row [ div [] (addIconButtons (currentAnswer model) PlayChar) ]
 
 
 success : Model -> Html Msg
 success model =
     row
-        [ div [ A.class "col-sm-4" ]
+        [ div []
             (checkAnswer model)
         ]
 
@@ -326,7 +327,13 @@ quit =
             , ( "margin-left", "20px" )
             ]
         ]
-        [ button [ A.style [ ( "display", "inline" ) ] ] [ text "Quit" ] ]
+        [ button
+            [ A.class "btn btn-warning"
+            , A.style [ ( "display", "inline" ) ]
+            , onClick Quit
+            ]
+            [ text "Quit" ]
+        ]
 
 
 score : Model -> Html Msg
@@ -366,8 +373,8 @@ view model =
                     [ questionArea
                         [ picture model
                         , div [ A.class "row" ]
-                            [ --score model
-                              success model
+                            [--score model
+                             --success model
                             ]
                         , showGuess model
                         , letterButtons model
@@ -376,7 +383,7 @@ view model =
                     ]
                   --, textControls model
                 , div pushToBottom
-                    [ button checkButton [ text "Check" ] ]
+                    [ button checkButton [ text "Kontrollera" ] ]
                 ]
             ]
         ]

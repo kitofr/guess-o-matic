@@ -81,12 +81,21 @@ var _kitofr$guess_o_matic$Main$update = F2(
 					_0: A2(_kitofr$guess_o_matic$Main$nextWord, model, _p8._0),
 					_1: _kitofr$guess_o_matic$Ports$correct(true)
 				};
-			default:
+			case 'PlayChar':
 				return {
 					ctor: '_Tuple2',
 					_0: model,
 					_1: _kitofr$guess_o_matic$Ports$playChar(_p8._0)
 				};
+			case 'Quit':
+				return {ctor: '_Tuple2', _0: model, _1: _elm_lang$core$Platform_Cmd$none};
+			default:
+				var isCorrect = _kitofr$guess_o_matic$Types$correct(model.guess);
+				return isCorrect ? {
+					ctor: '_Tuple2',
+					_0: A2(_kitofr$guess_o_matic$Main$nextWord, model, model.state),
+					_1: _kitofr$guess_o_matic$Ports$correct(true)
+				} : {ctor: '_Tuple2', _0: model, _1: _elm_lang$core$Platform_Cmd$none};
 		}
 	});
 var _kitofr$guess_o_matic$Main$main = _elm_lang$html$Html$program(

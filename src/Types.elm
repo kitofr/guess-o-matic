@@ -34,6 +34,8 @@ type Msg
     | Reset
     | Backspace
     | NewWord GameState
+    | Quit
+    | CheckWord
 
 
 type alias Model =
