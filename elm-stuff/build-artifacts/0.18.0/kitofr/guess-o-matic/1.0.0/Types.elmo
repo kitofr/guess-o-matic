@@ -1,0 +1,137 @@
+var _kitofr$guess_o_matic$Types$currentScore = function (state) {
+	var _p0 = state;
+	if (_p0.ctor === 'FinishedGame') {
+		return _p0._1;
+	} else {
+		return _p0._3;
+	}
+};
+var _kitofr$guess_o_matic$Types$guess = function (state) {
+	var _p1 = state;
+	if (_p1.ctor === 'FinishedGame') {
+		return {
+			ctor: '_Tuple2',
+			_0: '',
+			_1: {word: '', image: ''}
+		};
+	} else {
+		return _p1._0;
+	}
+};
+var _kitofr$guess_o_matic$Types$createGuess = F2(
+	function (g, state) {
+		var _p2 = _kitofr$guess_o_matic$Types$guess(state);
+		var q = _p2._1;
+		return {ctor: '_Tuple2', _0: g, _1: q};
+	});
+var _kitofr$guess_o_matic$Types$word = function (question) {
+	return question.word;
+};
+var _kitofr$guess_o_matic$Types$points = function (_p3) {
+	var _p4 = _p3;
+	return _elm_lang$core$String$length(_p4._1.word);
+};
+var _kitofr$guess_o_matic$Types$correct = function (_p5) {
+	var _p6 = _p5;
+	return _elm_lang$core$Native_Utils.eq(
+		_p6._0,
+		_kitofr$guess_o_matic$Types$word(_p6._1));
+};
+var _kitofr$guess_o_matic$Types$updateCollected = F2(
+	function (set, _p7) {
+		var _p8 = _p7;
+		return A3(
+			_elm_lang$core$List$foldr,
+			F2(
+				function (c, a) {
+					return A2(_elm_lang$core$Set$insert, c, a);
+				}),
+			set,
+			_elm_lang$core$String$toList(_p8._0));
+	});
+var _kitofr$guess_o_matic$Types$collected = function (state) {
+	var _p9 = state;
+	if (_p9.ctor === 'FinishedGame') {
+		return _p9._0;
+	} else {
+		return _p9._2;
+	}
+};
+var _kitofr$guess_o_matic$Types$wordList = function (state) {
+	var _p10 = state;
+	if (_p10.ctor === 'FinishedGame') {
+		return {ctor: '[]'};
+	} else {
+		return _p10._1;
+	}
+};
+var _kitofr$guess_o_matic$Types$Question = F2(
+	function (a, b) {
+		return {word: a, image: b};
+	});
+var _kitofr$guess_o_matic$Types$Model = F2(
+	function (a, b) {
+		return {guess: a, state: b};
+	});
+var _kitofr$guess_o_matic$Types$Guessing = F4(
+	function (a, b, c, d) {
+		return {ctor: 'Guessing', _0: a, _1: b, _2: c, _3: d};
+	});
+var _kitofr$guess_o_matic$Types$FinishedGame = F2(
+	function (a, b) {
+		return {ctor: 'FinishedGame', _0: a, _1: b};
+	});
+var _kitofr$guess_o_matic$Types$initialState = function () {
+	var _p11 = _kitofr$guess_o_matic$Data$alternatives;
+	if (_p11.ctor === '::') {
+		return A4(
+			_kitofr$guess_o_matic$Types$Guessing,
+			{ctor: '_Tuple2', _0: '', _1: _p11._0},
+			_p11._1,
+			_elm_lang$core$Set$empty,
+			0);
+	} else {
+		return A2(_kitofr$guess_o_matic$Types$FinishedGame, _elm_lang$core$Set$empty, 0);
+	}
+}();
+var _kitofr$guess_o_matic$Types$addGuess = F2(
+	function (guess, state) {
+		var score = _kitofr$guess_o_matic$Types$currentScore(state);
+		var score_ = _kitofr$guess_o_matic$Types$points(guess) + score;
+		var collected_ = A2(
+			_kitofr$guess_o_matic$Types$updateCollected,
+			_kitofr$guess_o_matic$Types$collected(state),
+			guess);
+		var lst = _kitofr$guess_o_matic$Types$wordList(state);
+		if (_kitofr$guess_o_matic$Types$correct(guess)) {
+			var _p12 = lst;
+			if (_p12.ctor === '[]') {
+				return A2(_kitofr$guess_o_matic$Types$FinishedGame, collected_, score_);
+			} else {
+				return A4(
+					_kitofr$guess_o_matic$Types$Guessing,
+					{ctor: '_Tuple2', _0: '', _1: _p12._0},
+					_p12._1,
+					collected_,
+					score_);
+			}
+		} else {
+			return A4(
+				_kitofr$guess_o_matic$Types$Guessing,
+				guess,
+				lst,
+				_kitofr$guess_o_matic$Types$collected(state),
+				score);
+		}
+	});
+var _kitofr$guess_o_matic$Types$NewWord = function (a) {
+	return {ctor: 'NewWord', _0: a};
+};
+var _kitofr$guess_o_matic$Types$Backspace = {ctor: 'Backspace'};
+var _kitofr$guess_o_matic$Types$Reset = {ctor: 'Reset'};
+var _kitofr$guess_o_matic$Types$PlayChar = function (a) {
+	return {ctor: 'PlayChar', _0: a};
+};
+var _kitofr$guess_o_matic$Types$AddChar = function (a) {
+	return {ctor: 'AddChar', _0: a};
+};

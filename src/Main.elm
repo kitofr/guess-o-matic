@@ -1,7 +1,7 @@
 module Main exposing (..)
 
 import Platform.Cmd as Cmd exposing (Cmd)
-import Html.App as Html exposing (..)
+import Html exposing (..)
 import String exposing (..)
 import View exposing (view)
 import Types exposing (..)
@@ -20,7 +20,6 @@ TODO
 --}
 
 
-main : Program Never
 main =
     Html.program
         { init = init
