@@ -10515,7 +10515,11 @@ var _kitofr$guess_o_matic$View$container_ = _elm_lang$html$Html$div(
 					_1: {
 						ctor: '::',
 						_0: {ctor: '_Tuple2', _0: 'width', _1: '100%'},
-						_1: {ctor: '[]'}
+						_1: {
+							ctor: '::',
+							_0: {ctor: '_Tuple2', _0: 'height', _1: '100%'},
+							_1: {ctor: '[]'}
+						}
 					}
 				}),
 			_1: {ctor: '[]'}
@@ -10857,7 +10861,11 @@ var _kitofr$guess_o_matic$Main$update = F2(
 					ctor: '_Tuple2',
 					_0: A2(_kitofr$guess_o_matic$Main$nextWord, model, model.state),
 					_1: _kitofr$guess_o_matic$Ports$correct(true)
-				} : {ctor: '_Tuple2', _0: model, _1: _elm_lang$core$Platform_Cmd$none};
+				} : {
+					ctor: '_Tuple2',
+					_0: model,
+					_1: _kitofr$guess_o_matic$Ports$correct(false)
+				};
 		}
 	});
 var _kitofr$guess_o_matic$Main$main = _elm_lang$html$Html$program(

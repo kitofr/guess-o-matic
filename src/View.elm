@@ -42,6 +42,7 @@ container_ =
         , A.style
             [ ( "background-color", "#EEE" )
             , ( "width", "100%" )
+            , ( "height", "100%" )
             ]
         ]
 

@@ -112,4 +112,4 @@ update msg model =
                     if isCorrect then
                         ( nextWord model model.state, Port.correct True )
                     else
-                        ( model, Cmd.none )
+                        ( model, Port.correct False )

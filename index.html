@@ -17,8 +17,9 @@
   console.log("things loaded");
 
   var playSound = function(what, ext){
-    ext = ext ? ext : ".mp3";
-    var snd = new Audio("./sounds/" + what + ext);
+    console.log("Playing: ", what, ext);
+    ext = ext ? ext : "mp3";
+    var snd = new Audio("./sounds/" + what + "." + ext);
     snd.play();
   };
 
@@ -39,14 +40,15 @@
   };
 
   elmApp.ports.playChar.subscribe(function(ch) {
-    console.log("Playing: " + ch);
     if(ch)
       playSound(fixSwedish(ch.toLowerCase()));
   });
 
   elmApp.ports.correct.subscribe(function(isCorrect) {
     if(isCorrect)
-      playSound('stapler', '.wav');
+      playSound('stapler', 'wav');
+    else
+      playSound('error', 'wav');
   });
 
 </script>
