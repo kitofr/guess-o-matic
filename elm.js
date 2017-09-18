@@ -9935,7 +9935,7 @@ var _kitofr$guess_o_matic$View$quit = A2(
 			},
 			{
 				ctor: '::',
-				_0: _elm_lang$html$Html$text('Quit'),
+				_0: _elm_lang$html$Html$text('Avsluta'),
 				_1: {ctor: '[]'}
 			}),
 		_1: {ctor: '[]'}
@@ -10737,7 +10737,7 @@ var _kitofr$guess_o_matic$View$view = function (model) {
 													_kitofr$guess_o_matic$View$checkButton,
 													{
 														ctor: '::',
-														_0: _elm_lang$html$Html$text('Kontrollera'),
+														_0: _elm_lang$html$Html$text('Gissa'),
 														_1: {ctor: '[]'}
 													}),
 												_1: {ctor: '[]'}

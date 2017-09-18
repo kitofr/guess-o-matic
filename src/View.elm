@@ -333,7 +333,7 @@ quit =
             , A.style [ ( "display", "inline" ) ]
             , onClick Quit
             ]
-            [ text "Quit" ]
+            [ text "Avsluta" ]
         ]
 
 
@@ -384,7 +384,7 @@ view model =
                     ]
                   --, textControls model
                 , div pushToBottom
-                    [ button checkButton [ text "Kontrollera" ] ]
+                    [ button checkButton [ text "Gissa" ] ]
                 ]
             ]
         ]
